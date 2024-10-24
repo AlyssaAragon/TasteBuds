@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-=7fv-gpuqkie&x0x1*gyqb92#spc^2r(uwko=f879_9@^$5)rm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '3.134.252.214',  # public aws IPv4 address
+    'localhost',
+    '127.0.0.1',
+]
 SITE_ID = 1
 
 # Application definition
@@ -43,6 +47,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'corsheaders', 
+    'tastebuds',
 ]
 #backend for authentication
 AUTHENTICATION_BACKENDS = (
@@ -59,7 +65,9 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'tasteBudsDjango.urls'
 
