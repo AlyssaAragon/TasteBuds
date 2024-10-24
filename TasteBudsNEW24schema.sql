@@ -144,6 +144,19 @@ ALTER SEQUENCE public.partners_id_seq OWNED BY public.partners.id;
 
 
 --
+-- Name: recipe_diets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.recipe_diets (
+    id integer NOT NULL,
+    recipe_id integer NOT NULL,
+    diet_id integer NOT NULL
+);
+
+
+ALTER TABLE public.recipe_diets OWNER TO postgres;
+
+--
 -- Name: recipes; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -309,6 +322,14 @@ ALTER TABLE ONLY public.partners
 
 
 --
+-- Name: recipe_diets recipe_diets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recipe_diets
+    ADD CONSTRAINT recipe_diets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: recipes recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -354,6 +375,22 @@ ALTER TABLE ONLY public.partners
 
 ALTER TABLE ONLY public.partners
     ADD CONSTRAINT partners_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: recipe_diets recipe_diets_diet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recipe_diets
+    ADD CONSTRAINT recipe_diets_diet_id_fkey FOREIGN KEY (diet_id) REFERENCES public.diets(id);
+
+
+--
+-- Name: recipe_diets recipe_diets_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recipe_diets
+    ADD CONSTRAINT recipe_diets_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
 
 
 --
