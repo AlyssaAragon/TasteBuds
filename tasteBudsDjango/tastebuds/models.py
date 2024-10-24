@@ -9,14 +9,12 @@ class Diet(models.Model):
     def __str__(self):
         return self.name
 
-    
-
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    diets = models.ManyToManyField(Diet, through='RecipeDiet')  # Add this field to Recipe
+    diets = models.ManyToManyField(Diet, through='RecipeDiet') 
 
     def __str__(self):
         return self.title
