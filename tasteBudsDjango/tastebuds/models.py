@@ -9,9 +9,6 @@ class Diet(models.Model):
     def __str__(self):
         return self.name
 
-class RecipeDiet(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    diet = models.ForeignKey(Diet, on_delete=models.CASCADE)
     
 
 class Recipe(models.Model):
@@ -23,6 +20,10 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+class RecipeDiet(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    diet = models.ForeignKey(Diet, on_delete=models.CASCADE)
 
 class AllRecipe(models.Model):
     name = models.TextField()
