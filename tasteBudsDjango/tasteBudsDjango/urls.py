@@ -16,9 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from tastebuds.views import (
+    UserProfileListCreateView,
+    UserProfileDetailView,
+    RecipeListCreateView,
+    RecipeDetailView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),  # Django Allauth URLs
+    path('accounts/', include('allauth.urls')), #Django user thing Allauth
+    path('profiles/', UserProfileListCreateView.as_view(), name='user-profile-list'), #for listing and creating user profiles
+    path('profiles/<int:pk>/', UserProfileDetailView.as_view(), name='user-profile-detail'), #for retrieving, updating, and deleting a specific user profile
+    path('recipes/', RecipeListCreateView.as_view(), name='recipe-list'), #for listing and creating recipes
+    path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'), #for retrieving, updating, and deleting a specific recipe
+    ]
 
-]

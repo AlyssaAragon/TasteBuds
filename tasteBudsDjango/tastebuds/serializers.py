@@ -1,32 +1,33 @@
 from rest_framework import serializers
-from .models import AllRecipes, Diets, Favorites, Partners, Recipes, Users 
+from django.contrib.auth.models import User #uses django's user not the model's
+from .models import AllRecipe, Diet, Favorite, Partner, Recipe 
 
-class AllRecipesSerializer(serializers.ModelSerializer):
+class AllRecipeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AllRecipes
+        model = AllRecipe
         fields = '__all__' 
 
-class DietsSerializer(serializers.ModelSerializer):
+class DietSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Diets
+        model = Diet
         fields = '__all__'  
 
-class FavoritesSerializer(serializers.ModelSerializer):
+class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Favorites
+        model = Favorite
         fields = '__all__' 
 
-class PartnersSerializer(serializers.ModelSerializer):
+class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Partners
+        model = Partner
         fields = '__all__'  # or specify a list of fields
 
-class RecipesSerializer(serializers.ModelSerializer):
+class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Recipes
+        model = Recipe
         fields = '__all__'  
 
-class UsersSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Users
+        model = User
         fields = '__all__'  
