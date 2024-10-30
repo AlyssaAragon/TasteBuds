@@ -95,8 +95,12 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tastebuds',
+        'USER': 'postgres', #helpppppp i dont know what the username and password is and i think the port is wrong
+        'PASSWORD': 'password',  
+        'HOST': 'localhost',  
+        'PORT': '5433',       
     }
 }
 

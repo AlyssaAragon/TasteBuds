@@ -45,3 +45,12 @@ class Partner(models.Model):
 
     class Meta:
         unique_together = ('user', 'partner')
+
+class Users(models.Model):
+    username = models.CharField(max_length=150, unique=True) 
+    password = models.CharField(max_length=128)  # Password storage (hope to eventually use hashed passwords)
+    created_at = models.DateTimeField(auto_now_add=True)  
+    diet_id = models.ForeignKey('Diet', on_delete=models.CASCADE)  
+
+    def __str__(self):
+        return self.username
