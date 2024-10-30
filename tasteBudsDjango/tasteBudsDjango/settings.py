@@ -97,7 +97,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tastebuds',
-        'USER': 'postgres', #helpppppp i dont know what the username and password is and i think the port is wrong
+        'USER': 'postgres', 
         'PASSWORD': 'password',  
         'HOST': 'localhost',  
         'PORT': '5433',       
