@@ -96,11 +96,11 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Capstone Recipe Dataset',
+        'NAME': 'tastebuds',
         'USER': 'postgres', 
-        'PASSWORD': 'hannah',  
+        'PASSWORD': 'Sla244o4',  
         'HOST': 'localhost',  
-        'PORT': '5432',       
+        'PORT': '5433',       
     }
 }
 
@@ -151,3 +151,5 @@ ACCOUNT_EMAIL_REQUIRED = True  # Email is required for registration
 ACCOUNT_USERNAME_REQUIRED = True  # Username is required for login
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either email or username
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
+
+AUTH_USER_MODEL = 'tastebuds.CustomUser'

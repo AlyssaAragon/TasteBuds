@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from rest_framework import generics
 from django.contrib.auth.models import User #we will use this for user instead of using it from the database since django handles users
+from django.contrib.auth import get_user_model
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe  # Include all models
 from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, DietSerializer, FavoriteSerializer, PartnerSerializer
 
 # Create your views here.
  #user views 
+
+User = get_user_model()
 
 class UserProfileListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all() 
