@@ -24,6 +24,7 @@ class RecipeDiet(models.Model):
 
 class AllRecipe(models.Model):
     name = models.TextField()
+    description = models.TextField(null=True, blank=True)
     ingredients = models.TextField()
     ingredients_raw_str = models.TextField()
     serving_size = models.TextField()
