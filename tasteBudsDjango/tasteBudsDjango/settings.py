@@ -96,13 +96,14 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tastebuds',
+        'NAME': 'Capstone Recipe Dataset',
         'USER': 'postgres', 
-        'PASSWORD': 'Sla244o4',  
+        'PASSWORD': 'hannah',  
         'HOST': 'localhost',  
-        'PORT': '5433',       
+        'PORT': '5432',       
     }
 }
+
 
 
 # Password validation
@@ -153,3 +154,14 @@ ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either emai
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
 
 AUTH_USER_MODEL = 'tastebuds.CustomUser'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Assuming Redis is running locally
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

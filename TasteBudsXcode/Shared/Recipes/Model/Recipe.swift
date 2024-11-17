@@ -1,15 +1,26 @@
-//
 //  Recipe.swift
-//  TasteBuds
-//
-//  Created by Ali on 11/04/24.
-//
 
 import Foundation
 
-struct Recipe: Identifiable{
-    let id: String
+struct Recipe: Identifiable, Decodable {
+    let id: Int
+    let title: String
+    let body: String
+    let createdAt: String
+    let time: Int
+    let diets: [Diet]
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case body
+        case createdAt = "created_at" 
+        case time
+        case diets
+    }
+}
+
+struct Diet: Decodable {
+    let id: Int
     let name: String
-    var time: Int
-    var recipeImage: [String]
 }

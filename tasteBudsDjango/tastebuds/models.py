@@ -74,6 +74,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    diet_preference = models.ForeignKey(Diet, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = CustomUserManager()
 
