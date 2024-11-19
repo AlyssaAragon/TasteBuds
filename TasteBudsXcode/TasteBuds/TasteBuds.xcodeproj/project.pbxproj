@@ -1,0 +1,757 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2503BEB02CED546C008BCD0B /* TasteBudsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */; };
+		2503BEB42CED546D008BCD0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB32CED546D008BCD0B /* Assets.xcassets */; };
+		2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */; };
+		2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */; };
+		2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */; };
+		2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */; };
+		2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEDC2CED5734008BCD0B /* ContentView.swift */; };
+		2503BEFC2CED5734008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */; };
+		2503BEFD2CED5734008BCD0B /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEDF2CED5734008BCD0B /* Recipe.swift */; };
+		2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE52CED5734008BCD0B /* SizeConstants.swift */; };
+		2503BF002CED5734008BCD0B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE72CED5734008BCD0B /* MockData.swift */; };
+		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
+		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
+		2503BF032CED5734008BCD0B /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEED2CED5734008BCD0B /* CardService.swift */; };
+		2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */; };
+		2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF12CED5734008BCD0B /* CardStackView.swift */; };
+		2503BF062CED5734008BCD0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF22CED5734008BCD0B /* CardView.swift */; };
+		2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */; };
+		2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */; };
+		2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF72CED5734008BCD0B /* MainTabView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2503BEBD2CED546D008BCD0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2503BEA42CED546C008BCD0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2503BEAB2CED546C008BCD0B;
+			remoteInfo = TasteBuds;
+		};
+		2503BEC72CED546D008BCD0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2503BEA42CED546C008BCD0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2503BEAB2CED546C008BCD0B;
+			remoteInfo = TasteBuds;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2503BEAC2CED546C008BCD0B /* TasteBuds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasteBuds.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsApp.swift; sourceTree = "<group>"; };
+		2503BEB32CED546D008BCD0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsTests.swift; sourceTree = "<group>"; };
+		2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITests.swift; sourceTree = "<group>"; };
+		2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2503BEDC2CED5734008BCD0B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2503BEDF2CED5734008BCD0B /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		2503BEE52CED5734008BCD0B /* SizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeConstants.swift; sourceTree = "<group>"; };
+		2503BEE72CED5734008BCD0B /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		2503BEED2CED5734008BCD0B /* CardService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
+		2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
+		2503BEF12CED5734008BCD0B /* CardStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStackView.swift; sourceTree = "<group>"; };
+		2503BEF22CED5734008BCD0B /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeInfoView.swift; sourceTree = "<group>"; };
+		2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionIndicatorView.swift; sourceTree = "<group>"; };
+		2503BEF72CED5734008BCD0B /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2503BEA92CED546C008BCD0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEB92CED546D008BCD0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEC32CED546D008BCD0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2503BEA32CED546C008BCD0B = {
+			isa = PBXGroup;
+			children = (
+				2503BEF92CED5734008BCD0B /* Core */,
+				2503BEDE2CED5734008BCD0B /* Preview Content */,
+				2503BEE22CED5734008BCD0B /* Shared */,
+				2503BEEA2CED5734008BCD0B /* Utils */,
+				2503BEAE2CED546C008BCD0B /* TasteBuds */,
+				2503BEBF2CED546D008BCD0B /* TasteBudsTests */,
+				2503BEC92CED546D008BCD0B /* TasteBudsUITests */,
+				2503BEAD2CED546C008BCD0B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2503BEAD2CED546C008BCD0B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEAC2CED546C008BCD0B /* TasteBuds.app */,
+				2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */,
+				2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2503BEAE2CED546C008BCD0B /* TasteBuds */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */,
+				2503BEB32CED546D008BCD0B /* Assets.xcassets */,
+				2503BEB52CED546D008BCD0B /* Preview Content */,
+			);
+			path = TasteBuds;
+			sourceTree = "<group>";
+		};
+		2503BEB52CED546D008BCD0B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2503BEBF2CED546D008BCD0B /* TasteBudsTests */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */,
+			);
+			path = TasteBudsTests;
+			sourceTree = "<group>";
+		};
+		2503BEC92CED546D008BCD0B /* TasteBudsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */,
+				2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */,
+			);
+			path = TasteBudsUITests;
+			sourceTree = "<group>";
+		};
+		2503BEDE2CED5734008BCD0B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEDC2CED5734008BCD0B /* ContentView.swift */,
+				2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2503BEE02CED5734008BCD0B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEDF2CED5734008BCD0B /* Recipe.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2503BEE12CED5734008BCD0B /* Recipes */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEE02CED5734008BCD0B /* Model */,
+			);
+			path = Recipes;
+			sourceTree = "<group>";
+		};
+		2503BEE22CED5734008BCD0B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEE12CED5734008BCD0B /* Recipes */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		2503BEE62CED5734008BCD0B /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEE52CED5734008BCD0B /* SizeConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		2503BEE82CED5734008BCD0B /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEE72CED5734008BCD0B /* MockData.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		2503BEEA2CED5734008BCD0B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEE62CED5734008BCD0B /* Constants */,
+				2503BEE82CED5734008BCD0B /* MockData */,
+				2503BEE92CED5734008BCD0B /* APIService.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		2503BEEC2CED5734008BCD0B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2503BEEE2CED5734008BCD0B /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEED2CED5734008BCD0B /* CardService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		2503BEF02CED5734008BCD0B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2503BEF52CED5734008BCD0B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
+				2503BEF22CED5734008BCD0B /* CardView.swift */,
+				2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */,
+				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2503BEF62CED5734008BCD0B /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEEC2CED5734008BCD0B /* Model */,
+				2503BEEE2CED5734008BCD0B /* Service */,
+				2503BEF02CED5734008BCD0B /* ViewModel */,
+				2503BEF52CED5734008BCD0B /* Views */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		2503BEF82CED5734008BCD0B /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEF72CED5734008BCD0B /* MainTabView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		2503BEF92CED5734008BCD0B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2503BEF62CED5734008BCD0B /* Cards */,
+				2503BEF82CED5734008BCD0B /* TabBar */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2503BEAB2CED546C008BCD0B /* TasteBuds */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2503BED02CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBuds" */;
+			buildPhases = (
+				2503BEA82CED546C008BCD0B /* Sources */,
+				2503BEA92CED546C008BCD0B /* Frameworks */,
+				2503BEAA2CED546C008BCD0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TasteBuds;
+			productName = TasteBuds;
+			productReference = 2503BEAC2CED546C008BCD0B /* TasteBuds.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2503BEBB2CED546D008BCD0B /* TasteBudsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2503BED32CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBudsTests" */;
+			buildPhases = (
+				2503BEB82CED546D008BCD0B /* Sources */,
+				2503BEB92CED546D008BCD0B /* Frameworks */,
+				2503BEBA2CED546D008BCD0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2503BEBE2CED546D008BCD0B /* PBXTargetDependency */,
+			);
+			name = TasteBudsTests;
+			productName = TasteBudsTests;
+			productReference = 2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2503BEC52CED546D008BCD0B /* TasteBudsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2503BED62CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBudsUITests" */;
+			buildPhases = (
+				2503BEC22CED546D008BCD0B /* Sources */,
+				2503BEC32CED546D008BCD0B /* Frameworks */,
+				2503BEC42CED546D008BCD0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2503BEC82CED546D008BCD0B /* PBXTargetDependency */,
+			);
+			name = TasteBudsUITests;
+			productName = TasteBudsUITests;
+			productReference = 2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2503BEA42CED546C008BCD0B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					2503BEAB2CED546C008BCD0B = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					2503BEBB2CED546D008BCD0B = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 2503BEAB2CED546C008BCD0B;
+					};
+					2503BEC52CED546D008BCD0B = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 2503BEAB2CED546C008BCD0B;
+					};
+				};
+			};
+			buildConfigurationList = 2503BEA72CED546C008BCD0B /* Build configuration list for PBXProject "TasteBuds" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2503BEA32CED546C008BCD0B;
+			productRefGroup = 2503BEAD2CED546C008BCD0B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2503BEAB2CED546C008BCD0B /* TasteBuds */,
+				2503BEBB2CED546D008BCD0B /* TasteBudsTests */,
+				2503BEC52CED546D008BCD0B /* TasteBudsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2503BEAA2CED546C008BCD0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2503BEFC2CED5734008BCD0B /* Preview Assets.xcassets in Resources */,
+				2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */,
+				2503BEB42CED546D008BCD0B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEBA2CED546D008BCD0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEC42CED546D008BCD0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2503BEA82CED546C008BCD0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */,
+				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
+				2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */,
+				2503BEB02CED546C008BCD0B /* TasteBudsApp.swift in Sources */,
+				2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */,
+				2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */,
+				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
+				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
+				2503BF032CED5734008BCD0B /* CardService.swift in Sources */,
+				2503BF002CED5734008BCD0B /* MockData.swift in Sources */,
+				2503BEFD2CED5734008BCD0B /* Recipe.swift in Sources */,
+				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
+				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
+				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEB82CED546D008BCD0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2503BEC22CED546D008BCD0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */,
+				2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2503BEBE2CED546D008BCD0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2503BEAB2CED546C008BCD0B /* TasteBuds */;
+			targetProxy = 2503BEBD2CED546D008BCD0B /* PBXContainerItemProxy */;
+		};
+		2503BEC82CED546D008BCD0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2503BEAB2CED546C008BCD0B /* TasteBuds */;
+			targetProxy = 2503BEC72CED546D008BCD0B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2503BECE2CED546D008BCD0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2503BECF2CED546D008BCD0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2503BED12CED546D008BCD0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2503BED22CED546D008BCD0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2503BED42CED546D008BCD0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TasteBuds.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TasteBuds";
+			};
+			name = Debug;
+		};
+		2503BED52CED546D008BCD0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TasteBuds.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TasteBuds";
+			};
+			name = Release;
+		};
+		2503BED72CED546D008BCD0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TasteBuds;
+			};
+			name = Debug;
+		};
+		2503BED82CED546D008BCD0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TasteBuds;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2503BEA72CED546C008BCD0B /* Build configuration list for PBXProject "TasteBuds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2503BECE2CED546D008BCD0B /* Debug */,
+				2503BECF2CED546D008BCD0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2503BED02CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBuds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2503BED12CED546D008BCD0B /* Debug */,
+				2503BED22CED546D008BCD0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2503BED32CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBudsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2503BED42CED546D008BCD0B /* Debug */,
+				2503BED52CED546D008BCD0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2503BED62CED546D008BCD0B /* Build configuration list for PBXNativeTarget "TasteBudsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2503BED72CED546D008BCD0B /* Debug */,
+				2503BED82CED546D008BCD0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2503BEA42CED546C008BCD0B /* Project object */;
+}

@@ -13,5 +13,6 @@ struct CardModel {
 }
 
 extension CardModel: Identifiable {
-    var id: String { return recipe.id }
+    var id: String { return String(recipe.id) }
 }
+

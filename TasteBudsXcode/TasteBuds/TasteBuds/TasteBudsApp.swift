@@ -1,8 +1,8 @@
 //
-//  TinderTemplateApp.swift
-//  TinderTemplate
+//  TasteBudsApp.swift
+//  TasteBuds
 //
-//  Created by Ali on 11/13/24.
+//  Created by Hannah Haggerty on 11/19/24.
 //
 
 import SwiftUI
@@ -15,3 +15,4 @@ struct TasteBudsApp: App {
         }
     }
 }
+ 

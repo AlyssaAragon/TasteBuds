@@ -15,8 +15,9 @@ struct CardView: View {
     var body: some View {
         ZStack(alignment: .bottom){
             ZStack(alignment: .top) {
-                Image(.avgolemono)
-                    .resizable()
+                Color.gray // Placeholder background
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .scaledToFill()
                 SwipeActionIndicatorView(xOffset: $xOffset)
                     .padding()
