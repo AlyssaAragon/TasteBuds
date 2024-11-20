@@ -1,34 +1,29 @@
-//
-//  RecipeInfoView.swift
-//  TasteBuds
-//
-//  Created by Ali on 11/03/24.
-//
-
 import SwiftUI
 
 struct RecipeInfoView: View {
+    var recipe: FetchedRecipe
+
     var body: some View {
         VStack(alignment: .leading) {
-            HStack{
-                Text("Avgolemono")
+            HStack {
+                Text(recipe.title)
                     .font(.title)
                     .fontWeight(.heavy)
-                Text("Gluten-Free")
+                Text(recipe.diets.first?.name ?? "No Diet")
                     .font(.title)
                     .fontWeight(.semibold)
                 
                 Spacer()
                 
-                Button{
+                Button {
                     print("DEBUG: Show recipe here...")
-                } label:{
+                } label: {
                     Image(systemName: "arrow.up.circle")
                         .fontWeight(.bold)
                         .imageScale(.large)
                 }
             }
-            Text("Chicken Lemon Rice Soup")
+            Text(recipe.body)//Displays recipe description
                 .font(.subheadline)
                 .lineLimit(2)
         }
@@ -38,8 +33,4 @@ struct RecipeInfoView: View {
             LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
         )
     }
-}
-
-#Preview {
-    RecipeInfoView()
 }
