@@ -15,12 +15,11 @@ struct CardView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 5)
 
-                    // Swipe action indicators
+                    // Swipe action
                     SwipeActionIndicatorView(xOffset: $xOffset)
                         .padding()
                 }
                 
-                // Recipe information
                 RecipeInfoView(recipe: recipe)
                     .padding(.horizontal)
                     .frame(width: SizeConstants.cardWidth)
@@ -60,7 +59,7 @@ struct CardView: View {
     }
 }
 
-// Swipe functionality
+//swipe functionality
 private extension CardView {
     func returnToCenter() {
         xOffset = 0
@@ -96,8 +95,6 @@ private extension CardView {
         }
     }
 }
-
-// Preview configuration
-#Preview {
-    CardView() // Preview works without passing any argument
+#Preview { //doesnt work with real data?? idk only displays loading recipes
+    CardView()
 }
