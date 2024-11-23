@@ -46,3 +46,4 @@ struct RecipeInfoView: View {
 #Preview {
     RecipeInfoView(recipe: MockData.recipes[0])
 }
+ 

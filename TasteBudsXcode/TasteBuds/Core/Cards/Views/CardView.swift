@@ -4,46 +4,36 @@ struct CardView: View {
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     @StateObject private var recipeFetcher = RecipeFetcher()
+
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Display the first recipe if available
             if let recipe = recipeFetcher.recipes.first {
-                VStack {
-                    HStack {
-                        Button(action: {
-                            //Hamburger menu
-                        }) {
-                            Image(systemName: "line.horizontal.3")
-                                .font(.title2)
-                                .foregroundColor(.black)
-                        }
-                        .padding(.leading)
-                        Spacer()
-                    }
-                    .padding(.top)
-
-                    Color.gray //Placeholder for recipe image
-                        .scaledToFill()
+                ZStack(alignment: .top) {
+                    // Placeholder gray box for the recipe image
+                    Color.gray
                         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 5)
 
-                    RecipeInfoView(recipe: recipe)//Pass the recipe to RecipeInfoView
-                        .padding(.horizontal)
+                    // Swipe action indicators
+                    SwipeActionIndicatorView(xOffset: $xOffset)
+                        .padding()
                 }
+                
+                // Recipe information
+                RecipeInfoView(recipe: recipe)
+                    .padding(.horizontal)
+                    .frame(width: SizeConstants.cardWidth)
 
+                // Swipe buttons
                 HStack {
-                    Button(action: {
-                        //Dislike button
-                    }) {
+                    Button(action: swipeLeft) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.largeTitle)
                             .foregroundColor(.red)
                     }
                     Spacer()
-                    Button(action: {
-                        //Like button
-                    }) {
+                    Button(action: swipeRight) {
                         Image(systemName: "heart.circle.fill")
                             .font(.largeTitle)
                             .foregroundColor(.green)
@@ -56,8 +46,58 @@ struct CardView: View {
                     .foregroundColor(.gray)
             }
         }
+        .offset(x: xOffset)
+        .rotationEffect(.degrees(degrees))
+        .animation(.snappy, value: xOffset)
+        .gesture(
+            DragGesture()
+                .onChanged(onDragChanged)
+                .onEnded(onDragEnded)
+        )
         .onAppear {
             recipeFetcher.fetchRecipes()
         }
     }
+}
+
+// Swipe functionality
+private extension CardView {
+    func returnToCenter() {
+        xOffset = 0
+        degrees = 0
+    }
+
+    func swipeRight() {
+        xOffset = 500
+        degrees = 12
+    }
+
+    func swipeLeft() {
+        xOffset = -500
+        degrees = -12
+    }
+
+    func onDragChanged(_ value: DragGesture.Value) {
+        xOffset = value.translation.width
+        degrees = Double(value.translation.width / 25)
+    }
+
+    func onDragEnded(_ value: DragGesture.Value) {
+        let width = value.translation.width
+        if abs(width) <= abs(SizeConstants.screenCutoff) {
+            returnToCenter()
+            return
+        }
+
+        if width >= SizeConstants.screenCutoff {
+            swipeRight()
+        } else {
+            swipeLeft()
+        }
+    }
+}
+
+// Preview configuration
+#Preview {
+    CardView() // Preview works without passing any argument
 }
