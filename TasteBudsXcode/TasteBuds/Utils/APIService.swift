@@ -3,7 +3,7 @@ import Foundation
 
 class APIService {
     static let shared = APIService()
-    let baseURL = "http://127.0.0.1:8000/tastebuds/allrecipe/"
+    let baseURL = "http://127.0.0.1:8000/admin/tastebuds/allrecipe/"
     
     // Fetch recipes from the Django backend
     func fetchRecipes(completion: @escaping ([Recipe]?) -> Void) {

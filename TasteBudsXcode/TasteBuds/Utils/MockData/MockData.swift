@@ -9,6 +9,26 @@ import Foundation
 
 struct MockData {
     static let recipes: [Recipe] = [
-//        .init(id: <#T##String#>, name: <#T##String#>, time: <#T##Int#>, recipeImage: <#T##[String]#>)
+        .init(
+            id: NSUUID().uuidString,
+            name: "Avgolemono",
+            time: 1,
+            recipeDescription: "Chicken Lemon Rice Soup",
+            recipeImage: ["avgolemono"]
+        ),
+        .init(
+            id: NSUUID().uuidString,
+            name: "California Roll",
+            time: 1,
+            recipeDescription: "Sushi roll, no raw meat",
+            recipeImage: ["californiaRoll"]
+        ),
+        .init(
+            id: NSUUID().uuidString,
+            name: "Beef Burger",
+            time: 1,
+            recipeDescription: "burgah",
+            recipeImage: ["beefBurger"]
+        )
     ]
 }

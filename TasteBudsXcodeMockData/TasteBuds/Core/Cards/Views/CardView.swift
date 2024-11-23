@@ -84,7 +84,7 @@ private extension CardView{
 }
 
 
-
+ 
 #Preview {
     CardView(model: CardModel(recipe: MockData.recipes[1]))
 }
