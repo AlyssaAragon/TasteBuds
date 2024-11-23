@@ -4,11 +4,15 @@ from django.contrib.auth.models import User #we will use this for user instead o
 from django.contrib.auth import get_user_model
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe  # Include all models
 from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, DietSerializer, FavoriteSerializer, PartnerSerializer
+from django.http import HttpResponse
 
 # Create your views here.
  #user views 
 
 User = get_user_model()
+ 
+def index(request):
+    return HttpResponse("API VIEW")
 
 class UserProfileListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all() 
@@ -62,6 +66,8 @@ class PartnerListCreateView(generics.ListCreateAPIView):
 class PartnerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+
+
 
 ''' 
 we cant use ingredient yet because our database doesnt have ingredients therefore neither does our models

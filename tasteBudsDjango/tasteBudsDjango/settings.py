@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AUTH_USER_MODEL = 'tastebuds.CustomUser'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -29,6 +30,8 @@ ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
     '127.0.0.1',
+    '0.0.0.0'
+
 ]
 SITE_ID = 1
 
@@ -48,7 +51,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'corsheaders', 
-    'tastebuds',
+    'tastebuds.apps.TastebudsConfig',
 ]
 #backend for authentication
 AUTHENTICATION_BACKENDS = (
@@ -95,12 +98,12 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 '''This is what my postgres stuff is when you run it on your computer youll have to change it DONT LAUGH AT MY PASSWORD OR USERNAME i was confused'''
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Capstone Recipe Dataset',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tastebuds',
         'USER': 'postgres', 
-        'PASSWORD': 'hannah',  
+        'PASSWORD': 'Sla244o4',  
         'HOST': 'localhost',  
-        'PORT': '5432',       
+        'PORT': '5433',       
     }
 }
 
@@ -153,7 +156,6 @@ ACCOUNT_USERNAME_REQUIRED = True  # Username is required for login
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either email or username
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
 
-AUTH_USER_MODEL = 'tastebuds.CustomUser'
 
 
 CACHES = {

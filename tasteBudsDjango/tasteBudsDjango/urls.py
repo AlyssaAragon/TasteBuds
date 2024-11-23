@@ -34,7 +34,9 @@ from tastebuds.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('tastebuds', include('tastebuds.urls')),
     path('accounts/', include('allauth.urls')), #Django user thing Allauth
+    #path('', views.home, name='home'),
     path('profiles/', UserProfileListCreateView.as_view(), name='user-profile-list'),
     path('profiles/<int:pk>/', UserProfileDetailView.as_view(), name='user-profile-detail'),
     path('recipes/', RecipeListCreateView.as_view(), name='recipe-list'),
