@@ -16,37 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from tastebuds import views
 
-from tastebuds.views import (
-    UserProfileListCreateView,
-    UserProfileDetailView,
-    RecipeListCreateView,
-    RecipeDetailView,
-    AllRecipeListCreateView,
-    AllRecipeDetailView,
-    DietListCreateView,
-    DietDetailView,
-    FavoriteListCreateView,
-    FavoriteDetailView,
-    PartnerListCreateView,
-    PartnerDetailView,
-)
+router = DefaultRouter()
+router.register(r'profiles', views.UserProfileViewSet)
+router.register(r'recipes', views.RecipeViewSet)
+router.register(r'allrecipes', views.AllRecipeViewSet)
+router.register(r'diets', views.DietViewSet)
+router.register(r'favorites', views.FavoriteViewSet)
+router.register(r'partners', views.PartnerViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tastebuds', include('tastebuds.urls')),
-    path('accounts/', include('allauth.urls')), #Django user thing Allauth
-    #path('', views.home, name='home'),
-    path('profiles/', UserProfileListCreateView.as_view(), name='user-profile-list'),
-    path('profiles/<int:pk>/', UserProfileDetailView.as_view(), name='user-profile-detail'),
-    path('recipes/', RecipeListCreateView.as_view(), name='recipe-list'),
-    path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
-    path('allrecipes/', AllRecipeListCreateView.as_view(), name='allrecipe-list'),
-    path('allrecipes/<int:pk>/', AllRecipeDetailView.as_view(), name='allrecipe-detail'),
-    path('diets/', DietListCreateView.as_view(), name='diet-list'),
-    path('diets/<int:pk>/', DietDetailView.as_view(), name='diet-detail'),
-    path('favorites/', FavoriteListCreateView.as_view(), name='favorite-list'),
-    path('favorites/<int:pk>/', FavoriteDetailView.as_view(), name='favorite-detail'),
-    path('partners/', PartnerListCreateView.as_view(), name='partner-list'),
-    path('partners/<int:pk>/', PartnerDetailView.as_view(), name='partner-detail'),
+    path('admin/', admin.site.urls),  
+    path('tastebuds/', include('tastebuds.urls')),  
+    path('accounts/', include('allauth.urls')),  
+    path('api/', include(router.urls)),  
 ]

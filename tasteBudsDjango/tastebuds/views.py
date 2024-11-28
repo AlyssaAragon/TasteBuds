@@ -1,73 +1,44 @@
-from django.shortcuts import render
-from rest_framework import generics
+#from django.shortcuts import render
+#from rest_framework import generics
 from django.contrib.auth.models import User #we will use this for user instead of using it from the database since django handles users
 from django.contrib.auth import get_user_model
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe  # Include all models
 from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, DietSerializer, FavoriteSerializer, PartnerSerializer
-from django.http import HttpResponse
-
+from rest_framework import viewsets
 # Create your views here.
  #user views 
 
 User = get_user_model()
- 
-def index(request):
-    return HttpResponse("API VIEW")
 
-class UserProfileListCreateView(generics.ListCreateAPIView):
+# User views
+class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all() 
     serializer_class = UserSerializer
 
-class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-# Recipe views 
-class RecipeListCreateView(generics.ListCreateAPIView):
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
-
-class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
+# Recipe views
+class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
 # AllRecipe views
-class AllRecipeListCreateView(generics.ListCreateAPIView):
-    queryset = AllRecipe.objects.all()
-    serializer_class = AllRecipeSerializer
-
-class AllRecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
+class AllRecipeViewSet(viewsets.ModelViewSet):
     queryset = AllRecipe.objects.all()
     serializer_class = AllRecipeSerializer
 
 # Diet views
-class DietListCreateView(generics.ListCreateAPIView):
-    queryset = Diet.objects.all()
-    serializer_class = DietSerializer
-
-class DietDetailView(generics.RetrieveUpdateDestroyAPIView):
+class DietViewSet(viewsets.ModelViewSet):
     queryset = Diet.objects.all()
     serializer_class = DietSerializer
 
 # Favorite views
-class FavoriteListCreateView(generics.ListCreateAPIView):
-    queryset = Favorite.objects.all()
-    serializer_class = FavoriteSerializer
-
-class FavoriteDetailView(generics.RetrieveUpdateDestroyAPIView):
+class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
 
 # Partner views
-class PartnerListCreateView(generics.ListCreateAPIView):
+class PartnerViewSet(viewsets.ModelViewSet):
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
-
-class PartnerDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Partner.objects.all()
-    serializer_class = PartnerSerializer
-
-
 
 ''' 
 we cant use ingredient yet because our database doesnt have ingredients therefore neither does our models
