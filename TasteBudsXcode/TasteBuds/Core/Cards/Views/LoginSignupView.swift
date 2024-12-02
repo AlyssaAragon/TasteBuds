@@ -2,7 +2,9 @@ import SwiftUI
 
 struct LoginSignupView: View {
     @State private var isLogin = true
+    @State private var profileName = ""
     @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
     
     var body: some View {
@@ -23,7 +25,7 @@ struct LoginSignupView: View {
                                 RoundedRectangle(cornerRadius: 30)
                                     .stroke(.white, lineWidth: 1)
                             )
-                            .offset(y: -90)
+                            .offset(y: -100)
 
                         VStack {
                             Image("chefhat")
@@ -59,6 +61,36 @@ struct LoginSignupView: View {
                     .padding(.bottom, 30)
 
                     VStack(spacing: 15) {
+                        if !isLogin {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Profile Name")
+                                    .font(Font.custom("Abyssinica SIL", size: 20))
+                                    .foregroundColor(.white)
+                                TextField("Enter profile name here", text: $profileName)
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                    .foregroundColor(.white)
+                                    .font(Font.custom("Abyssinica SIL", size: 20))
+                                Rectangle()
+                                    .frame(height: 0.5)
+                                    .foregroundColor(.white)
+                            }
+                            .offset(y: -70)
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Email Address")
+                                    .font(Font.custom("Abyssinica SIL", size: 20))
+                                    .foregroundColor(.white)
+                                TextField("Enter email address here", text: $email)
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                    .foregroundColor(.white)
+                                    .font(Font.custom("Abyssinica SIL", size: 20))
+                                Rectangle()
+                                    .frame(height: 0.5)
+                                    .foregroundColor(.white)
+                            }
+                            .offset(y: -60)
+                        }
+
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Username")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
@@ -71,7 +103,7 @@ struct LoginSignupView: View {
                                 .frame(height: 0.5)
                                 .foregroundColor(.white)
                         }
-                        .offset(y: -70)
+                        .offset(y: isLogin ? -70 : -50)
 
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Password")
@@ -87,21 +119,23 @@ struct LoginSignupView: View {
                         }
                         .offset(y: -50)
 
-                        HStack {
-                            Spacer()
-                            Text("Forgot password?")
-                                .font(Font.custom("Abyssinica SIL", size: 16))
-                                .foregroundColor(.white)
-                                .padding(.top, 5)
-                                .offset(y: -50)
-                                .offset(x: -225)
+                        if isLogin {
+                            HStack {
+                                Spacer()
+                                Text("Forgot password?")
+                                    .font(Font.custom("Abyssinica SIL", size: 16))
+                                    .foregroundColor(.white)
+                                    .padding(.top, 5)
+                                    .offset(y: -50)
+                                    .offset(x: -225)
+                            }
                         }
                     }
                     .padding(30)
                     .offset(y: -50)
 
                     NavigationLink(destination: CardView()) {
-                        Text("Login")
+                        Text(isLogin ? "Login" : "Sign-up")
                             .font(Font.custom("Abyssinica SIL", size: 26))
                             .foregroundColor(.black.opacity(0.8))
                             .frame(width: 314, height: 70)
@@ -109,7 +143,7 @@ struct LoginSignupView: View {
                             .cornerRadius(30)
                             .shadow(radius: 10)
                     }
-                    .padding(.top, 20)
+                    .offset(y: isLogin ? 0 : -55)
                 }
                 .frame(width: 414, height: 896)
             }
