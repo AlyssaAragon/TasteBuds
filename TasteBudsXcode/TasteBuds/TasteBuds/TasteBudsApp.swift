@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct TasteBudsApp: App {
+struct TasteBudsApp: App { //idk why this has an error idk whats going on here
     var body: some Scene {
         WindowGroup {
             ContentView()

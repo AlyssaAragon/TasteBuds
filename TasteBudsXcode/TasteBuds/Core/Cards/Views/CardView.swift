@@ -9,13 +9,12 @@ struct CardView: View {
         ZStack(alignment: .bottom) {
             if let recipe = recipeFetcher.recipes.first {
                 ZStack(alignment: .top) {
-                    // Placeholder gray box for the recipe image
+                    //place holder for recipe image
                     Color.gray
                         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 5)
-
-                    // Swipe action
+                    //swipe
                     SwipeActionIndicatorView(xOffset: $xOffset)
                         .padding()
                 }
@@ -24,7 +23,7 @@ struct CardView: View {
                     .padding(.horizontal)
                     .frame(width: SizeConstants.cardWidth)
 
-                // Swipe buttons
+                //buttons
                 HStack {
                     Button(action: swipeLeft) {
                         Image(systemName: "xmark.circle.fill")
@@ -94,7 +93,4 @@ private extension CardView {
             swipeLeft()
         }
     }
-}
-#Preview { //doesnt work with real data?? idk only displays loading recipes
-    CardView()
 }

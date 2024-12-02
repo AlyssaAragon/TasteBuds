@@ -29,6 +29,8 @@
 		2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526677D2CEE9E9E002C0AF7 /* Recipe.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
+		25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */; };
+		25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		2526677D2CEE9E9E002C0AF7 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		257B64422CF155ED0039FB32 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
+		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; };
+		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +256,8 @@
 				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
+				25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */,
+				25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,10 +423,12 @@
 			files = (
 				2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
+				25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */,
 				2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */,
 				2503BEB02CED546C008BCD0B /* TasteBudsApp.swift in Sources */,
 				2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */,
 				2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */,
+				25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2503BF032CED5734008BCD0B /* CardService.swift in Sources */,

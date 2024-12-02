@@ -1,15 +1,15 @@
+
+
 import SwiftUI
 
 struct WelcomeView: View {
     var body: some View {
-        NavigationView {
+        NavigationView { 
             ZStack {
-                //Background Color
                 Color(red: 0.66, green: 0.31, blue: 0.33)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    //App Name
                     Text("Taste\n     Buds")
                         .font(Font.custom("Abyssinica SIL", size: 65))
                         .foregroundColor(.white)
@@ -18,7 +18,6 @@ struct WelcomeView: View {
                     Spacer()
                     
                     HStack {
-                        //left Character
                         Image("leftcharacter")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -28,7 +27,8 @@ struct WelcomeView: View {
                         
                         Spacer()
                         
-                        //Right Character
+                        
+                        
                         Image("rightcharacter")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -41,10 +41,10 @@ struct WelcomeView: View {
                     
                     Spacer()
                     
-                    //Get Started Button
-                    NavigationLink(destination: LoginSignupView()) { //get started button navigates to login/signup page
+                    
+                    
+                    NavigationLink(destination: LoginSignupView()) {
                         ZStack {
-                            //Background Shape
                             RoundedRectangle(cornerRadius: 30)
                                 .fill(Color.white)
                                 .frame(width: 314, height: 70)

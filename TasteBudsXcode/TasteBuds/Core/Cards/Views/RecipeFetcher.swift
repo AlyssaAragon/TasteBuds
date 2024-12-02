@@ -1,6 +1,6 @@
+//fetch recipe 
 import Foundation
 
-// FetchedRecipe model
 struct FetchedRecipe: Identifiable, Decodable {
     let id: Int
     let title: String
@@ -29,8 +29,10 @@ class RecipeFetcher: ObservableObject {
     @Published var recipes: [FetchedRecipe] = []
 
     func fetchRecipes() {
-        print("Starting recipe fetch...") // Log the fetch start
-        guard let url = URL(string: "http://127.0.0.1:8000/admin/tastebuds/allrecipe/") else {
+        print("Starting recipe fetch...") 
+        guard let url = URL(string: "http://127.0.0.1:8000/admin/tastebuds/allrecipe/") else { 
+            //i think theres something wrong with this url and thats why its not connectiong
+            //maybe alyssa can u look at this idk whats wrong here
             print("Invalid URL")
             return
         }
