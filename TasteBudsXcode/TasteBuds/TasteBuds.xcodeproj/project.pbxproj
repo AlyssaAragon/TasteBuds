@@ -31,6 +31,7 @@
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
 		25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */; };
 		25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */; };
+		25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
 		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; };
 		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
+		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +260,7 @@
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
 				25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */,
 				25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */,
+				25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2503BF032CED5734008BCD0B /* CardService.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
+				25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
