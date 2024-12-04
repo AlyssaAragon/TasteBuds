@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct CardStackView: View {
+    @StateObject var viewModel = CardsViewModel()
+
     var body: some View {
         ZStack{
-            ForEach(0..<10){ card in
-                CardView()
+            ForEach(viewModel.cardModels){ card in
+                CardView(recipe: card.recipe) //pass recipe to cardview
+            }
+        }
+        .onAppear{
+            Task{
+                await viewModel.fetchCardModels() //ensure data fetch on appearance
             }
         }
     }
