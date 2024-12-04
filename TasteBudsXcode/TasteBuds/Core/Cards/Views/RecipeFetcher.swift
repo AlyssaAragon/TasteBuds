@@ -1,7 +1,7 @@
 //fetch recipe 
 import Foundation
 
-struct FetchedRecipe: Identifiable, Decodable {
+struct FetchedRecipe: Identifiable, Decodable { // represents a single recipe fetched from the server
     let id: Int
     let title: String
     let body: String
@@ -19,7 +19,7 @@ struct FetchedRecipe: Identifiable, Decodable {
     }
 }
 
-struct FetchedDiet: Decodable {
+struct FetchedDiet: Decodable { //represents the dietary information associated with a recipe
     let id: Int
     let name: String
 }

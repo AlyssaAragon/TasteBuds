@@ -1,15 +1,17 @@
 import SwiftUI
 
 struct RecipeInfoView: View {
-    var recipe: FetchedRecipe
+    // var recipe: FetchedRecipe
+    @StateObject private var recipeFetcher = RecipeFetcher()
+
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(recipe.title)
+                Text(FetchedRecipe.title)
                     .font(.title)
                     .fontWeight(.heavy)
-                Text(recipe.diets.first?.name ?? "No Diet")
+                Text(FetchedRecipe.diets.first?.name ?? "No Diet")
                     .font(.title)
                     .fontWeight(.semibold)
                 
@@ -23,7 +25,7 @@ struct RecipeInfoView: View {
                         .imageScale(.large)
                 }
             }
-            Text(recipe.body)//Displays recipe description
+            Text(FetchedRecipe.body)//Displays recipe description
                 .font(.subheadline)
                 .lineLimit(2)
         }

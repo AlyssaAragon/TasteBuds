@@ -8,19 +8,28 @@
 import Foundation
 
 class CardsViewModel: ObservableObject {
-    @Published var cardModels = [CardModel]( )
+    @Published var cardModels: [CardModel] = []
+    private let recipeFetcher = RecipeFetcher() // Use RecipeFetcher instead of CardService
     
-    private let service: CardService
-    
-    init(service: CardService){
-        self.service = service
+    init() {
+        Task {
+            await fetchCardModels()
+        }
     }
     
-    func fetchCardModels() async{
-        do {
-            self.cardModels = try await service.fetchCardModels()
-        } catch {
-            print("DEBUG: Failed to fetch cards with error: \(error)")
+    func fetchCardModels() async {
+        await recipeFetcher.fetchRecipes() // Ensure recipes are fetched first
+        
+        DispatchQueue.main.async {
+            // Map fetched recipes to cardModels
+            self.cardModels = self.recipeFetcher.recipes.map { fetchedRecipe in
+                CardModel(recipe: Recipe(
+                    id: fetchedRecipe.id,
+                    name: fetchedRecipe.title,
+                    recipeDescription: fetchedRecipe.body,
+                    time: fetchedRecipe.time
+                ))
+            }
         }
     }
 }
