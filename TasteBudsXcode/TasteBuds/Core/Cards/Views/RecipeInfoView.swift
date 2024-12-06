@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct RecipeInfoView: View {
-    // var recipe: FetchedRecipe
-    let recipe: FetchedRecipe //indiv recipe
-    
+    var recipe: FetchedRecipe
+    @StateObject private var recipeFetcher = RecipeFetcher()
+
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CardView: View {
+    let recipe: Recipe
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     // @StateObject private var recipeFetcher = RecipeFetcher()
@@ -54,7 +55,9 @@ struct CardView: View {
                 .onEnded(onDragEnded)
         )
         .onAppear {
-            recipeFetcher.fetchRecipes()
+            Task{
+                await recipeFetcher.fetchRecipes()
+            }
         }
     }
 }
