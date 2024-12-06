@@ -3,7 +3,8 @@ import SwiftUI
 struct CardView: View {
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
-    @StateObject private var recipeFetcher = RecipeFetcher()
+    // @StateObject private var recipeFetcher = RecipeFetcher()
+    let recipe: FetchedRecipe
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -68,11 +69,17 @@ private extension CardView {
     func swipeRight() {
         xOffset = 500
         degrees = 12
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Notify parent view to handle card removal
+        }
     }
 
     func swipeLeft() {
         xOffset = -500
         degrees = -12
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Notify parent view to handle card removal
+        }
     }
 
     func onDragChanged(_ value: DragGesture.Value) {

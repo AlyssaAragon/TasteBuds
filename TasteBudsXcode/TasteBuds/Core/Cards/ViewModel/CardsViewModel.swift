@@ -25,9 +25,11 @@ class CardsViewModel: ObservableObject {
             self.cardModels = self.recipeFetcher.recipes.map { fetchedRecipe in
                 CardModel(recipe: Recipe(
                     id: fetchedRecipe.id,
-                    name: fetchedRecipe.title,
-                    recipeDescription: fetchedRecipe.body,
-                    time: fetchedRecipe.time
+                    title: fetchedRecipe.title,
+                    body: fetchedRecipe.body,
+                    createdAt: fetchedRecipe.createdAt,
+                    time: fetchedRecipe.time,
+                    diets: fetchedRecipe.diets
                 ))
             }
         }
