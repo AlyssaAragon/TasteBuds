@@ -70,10 +70,11 @@ private extension CardView {
     }
 
     func swipeRight() {
-        xOffset = 500
-        degrees = 12
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            // Notify parent view to handle card removal
+        withAnimation {
+            xOffset = 500
+            degrees = 12
+        } completion: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3)
         }
     }
 
@@ -82,7 +83,7 @@ private extension CardView {
         degrees = -12
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             // Notify parent view to handle card removal
-        }
+        }  
     }
 
     func onDragChanged(_ value: DragGesture.Value) {
