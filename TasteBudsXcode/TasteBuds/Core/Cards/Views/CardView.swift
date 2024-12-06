@@ -4,8 +4,8 @@ struct CardView: View {
     let recipe: Recipe
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
-    // @StateObject private var recipeFetcher = RecipeFetcher()
-    let recipe: FetchedRecipe
+    @StateObject private var recipeFetcher = RecipeFetcher()
+  
 
     var body: some View {
         ZStack(alignment: .bottom) {
