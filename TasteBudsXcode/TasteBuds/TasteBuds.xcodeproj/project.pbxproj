@@ -3,18 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2503BEB02CED546C008BCD0B /* TasteBudsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */; };
 		2503BEB42CED546D008BCD0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB32CED546D008BCD0B /* Assets.xcassets */; };
 		2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */; };
 		2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */; };
 		2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */; };
 		2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */; };
 		2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEDC2CED5734008BCD0B /* ContentView.swift */; };
-		2503BEFC2CED5734008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */; };
 		2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE52CED5734008BCD0B /* SizeConstants.swift */; };
 		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
 		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
@@ -31,6 +29,8 @@
 		25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */; };
 		25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */; };
 		25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */; };
+		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
+		419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,6 @@
 
 /* Begin PBXFileReference section */
 		2503BEAC2CED546C008BCD0B /* TasteBuds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasteBuds.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsApp.swift; sourceTree = "<group>"; };
 		2503BEB32CED546D008BCD0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +60,6 @@
 		2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITests.swift; sourceTree = "<group>"; };
 		2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2503BEDC2CED5734008BCD0B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2503BEE52CED5734008BCD0B /* SizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeConstants.swift; sourceTree = "<group>"; };
 		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
@@ -78,7 +76,13 @@
 		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; };
 		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
 		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
+		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
+		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		419F96882D04CF65006CC8FA /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2503BEA92CED546C008BCD0B /* Frameworks */ = {
@@ -108,10 +112,6 @@
 		2503BEA32CED546C008BCD0B = {
 			isa = PBXGroup;
 			children = (
-				2503BEF92CED5734008BCD0B /* Core */,
-				2503BEDE2CED5734008BCD0B /* Preview Content */,
-				2503BEE22CED5734008BCD0B /* Shared */,
-				2503BEEA2CED5734008BCD0B /* Utils */,
 				2503BEAE2CED546C008BCD0B /* TasteBuds */,
 				2503BEBF2CED546D008BCD0B /* TasteBudsTests */,
 				2503BEC92CED546D008BCD0B /* TasteBudsUITests */,
@@ -132,9 +132,13 @@
 		2503BEAE2CED546C008BCD0B /* TasteBuds */ = {
 			isa = PBXGroup;
 			children = (
-				2503BEAF2CED546C008BCD0B /* TasteBudsApp.swift */,
-				2503BEB32CED546D008BCD0B /* Assets.xcassets */,
+				419F96882D04CF65006CC8FA /* App */,
+				2503BEF92CED5734008BCD0B /* Core */,
 				2503BEB52CED546D008BCD0B /* Preview Content */,
+				2503BEE22CED5734008BCD0B /* Shared */,
+				2503BEEA2CED5734008BCD0B /* Utils */,
+				2503BEB32CED546D008BCD0B /* Assets.xcassets */,
+				2503BEDC2CED5734008BCD0B /* ContentView.swift */,
 			);
 			path = TasteBuds;
 			sourceTree = "<group>";
@@ -162,15 +166,6 @@
 				2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */,
 			);
 			path = TasteBudsUITests;
-			sourceTree = "<group>";
-		};
-		2503BEDE2CED5734008BCD0B /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2503BEDC2CED5734008BCD0B /* ContentView.swift */,
-				2503BEDD2CED5734008BCD0B /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		2503BEE02CED5734008BCD0B /* Model */ = {
@@ -205,18 +200,10 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		2503BEE82CED5734008BCD0B /* MockData */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MockData;
-			sourceTree = "<group>";
-		};
 		2503BEEA2CED5734008BCD0B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				2503BEE62CED5734008BCD0B /* Constants */,
-				2503BEE82CED5734008BCD0B /* MockData */,
 				2503BEE92CED5734008BCD0B /* APIService.swift */,
 			);
 			path = Utils;
@@ -226,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
+				419F96482D04CCB4006CC8FA /* SwipeAction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */,
+				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
 				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */,
@@ -296,6 +285,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				419F96882D04CF65006CC8FA /* App */,
 			);
 			name = TasteBuds;
 			productName = TasteBuds;
@@ -386,7 +378,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2503BEFC2CED5734008BCD0B /* Preview Assets.xcassets in Resources */,
 				2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */,
 				2503BEB42CED546D008BCD0B /* Assets.xcassets in Resources */,
 			);
@@ -416,8 +407,8 @@
 				2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
 				25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */,
+				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
 				2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */,
-				2503BEB02CED546C008BCD0B /* TasteBudsApp.swift in Sources */,
 				2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */,
 				2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */,
 				25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */,
@@ -427,6 +418,7 @@
 				25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
+				419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
