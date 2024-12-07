@@ -229,11 +229,11 @@
 		2503BEF52CED5734008BCD0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */,
-				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
 				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */,
+				2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */,
+				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
 				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
