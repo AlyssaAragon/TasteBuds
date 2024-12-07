@@ -23,8 +23,6 @@ struct CardView: View {
                 }
                 
                 RecipeInfoView(recipe: recipe)
-                    .padding(.horizontal)
-                    .frame(width: SizeConstants.cardWidth)
             } else {
                 Text("Loading recipes...")
                     .font(.title)
