@@ -8,39 +8,44 @@
 import SwiftUI
 
 struct SwipeActionButtonView: View {
+    @ObservedObject var viewModel: CardsViewModel
+
     var body: some View {
         HStack(spacing:32){
-            Button {
+            Button { //x button
                 //action
             } label: {
                 Image(systemName: "xmark")
                     .fontWeight(.heavy)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.white)
                     .background{
                         Circle()
-                            .fill(.white)
+                            .fill(.red)
                             .frame(width: 48, height: 48)
                             .shadow(radius: 6)
                     }
             }
-            Button {
+            .frame(width: 48, height: 48) // button padding
+            
+            Button { //heart button
                 //action
             } label: {
-                Image(systemName: "xmark")
+                Image(systemName: "heart.fill")
                     .fontWeight(.heavy)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.white)
                     .background{
                         Circle()
-                            .fill(.white)
+                            .fill(.green)
                             .frame(width: 48, height: 48)
                             .shadow(radius: 6)
                     }
             }
+            .frame(width: 48, height: 48) //button padding
 
         }
     }
 }
 
-#Preview {
-    SwipeActionButtonView()
-}
+// #Preview {
+//     SwipeActionButtonView(viewModel: CardsViewModel(service: CardService()))
+// }
