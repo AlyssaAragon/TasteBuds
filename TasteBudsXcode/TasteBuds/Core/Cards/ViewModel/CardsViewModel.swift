@@ -8,7 +8,9 @@
 import Foundation
 
 class CardsViewModel: ObservableObject {
-    @Published var cardModels: [CardModel] = []
+    @Published var cardModels = [CardModel]()
+    @Published var ButtonSwipeAction: SwipeAction?
+
     private let recipeFetcher = RecipeFetcher() // Use RecipeFetcher instead of CardService
     
     init() {
@@ -34,4 +36,8 @@ class CardsViewModel: ObservableObject {
             }
         }
     }
+
+    // func removeCard(_ card: CardModel){
+        
+    // }
 }

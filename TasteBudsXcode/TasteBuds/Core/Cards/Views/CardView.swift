@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct CardView: View {
-    let recipe: Recipe
+    @ObservedObject var viewModel: CardsViewModel
+    
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     @StateObject private var recipeFetcher = RecipeFetcher()
@@ -11,11 +12,11 @@ struct CardView: View {
         ZStack(alignment: .bottom) {
             if let recipe = recipeFetcher.recipes.first {
                 ZStack(alignment: .top) {
-                    //place holder for recipe image
-                    Color.gray
+                    //recipe image, need "placeholder image asset"
+                    Image(model.recipe.recipeImage.first ?? "placeholder")
+                        .resizable()
+                        .scaledToFill()
                         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(radius: 5)
                     //swipe
                     SwipeActionIndicatorView(xOffset: $xOffset)
                         .padding()
@@ -24,28 +25,22 @@ struct CardView: View {
                 RecipeInfoView(recipe: recipe)
                     .padding(.horizontal)
                     .frame(width: SizeConstants.cardWidth)
-
-                //buttons
-                HStack {
-                    Button(action: swipeLeft) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.largeTitle)
-                            .foregroundColor(.red)
-                    }
-                    Spacer()
-                    Button(action: swipeRight) {
-                        Image(systemName: "heart.circle.fill")
-                            .font(.largeTitle)
-                            .foregroundColor(.green)
-                    }
-                }
-                .padding()
             } else {
                 Text("Loading recipes...")
                     .font(.title)
                     .foregroundColor(.gray)
             }
         }
+        //ZStack End
+        
+        //triggers cases for swipe left/right
+        .onReceive(viewModel.$buttonSwipeAction, perform: { action in
+            onReceiveSwipeAction(<#T##SwipeAction?#>)
+        })
+        
+        //card view style and animation
+        .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .offset(x: xOffset)
         .rotationEffect(.degrees(degrees))
         .animation(.snappy, value: xOffset)
@@ -53,12 +48,10 @@ struct CardView: View {
             DragGesture()
                 .onChanged(onDragChanged)
                 .onEnded(onDragEnded)
+                .onAppear {
+                    recipeFetcher.fetchRecipes()
+                }
         )
-        .onAppear {
-            Task{
-                await recipeFetcher.fetchRecipes()
-            }
-        }
     }
 }
 
@@ -74,33 +67,56 @@ private extension CardView {
             xOffset = 500
             degrees = 12
         } completion: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+
+            }
         }
     }
 
     func swipeLeft() {
-        xOffset = -500
-        degrees = -12
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            // Notify parent view to handle card removal
-        }  
+        withAnimation {
+            xOffset = -500
+            degrees = -12
+        } completion: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                
+            }
+        }
     }
+    func onReceiveSwipeAction(_ action: SwipeAction?){
+        guard let action else {return}
+        
+        let topCard = viewModel.cardModels.last
+        
+        //modify the comparison logic to compare the IDs explicitly
+        if topCard?.recipe.id == model.recipe.id {
+            switch action {
+            case .reject:
+                swipeLeft()
+            case .like:
+                swipeRight()
+            }
+        }
+    }
+}
 
-    func onDragChanged(_ value: DragGesture.Value) {
+private extension CardView{
+    func onDragChanged(_ value: DragGesture.Value){
         xOffset = value.translation.width
-        degrees = Double(value.translation.width / 25)
+        degrees = Double(value.translation.width/25)
     }
-
-    func onDragEnded(_ value: DragGesture.Value) {
+    
+    func onDragEnded(_ value: DragGesture.Value){
         let width = value.translation.width
+        
         if abs(width) <= abs(SizeConstants.screenCutoff) {
-            returnToCenter()
+            returnTocenter()
             return
         }
-
+        
         if width >= SizeConstants.screenCutoff {
             swipeRight()
-        } else {
+        }else{
             swipeLeft()
         }
     }
