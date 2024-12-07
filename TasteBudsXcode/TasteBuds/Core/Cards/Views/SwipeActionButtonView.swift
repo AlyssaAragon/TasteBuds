@@ -13,7 +13,7 @@ struct SwipeActionButtonView: View {
     var body: some View {
         HStack(spacing:32){
             Button { //x button
-                //action
+                viewModel.buttonSwipeAction = .reject
             } label: {
                 Image(systemName: "xmark")
                     .fontWeight(.heavy)
@@ -28,7 +28,7 @@ struct SwipeActionButtonView: View {
             .frame(width: 48, height: 48) // button padding
             
             Button { //heart button
-                //action
+                viewModel.buttonSwipeAction = .like
             } label: {
                 Image(systemName: "heart.fill")
                     .fontWeight(.heavy)
