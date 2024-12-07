@@ -83,3 +83,6 @@ struct PartnerSetupView_Previews: PreviewProvider {
 }
 
 
+#Preview {
+    PartnerSetupView()
+}

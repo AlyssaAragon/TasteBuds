@@ -46,6 +46,6 @@ struct SwipeActionButtonView: View {
     }
 }
 
-// #Preview {
-//     SwipeActionButtonView(viewModel: CardsViewModel(service: CardService()))
-// }
+ #Preview {
+     SwipeActionButtonView(viewModel: CardsViewModel(recipeFetcher: RecipeFetcher()))
+ }

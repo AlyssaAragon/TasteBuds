@@ -6,23 +6,37 @@ struct CardView: View {
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     @StateObject private var recipeFetcher = RecipeFetcher()
-  
+    
+    let model: CardModel
 
     var body: some View {
         ZStack(alignment: .bottom) {
             if let recipe = recipeFetcher.recipes.first {
                 ZStack(alignment: .top) {
                     //recipe image, need "placeholder image asset"
-                    Image(model.recipe.recipeImage.first ?? "placeholder")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
+                    if let recipeImage = model.recipe.recipeImage {
+                        Image(recipeImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(radius: 5)
+                    } else {
+                        // Placeholder if no image is available
+                        Image("placeholder")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(radius: 5)
+                    }
                     //swipe
                     SwipeActionIndicatorView(xOffset: $xOffset)
                         .padding()
                 }
                 
                 RecipeInfoView(recipe: recipe)
+                
             } else {
                 Text("Loading recipes...")
                     .font(.title)
@@ -33,8 +47,10 @@ struct CardView: View {
         
         //triggers cases for swipe left/right
         .onReceive(viewModel.$buttonSwipeAction, perform: { action in
-            onReceiveSwipeAction(<#T##SwipeAction?#>)
+            guard let action = action else { return } // Ensure action is non-nil
+            onReceiveSwipeAction(action)
         })
+
         
         //card view style and animation
         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
@@ -46,41 +62,39 @@ struct CardView: View {
             DragGesture()
                 .onChanged(onDragChanged)
                 .onEnded(onDragEnded)
-                .onAppear {
-                    recipeFetcher.fetchRecipes()
-                }
+//                .onAppear {
+//                    recipeFetcher.fetchRecipes()
+//                }
         )
     }
 }
 
 //swipe functionality
 private extension CardView {
-    func returnToCenter() {
+    func returnTocenter( ){
         xOffset = 0
         degrees = 0
     }
-
-    func swipeRight() {
+    
+    func swipeRight( ){
         withAnimation {
             xOffset = 500
             degrees = 12
         } completion: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-
-            }
+            //remove card
         }
-    }
 
-    func swipeLeft() {
+    }
+    
+    func swipeLeft( ){
         withAnimation {
             xOffset = -500
             degrees = -12
         } completion: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                
-            }
+            //remove card
         }
     }
+    
     func onReceiveSwipeAction(_ action: SwipeAction?){
         guard let action else {return}
         
@@ -95,6 +109,7 @@ private extension CardView {
                 swipeRight()
             }
         }
+
     }
 }
 
@@ -119,3 +134,7 @@ private extension CardView{
         }
     }
 }
+
+//#Preview {
+//    CardView(viewModel: viewModel, model: CardModel(recipe: recipeFetcher))
+//}

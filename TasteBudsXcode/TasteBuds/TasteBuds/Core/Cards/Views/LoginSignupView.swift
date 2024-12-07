@@ -2,12 +2,15 @@
 import SwiftUI
 
 struct LoginSignupView: View {
-
+    @StateObject var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
+    
     @State private var isLogin = true
     @State private var profileName = ""
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
+    
+    let model: CardModel
     
     var body: some View {
 
@@ -138,7 +141,7 @@ struct LoginSignupView: View {
                 .padding(30)
                 .offset(y: -50)
 
-                NavigationLink(destination: isLogin ? AnyView(CardView()) : AnyView(AddPartnerView())) {
+                NavigationLink(destination: isLogin ? AnyView(CardView(viewModel: CardsViewModel, model: CardModel)) : AnyView(AddPartnerView())) {
                     Text(isLogin ? "Login" : "Sign-up")
                         .font(Font.custom("Abyssinica SIL", size: 26))
                         .foregroundColor(.black.opacity(0.8))
@@ -152,4 +155,8 @@ struct LoginSignupView: View {
             .frame(width: 414, height: 896)
         }
     }
+}
+
+#Preview {
+    LoginSignupView()
 }

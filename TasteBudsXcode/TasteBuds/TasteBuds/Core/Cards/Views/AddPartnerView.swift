@@ -71,3 +71,7 @@ struct AddPartnerView: View {
         }
     }
 }
+
+#Preview {
+    AddPartnerView()
+}

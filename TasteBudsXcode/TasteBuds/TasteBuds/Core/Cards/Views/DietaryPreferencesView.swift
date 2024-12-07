@@ -16,7 +16,7 @@ struct DietaryPreferencesView: View {
             VStack(spacing: 30) {
                 HStack {
                     Spacer()
-                    NavigationLink(destination: CardView()) {
+                    NavigationLink(destination: CardView(viewModel: CardsViewModel)) {
                         Text("Skip")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .multilineTextAlignment(.center)

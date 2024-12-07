@@ -9,35 +9,50 @@ import Foundation
 
 class CardsViewModel: ObservableObject {
     @Published var cardModels = [CardModel]()
-    @Published var ButtonSwipeAction: SwipeAction?
+    @Published var buttonSwipeAction: SwipeAction? = nil
 
-    private let recipeFetcher = RecipeFetcher() // Use RecipeFetcher instead of CardService
+    private let recipeFetcher: RecipeFetcher
     
-    init() {
-        Task {
-            await fetchCardModels()
+    init(recipeFetcher: RecipeFetcher) {
+            self.recipeFetcher = recipeFetcher
+            Task {
+                await fetchRecipes()
         }
     }
-    
-    func fetchCardModels() async {
-        await recipeFetcher.fetchRecipes() // Ensure recipes are fetched first
-        
+
+    func fetchRecipes() async {
+        await recipeFetcher.fetchRecipes()
         DispatchQueue.main.async {
-            // Map fetched recipes to cardModels
-            self.cardModels = self.recipeFetcher.recipes.map { fetchedRecipe in
-                CardModel(recipe: Recipe(
-                    id: fetchedRecipe.id,
-                    title: fetchedRecipe.title,
-                    body: fetchedRecipe.body,
-                    createdAt: fetchedRecipe.createdAt,
-                    time: fetchedRecipe.time,
-                    diets: fetchedRecipe.diets
-                ))
-            }
+            self.cardModels = self.recipeFetcher.recipes.map { CardModel(recipe: Recipe(from: $0)) }
         }
     }
-
-    // func removeCard(_ card: CardModel){
-        
-    // }
 }
+
+//    init() {
+//        Task {
+//            await fetchCardModels()
+//        }
+//    }
+//    
+//    func fetchCardModels() async {
+//        await recipeFetcher.fetchRecipes() // Ensure recipes are fetched first
+//        
+//        DispatchQueue.main.async {
+//            // Map fetched recipes to cardModels
+//            self.cardModels = self.recipeFetcher.recipes.map { fetchedRecipe in
+//                CardModel(recipe: Recipe(
+//                    id: fetchedRecipe.id,
+//                    title: fetchedRecipe.title,
+//                    body: fetchedRecipe.body,
+//                    createdAt: fetchedRecipe.createdAt,
+//                    time: fetchedRecipe.time,
+//                    diets: fetchedRecipe.diets
+//                ))
+//            }
+//        }
+//    }
+//
+//    // func removeCard(_ card: CardModel){
+//        
+//    // }
+//}
