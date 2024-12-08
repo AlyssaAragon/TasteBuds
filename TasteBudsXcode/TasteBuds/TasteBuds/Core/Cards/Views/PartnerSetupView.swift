@@ -3,11 +3,12 @@
 //  TasteBuds
 //
 //  Created by Hannah Haggerty on 12/2/24.
-// NOT DONE yet but just trying to get a basic design on here (Alyssa)
+
 import SwiftUI
 struct PartnerSetupView: View {
     @State private var partnerName: String = ""
     @State private var partnerEmail: String = ""
+    @State private var showAlert: Bool = false
     var body: some View {
         ZStack {
                
@@ -26,7 +27,11 @@ struct PartnerSetupView: View {
                     .offset(y: 50)
                 }
                     
-                Spacer()
+                Image("partnersetupimg")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                    .padding(.top, 30)
                  
                 Text("Invite Your TasteBud")
                     .font(Font.custom("Abyssinica SIL", size: 27))
@@ -51,7 +56,6 @@ struct PartnerSetupView: View {
                         .padding(.horizontal, 40)
                 }
                 .padding(.bottom, 30)
-                    // Button to send the invitation
                 Button(action: {
                     sendInvitation()
                 }) {
@@ -67,20 +71,22 @@ struct PartnerSetupView: View {
                 Spacer()
             }
             .frame(width: 414, height: 896)
+            
+        }
+        .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Invitation Sent"),
+                          message: Text("The invitation has been sent successfully!"),
+                          dismissButton: .default(Text("OK")))
         }
     }
         
     private func sendInvitation() {
-        print("Invitation sent to \(partnerName) at \(partnerEmail)")
+        showAlert = true
+
             
     }
 }
     
-struct PartnerSetupView_Previews: PreviewProvider {
-    static var previews: some View {
-        PartnerSetupView()
-    }
-}
 
 
 #Preview {
