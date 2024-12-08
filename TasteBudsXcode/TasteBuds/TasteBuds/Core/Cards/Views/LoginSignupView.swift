@@ -1,25 +1,20 @@
-//the formatting on this page is a little off and needs to be fine tuned so everything lines up
 import SwiftUI
 
 struct LoginSignupView: View {
-    @StateObject var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
-    
     @State private var isLogin = true
     @State private var profileName = ""
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
-    
-    let model: CardModel
-    
-    var body: some View {
 
+    @StateObject private var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
+
+    var body: some View {
         ZStack {
             Color(red: 0.66, green: 0.31, blue: 0.33)
                 .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 0) {
-
                 ZStack {
                     Rectangle()
                         .foregroundColor(.clear)
@@ -48,9 +43,9 @@ struct LoginSignupView: View {
                                 Text("Login")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(isLogin ? .black : .gray)
-                                    .offset(y: -15)
+                                    .padding(.top, 10)
                             }
-                            
+
                             Spacer()
 
                             Button(action: {
@@ -59,7 +54,7 @@ struct LoginSignupView: View {
                                 Text("Sign-up")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(!isLogin ? .black : .gray)
-                                    .offset(y: -15)
+                                    .padding(.top, 10)
                             }
                         }
                         .padding(.horizontal, 50)
@@ -67,7 +62,7 @@ struct LoginSignupView: View {
                 }
                 .padding(.bottom, 30)
 
-                VStack(spacing: 15){
+                VStack(spacing: 15) {
                     if !isLogin {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Profile Name")
@@ -81,8 +76,8 @@ struct LoginSignupView: View {
                                 .frame(height: 0.5)
                                 .foregroundColor(.white)
                         }
-                        .offset(y: -70)
-                        
+                        .padding(.top, 10)
+
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
@@ -95,10 +90,10 @@ struct LoginSignupView: View {
                                 .frame(height: 0.5)
                                 .foregroundColor(.white)
                         }
-                        .offset(y: -60)
+                        .padding(.top, 10)
                     }
 
-                    VStack(alignment: .leading, spacing: 5){
+                    VStack(alignment: .leading, spacing: 5) {
                         Text("Username")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.white)
@@ -110,7 +105,7 @@ struct LoginSignupView: View {
                             .frame(height: 0.5)
                             .foregroundColor(.white)
                     }
-                    .offset(y: isLogin ? -70 : -50)
+                    .padding(.top, isLogin ? 10 : 30)
 
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Password")
@@ -124,7 +119,7 @@ struct LoginSignupView: View {
                             .frame(height: 0.5)
                             .foregroundColor(.white)
                     }
-                    .offset(y: -50)
+                    .padding(.top, 10)
 
                     if isLogin {
                         HStack {
@@ -133,15 +128,13 @@ struct LoginSignupView: View {
                                 .font(Font.custom("Abyssinica SIL", size: 16))
                                 .foregroundColor(.white)
                                 .padding(.top, 5)
-                                .offset(y: -50)
-                                .offset(x: -225)
                         }
                     }
                 }
                 .padding(30)
                 .offset(y: -50)
 
-                NavigationLink(destination: isLogin ? AnyView(CardView(viewModel: CardsViewModel, model: CardModel)) : AnyView(AddPartnerView())) {
+                NavigationLink(destination: isLogin ? AnyView(CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) : AnyView(AddPartnerView())) {
                     Text(isLogin ? "Login" : "Sign-up")
                         .font(Font.custom("Abyssinica SIL", size: 26))
                         .foregroundColor(.black.opacity(0.8))
@@ -150,13 +143,9 @@ struct LoginSignupView: View {
                         .cornerRadius(30)
                         .shadow(radius: 10)
                 }
-
+                .padding(.top, 20)
             }
             .frame(width: 414, height: 896)
         }
     }
-}
-
-#Preview {
-    LoginSignupView()
 }

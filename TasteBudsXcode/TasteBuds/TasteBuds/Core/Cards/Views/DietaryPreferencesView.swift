@@ -4,10 +4,9 @@
 //
 //  Created by Hannah Haggerty on 12/2/24.
 //
-
 import SwiftUI
-
 struct DietaryPreferencesView: View {
+    @StateObject private var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
     var body: some View {
         ZStack {
             Color.white
@@ -16,12 +15,12 @@ struct DietaryPreferencesView: View {
             VStack(spacing: 30) {
                 HStack {
                     Spacer()
-                    NavigationLink(destination: CardView(viewModel: CardsViewModel)) {
+                    NavigationLink(destination: CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) {
                         Text("Skip")
-                            .font(Font.custom("Abyssinica SIL", size: 20))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                            .frame(width: 120, height: 37, alignment: .top)
+                        .font(Font.custom("Abyssinica SIL", size: 20))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
+                         .frame(width: 120, height: 37, alignment: .top)
                     }
                 }
                 .padding(.trailing, 20)
@@ -82,7 +81,7 @@ struct DietaryPreferencesView: View {
                 .padding(.leading, -120)
                 Spacer()
                 
-                NavigationLink(destination: CardView()) {
+                NavigationLink(destination: CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -108,8 +107,6 @@ struct DietaryPreferencesView: View {
         }
     }
 }
-
-
 #Preview {
     DietaryPreferencesView()
 }
