@@ -14,7 +14,7 @@
 //            HStack {
 //                
 //                Text(item.name)
-//                Spacer()
+//                Spacer()x
 //                Text ("\(item.balance)")
 //            }
 //        }.onAppear(perform: loadAccount)

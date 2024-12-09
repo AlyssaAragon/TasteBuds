@@ -4,7 +4,7 @@
 //
 //  Created by Ali on 11/03/24.
 //
-
+/*
 import SwiftUI
 
 struct MainTabView: View {
@@ -33,3 +33,4 @@ struct MainTabView: View {
 #Preview {
     MainTabView()
 }
+*/

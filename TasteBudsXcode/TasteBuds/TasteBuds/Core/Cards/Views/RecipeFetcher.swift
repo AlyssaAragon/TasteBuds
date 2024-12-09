@@ -1,59 +1,85 @@
 import Foundation
+
 struct FetchedRecipe: Identifiable, Decodable {
     let id: Int
-    let title: String
-    let body: String
-    let createdAt: String
-    let time: Int
-    let diets: [FetchedDiet]
+    let name: String
+    let description: String
+    let ingredients: String
+    let ingredientsRawStr: String
+    let servingSize: String
+    let servings: Int
+    let steps: String
+    let tags: String
+   // let createdAt: String
+   // let time: Int
+   // let diets: [FetchedDiet]
     let recipeImage: String?
 
     enum CodingKeys: String, CodingKey {
         case id
-        case title
-        case body
-        case createdAt = "created_at"
-        case time
-        case diets
+        case name
+        case description
+        case ingredients
+        case ingredientsRawStr = "ingredients_raw_str"
+        case servingSize = "serving_size"
+        case servings
+        case steps
+        case tags
+       // case createdAt = "created_at"
+       // case time
+       // case diets
         case recipeImage = "image_url" //JSON key "image_url" to the `recipeImage`
     }
 }
 
-// Represents the dietary information associated with a recipe
+
+
 struct FetchedDiet: Decodable {
     let id: Int
     let name: String
 }
 
-//recipeFetcher that gets recipes from the backend
+// The RecipeFetcher class
 class RecipeFetcher: ObservableObject {
-    @Published var currentRecipe: FetchedRecipe? //stores only one recipe at a time
+    @Published var currentRecipe: FetchedRecipe?
 
-    //Fetch one recipe at a time
+    // Fetch recipe from API
     func fetchRecipe() async {
         print("Starting recipe fetch...")
 
-        //API endpoint for fetching a single random recipe
         guard let url = URL(string: "http://127.0.0.1:8000/api/random_recipe/") else {
             print("Invalid URL")
             return
         }
 
         do {
-            // Fetch data from the server
             let (data, response) = try await URLSession.shared.data(from: url)
 
             if let httpResponse = response as? HTTPURLResponse {
                 print("Response status code: \(httpResponse.statusCode)")
             }
+
             let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
                 self.currentRecipe = decodedRecipe
-                print("Fetched recipe: \(decodedRecipe.title)")
+                print("Fetched recipe: \(decodedRecipe.name)")
             }
-
         } catch {
             print("Error decoding recipe: \(error)")
+        }
+    }
+
+    // Simple test method to fetch and print a recipe
+    func testFetchRecipe() async {
+        print("Running fetch recipe test...")
+
+        await fetchRecipe()  // Call the actual fetch function
+
+        if let recipe = currentRecipe {
+            print("Test passed. Fetched recipe: \(recipe.name)")
+            print("Recipe Body: \(recipe.description)")
+        } else {
+            print("Test failed. No recipe fetched.")
         }
     }
 }

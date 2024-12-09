@@ -6,12 +6,12 @@ struct RecipeInfoView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(recipe.title)
+                Text(recipe.name)
                     .font(.title)
                     .fontWeight(.heavy)
-                Text(recipe.diets.first?.name ?? "No Diet")
+                /*Text(recipe.diets.first?.name ?? "No Diet")
                     .font(.title)
-                    .fontWeight(.semibold)
+                    .fontWeight(.semibold)*/
                 
                 Spacer()
                 
@@ -23,7 +23,7 @@ struct RecipeInfoView: View {
                         .imageScale(.large)
                 }
             }
-            Text(recipe.body)
+            Text(recipe.description)
                 .font(.subheadline)
                 .lineLimit(2)
         }
@@ -36,6 +36,7 @@ struct RecipeInfoView: View {
 }
 
 #Preview {
+    /*
     let fetchedRecipe = FetchedRecipe(
             id: 1,
             title: "Sample Title",
@@ -45,5 +46,5 @@ struct RecipeInfoView: View {
             diets: [FetchedDiet(id: 1, name: "Vegan")],
             recipeImage: nil
     )
-    return RecipeInfoView(recipe: fetchedRecipe)
+    return RecipeInfoView(recipe: fetchedRecipe)*/
 }

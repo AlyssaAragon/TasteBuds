@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct CardStackView: View {
     @StateObject var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
@@ -20,3 +20,4 @@ struct CardStackView: View {
 #Preview {
     CardStackView()
 }
+*/

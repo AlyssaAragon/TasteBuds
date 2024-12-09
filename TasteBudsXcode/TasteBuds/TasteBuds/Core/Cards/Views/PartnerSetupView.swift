@@ -2,7 +2,7 @@
 //  PartnerSetupView.swift
 //  TasteBuds
 //
-//  Created by Hannah Haggerty on 12/2/24.
+//Alysssa Aragon
 
 import SwiftUI
 struct PartnerSetupView: View {

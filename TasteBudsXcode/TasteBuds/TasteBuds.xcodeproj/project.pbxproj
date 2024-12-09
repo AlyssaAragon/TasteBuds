@@ -75,6 +75,7 @@
 		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; };
 		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
 		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
+		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
 		419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAPICalloutTest.swift; sourceTree = "<group>"; };
@@ -106,6 +107,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25F698F62D077C06006D91A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -125,6 +133,7 @@
 				2503BEAC2CED546C008BCD0B /* TasteBuds.app */,
 				2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */,
 				2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */,
+				25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -330,6 +339,25 @@
 			productReference = 2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		25F698F82D077C06006D91A8 /* TasteBudsTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25F698FD2D077C06006D91A8 /* Build configuration list for PBXNativeTarget "TasteBudsTest" */;
+			buildPhases = (
+				25F698F52D077C06006D91A8 /* Sources */,
+				25F698F62D077C06006D91A8 /* Frameworks */,
+				25F698F72D077C06006D91A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TasteBudsTest;
+			packageProductDependencies = (
+			);
+			productName = TasteBudsTest;
+			productReference = 25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -337,7 +365,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					2503BEAB2CED546C008BCD0B = {
@@ -350,6 +378,9 @@
 					2503BEC52CED546D008BCD0B = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = 2503BEAB2CED546C008BCD0B;
+					};
+					25F698F82D077C06006D91A8 = {
+						CreatedOnToolsVersion = 16.1;
 					};
 				};
 			};
@@ -369,6 +400,7 @@
 				2503BEAB2CED546C008BCD0B /* TasteBuds */,
 				2503BEBB2CED546D008BCD0B /* TasteBudsTests */,
 				2503BEC52CED546D008BCD0B /* TasteBudsUITests */,
+				25F698F82D077C06006D91A8 /* TasteBudsTest */,
 			);
 		};
 /* End PBXProject section */
@@ -391,6 +423,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2503BEC42CED546D008BCD0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25F698F72D077C06006D91A8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,6 +479,13 @@
 			files = (
 				2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */,
 				2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25F698F52D077C06006D91A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +754,40 @@
 			};
 			name = Release;
 		};
+		25F698FE2D077C06006D91A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		25F698FF2D077C06006D91A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -743,6 +823,15 @@
 			buildConfigurations = (
 				2503BED72CED546D008BCD0B /* Debug */,
 				2503BED82CED546D008BCD0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25F698FD2D077C06006D91A8 /* Build configuration list for PBXNativeTarget "TasteBudsTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25F698FE2D077C06006D91A8 /* Debug */,
+				25F698FF2D077C06006D91A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -135,17 +135,16 @@ struct LoginSignupView: View {
                 }
                 .padding(30)
                 .offset(y: -50)
-                NavigationLink(destination: {
+                NavigationLink(destination: { //needs to be changed to reflect changes in cardview
                     if isLogin {
-                        //If the user is logging in it navigates to the CardView
-                        if let firstCardModel = viewModel.cardModels.first {
-                            return AnyView(CardView(viewModel: viewModel, model: firstCardModel))
+                        //If the user is logging in, navigate to the CardView with the fetched recipe
+                        if let fetchedRecipe = viewModel.currentRecipe {
+                            return AnyView(CardView(viewModel: viewModel, recipe: fetchedRecipe))
                         } else {
-                            // Fallback if no card model is available
-                            return AnyView(Text("No cards available"))
+                            return AnyView(Text("No recipes available"))
                         }
                     } else {
-                        // If the user is signing up it navigates to AddPartnerView
+                        //If the user is signing up, navigate to AddPartnerView
                         return AnyView(AddPartnerView())
                     }
                 }()) {
@@ -158,6 +157,7 @@ struct LoginSignupView: View {
                         .shadow(radius: 10)
                 }
                 .padding(.bottom, 50)
+
 
             }
             .frame(width: 414, height: 896)
