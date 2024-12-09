@@ -120,16 +120,20 @@ struct LoginSignupView: View {
                             .foregroundColor(.white)
                     }
                     .offset(y: -50)
-
-                    if isLogin {
-                        HStack {
-                            Spacer()
-                            Text("Forgot password?")
-                                .font(Font.custom("Abyssinica SIL", size: 16))
-                                .foregroundColor(.white)
-                                .padding(.top, 5)
-                                .offset(y: -50)
-                                .offset(x: -225)
+                    .onAppear{
+                        if isLogin {
+                            //HStack {
+                            Task{
+                                await viewModel.fetchRecipe()
+                            }
+                               // Spacer()
+                               // Text("Forgot password?")
+                                   // .font(Font.custom("Abyssinica SIL", size: 16))
+                                //    .foregroundColor(.white)
+                                //    .padding(.top, 5)
+                                 //   .offset(y: -50)
+                                 //   .offset(x: -225)
+                          //  }
                         }
                     }
                 }
@@ -139,7 +143,7 @@ struct LoginSignupView: View {
                     if isLogin {
                         //If the user is logging in, navigate to the CardView with the fetched recipe
                         if let fetchedRecipe = viewModel.currentRecipe {
-                            return AnyView(CardView(viewModel: viewModel, recipe: fetchedRecipe))
+                            return AnyView(CardView( viewModel: viewModel))
                         } else {
                             return AnyView(Text("No recipes available"))
                         }
