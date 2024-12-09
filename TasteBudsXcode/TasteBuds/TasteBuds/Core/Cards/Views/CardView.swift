@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CardView: View {
     @ObservedObject var viewModel: CardsViewModel
+    
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     
@@ -9,11 +10,11 @@ struct CardView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            let recipe = model.recipe
+//             let recipe = FetchedRecipe.recipe
 
             ZStack(alignment: .top) {
                 // Recipe image, need "placeholder image asset"
-                if let recipeImage = recipe.recipeImage {
+                if let recipeImage = model.recipe.recipeImage {
                     Image(recipeImage)
                         .resizable()
                         .scaledToFill()
@@ -35,7 +36,7 @@ struct CardView: View {
             }
             
             //Pass the recipe to RecipeInfoView
-            RecipeInfoView(recipe: recipe)
+            RecipeInfoView(recipe: model.recipe)
                 
         }
         .onReceive(viewModel.$buttonSwipeAction, perform: { action in
@@ -117,3 +118,29 @@ private extension CardView {
         }
     }
 }
+
+#Preview {
+    // Create a mock FetchedRecipe
+    let fetchedRecipe = FetchedRecipe(
+        id: 1,
+        title: "Test Recipe",
+        body: "A delicious test recipe.",
+        createdAt: "2024-12-09T00:00:00Z",
+        time: 30,
+        diets: [FetchedDiet(id: 1, name: "Vegan")],
+        recipeImage: "placeholder"
+    )
+    
+    // Create Recipe from FetchedRecipe using the initializer
+    let recipe = Recipe(from: fetchedRecipe)
+    
+    // Create CardModel using FetchedRecipe
+    let cardModel = CardModel(recipe: fetchedRecipe)
+    
+    // Create CardsViewModel
+    let viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
+    
+    // Use the model and viewModel in CardView
+    CardView(viewModel: viewModel, model: cardModel)
+}
+
