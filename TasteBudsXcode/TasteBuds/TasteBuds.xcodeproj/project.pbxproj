@@ -11,7 +11,6 @@
 		2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */; };
 		2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */; };
 		2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */; };
-		2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */; };
 		2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE52CED5734008BCD0B /* SizeConstants.swift */; };
 		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
 		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
@@ -23,6 +22,7 @@
 		2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF72CED5734008BCD0B /* MainTabView.swift */; };
 		2503BF0B2CEE9468008BCD0B /* RecipeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */; };
 		2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526677D2CEE9E9E002C0AF7 /* Recipe.swift */; };
+		255E9F1E2D07955E00E32A24 /* RecipeFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
 		25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */; };
@@ -58,7 +58,6 @@
 		2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsTests.swift; sourceTree = "<group>"; };
 		2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITests.swift; sourceTree = "<group>"; };
-		2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2503BEE52CED5734008BCD0B /* SizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeConstants.swift; sourceTree = "<group>"; };
 		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		2503BEF72CED5734008BCD0B /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFetcher.swift; sourceTree = "<group>"; };
 		2526677D2CEE9E9E002C0AF7 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFetcherTests.swift; sourceTree = "<group>"; };
 		257B64422CF155ED0039FB32 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
 		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; };
@@ -170,8 +170,8 @@
 		2503BEC92CED546D008BCD0B /* TasteBudsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */,
 				2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */,
-				2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */,
 			);
 			path = TasteBudsUITests;
 			sourceTree = "<group>";
@@ -477,7 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */,
+				255E9F1E2D07955E00E32A24 /* RecipeFetcherTests.swift in Sources */,
 				2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

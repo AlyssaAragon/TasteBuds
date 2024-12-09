@@ -4,9 +4,10 @@
 //
 //  Created by Hannah Haggerty on 12/2/24.
 //
+
 import SwiftUI
+
 struct DietaryPreferencesView: View {
-    @StateObject private var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
     var body: some View {
         ZStack {
             Color.white
@@ -15,13 +16,13 @@ struct DietaryPreferencesView: View {
             VStack(spacing: 30) {
                 HStack {
                     Spacer()
-//                    NavigationLink(destination: CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) {
-//                        Text("Skip")
-//                        .font(Font.custom("Abyssinica SIL", size: 20))
-//                        .multilineTextAlignment(.center)
-//                        .foregroundColor(.black)
-//                         .frame(width: 120, height: 37, alignment: .top)
-//                    }
+                    NavigationLink(destination: CardView()) {
+                        Text("Skip")
+                            .font(Font.custom("Abyssinica SIL", size: 20))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                            .frame(width: 120, height: 37, alignment: .top)
+                    }
                 }
                 .padding(.trailing, 20)
                 .padding(.top, 20)
@@ -81,37 +82,34 @@ struct DietaryPreferencesView: View {
                 .padding(.leading, -120)
                 Spacer()
                 
-//                NavigationLink(destination: CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) {
-//                    ZStack {
-//                        Rectangle()
-//                            .foregroundColor(.clear)
-//                            .frame(width: 314, height: 70)
-//                            .background(Color(red: 0.66, green: 0.31, blue: 0.33))
-//                            .cornerRadius(30)
-//                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 30)
-//                                    .inset(by: 0.5)
-//                                    .stroke(.black, lineWidth: 1)
-//                            )
-//                        
-//                        Text("Next")
-//                            .font(Font.custom("Abyssinica SIL", size: 26))
-//                            .multilineTextAlignment(.center)
-//                            .foregroundColor(.white)
-//                    }
-//                }
-//                .onAppear {
-//                    Task {
-//                        await viewModel.fetchRecipe()
-//                    }
-//                }
-//                .padding(.bottom, 30)
+                NavigationLink(destination: CardView()) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 314, height: 70)
+                            .background(Color(red: 0.66, green: 0.31, blue: 0.33))
+                            .cornerRadius(30)
+                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .inset(by: 0.5)
+                                    .stroke(.black, lineWidth: 1)
+                            )
+                        
+                        Text("Next")
+                            .font(Font.custom("Abyssinica SIL", size: 26))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding(.bottom, 30)
             }
             .padding(.top, -30)
         }
     }
 }
+
+
 #Preview {
     DietaryPreferencesView()
 }
