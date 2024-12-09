@@ -134,7 +134,7 @@ struct LoginSignupView: View {
                         // If login, navigate to CardView which fetches its own recipe
                         return AnyView(CardView())
                     } else {
-                        // If signing up, navigate to AddPartnerView
+                        // If signing up navigate to AddPartnerView
                         return AnyView(AddPartnerView())
                     }
                 }()) {
