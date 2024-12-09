@@ -36,5 +36,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  
     path('api/', include(router.urls)),  
     path('api/random_recipe/', random_recipe, name='random_recipe'),
-
+    
 ]
