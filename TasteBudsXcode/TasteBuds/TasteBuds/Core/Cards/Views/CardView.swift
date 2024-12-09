@@ -1,6 +1,7 @@
 import SwiftUI
 // the design of this looks bad rn it needs to be fixed so it looks cuter
 struct CardView: View {
+<<<<<<< HEAD
     @State private var currentRecipe: FetchedRecipe? = nil
     @State private var nextRecipe: FetchedRecipe? = nil
     private let recipeFetcher = RecipeFetcher()
@@ -45,6 +46,24 @@ struct CardView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         } else {
+=======
+    //@ObservedObject var recipeFetcher: RecipeFetcher
+    @ObservedObject var viewModel: CardsViewModel
+    var body: some View {
+        VStack {
+            if let recipe = viewModel.currentRecipe {
+                VStack {
+                    // Display the recipe image
+                    if let recipeImage = recipe.recipeImage,
+                       let url = URL(string: recipeImage) {
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 300, height: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        } placeholder: {
+>>>>>>> 02e6dd86ac2df738a350ede54be517f22ba56d7c
                             Image("placeholder")
                                 .resizable()
                                 .scaledToFill()
@@ -137,6 +156,7 @@ struct CardView: View {
         }
         .onAppear {
             Task {
+<<<<<<< HEAD
                 await fetchRecipe()
             }
         }
@@ -146,6 +166,9 @@ struct CardView: View {
                 Task {
                     await fetchNextRecipe()
                 }
+=======
+                await viewModel.fetchRecipe()
+>>>>>>> 02e6dd86ac2df738a350ede54be517f22ba56d7c
             }
         }
     }
