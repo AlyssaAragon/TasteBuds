@@ -6,19 +6,19 @@ class CardsViewModel: ObservableObject {
     @Published var cardModels = [CardModel]()
     @Published var buttonSwipeAction: SwipeAction? = nil
 //    @Published: Marks the property as observable. Changes to this array trigger UI updates.
-    
+    @Published var currentRecipe: FetchedRecipe?
     private let recipeFetcher: RecipeFetcher
 //    recipeFetcher: A dependency used to fetch recipes from a backend or database. It's private, so it can only be accessed within this class.
     
     init(recipeFetcher: RecipeFetcher) {
         self.recipeFetcher = recipeFetcher
-        Task {
-            await fetchRecipe()
+        //Task {
+        //    await fetchRecipe()
 //            When the class is initialized, it immediately starts fetching a recipe in an asynchronous task.
-        }
+       // }
     }
 
-
+    @MainActor
     func fetchRecipe() async {
 //        Asynchronously fetches a single recipe.
         await recipeFetcher.fetchRecipe()

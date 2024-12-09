@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct CardView: View {
-    @ObservedObject var recipeFetcher: RecipeFetcher
-
+    //@ObservedObject var recipeFetcher: RecipeFetcher
+    @ObservedObject var viewModel: CardsViewModel
     var body: some View {
         VStack {
-            if let recipe = recipeFetcher.currentRecipe {
+            if let recipe = viewModel.currentRecipe {
                 VStack {
                     // Display the recipe image
                     if let recipeImage = recipe.recipeImage,
@@ -61,7 +61,7 @@ struct CardView: View {
         }
         .onAppear {
             Task {
-                await recipeFetcher.fetchRecipe()
+                await viewModel.fetchRecipe()
             }
         }
     }
