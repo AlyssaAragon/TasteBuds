@@ -31,7 +31,7 @@ class RecipeFetcher: ObservableObject {
     
     func fetchRecipes() async {
         print("Starting recipe fetch...")
-        guard let url = URL(string: "http://127.0.0.1:8000/admin/tastebuds/allrecipe/") else {
+        guard let url = URL(string: "http://127.0.0.1:8000/api/random_recipe/") else {
             print("Invalid URL")
             return
         }
@@ -43,13 +43,11 @@ class RecipeFetcher: ObservableObject {
                 print("Response status code: \(httpResponse.statusCode)")
             }
             
-            let decodedRecipes = try JSONDecoder().decode([FetchedRecipe].self, from: data)
+            let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
-                self.recipes = decodedRecipes
-                print("Fetched recipes count: \(self.recipes.count)") // how many recipes were fetched
-                for recipe in self.recipes {
-                    print("Recipe title: \(recipe.title)") // log each recipe title
-                }
+                self.recipes = [decodedRecipe]
+                print("Fetched recipe: \(decodedRecipe.title)")
+                
             }
         } catch {
             print("Error decoding recipes: \(error)")

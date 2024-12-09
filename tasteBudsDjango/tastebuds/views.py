@@ -5,10 +5,25 @@ from django.contrib.auth import get_user_model
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe  # Include all models
 from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, DietSerializer, FavoriteSerializer, PartnerSerializer
 from rest_framework import viewsets
+
+import random
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 # Create your views here.
  #user views 
 
 User = get_user_model()
+
+# View to get a random recipe (for the swiping)
+@api_view(['GET'])
+def random_recipe(request):
+    recipes = AllRecipe.objects.all()  
+    if not recipes:
+        return Response({"message": "No recipes available."}, status=404)
+    recipe = random.choice(recipes)
+    serializer = AllRecipeSerializer(recipe)
+    return Response(serializer.data)
 
 # User views
 class UserProfileViewSet(viewsets.ModelViewSet):

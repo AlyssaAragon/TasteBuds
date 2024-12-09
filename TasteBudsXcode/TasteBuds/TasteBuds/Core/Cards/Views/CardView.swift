@@ -80,9 +80,9 @@ private extension CardView {
         withAnimation {
             xOffset = 500
             degrees = 12
-        } completion: {
-            //remove card
         }
+        viewModel.swipeRight()
+
 
     }
     
@@ -90,9 +90,8 @@ private extension CardView {
         withAnimation {
             xOffset = -500
             degrees = -12
-        } completion: {
-            //remove card
         }
+        viewModel.swipeLeft()
     }
     
     func onReceiveSwipeAction(_ action: SwipeAction?){

@@ -26,6 +26,19 @@ class CardsViewModel: ObservableObject {
             self.cardModels = self.recipeFetcher.recipes.map { CardModel(recipe: Recipe(from: $0)) }
         }
     }
+    
+    func removeCard() {
+        guard !cardModels.isEmpty else { return }
+        cardModels.removeFirst()
+    }
+    
+    func swipeRight() {
+        removeCard()
+    }
+
+    func swipeLeft() {
+        removeCard() 
+    }
 }
 
 //    init() {

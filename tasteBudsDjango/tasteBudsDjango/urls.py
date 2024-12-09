@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from tastebuds import views
+from tastebuds.views import random_recipe
+
 
 router = DefaultRouter()
 router.register(r'profiles', views.UserProfileViewSet)
@@ -27,9 +29,12 @@ router.register(r'diets', views.DietViewSet)
 router.register(r'favorites', views.FavoriteViewSet)
 router.register(r'partners', views.PartnerViewSet)
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),  
     path('tastebuds/', include('tastebuds.urls')),  
     path('accounts/', include('allauth.urls')),  
     path('api/', include(router.urls)),  
+    path('api/random_recipe/', random_recipe, name='random_recipe'),
+
 ]
