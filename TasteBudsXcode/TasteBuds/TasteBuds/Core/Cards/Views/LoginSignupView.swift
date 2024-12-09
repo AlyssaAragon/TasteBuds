@@ -157,10 +157,14 @@ struct LoginSignupView: View {
                         .cornerRadius(30)
                         .shadow(radius: 10)
                 }
-                .padding(.top, 20)
+                .padding(.bottom, 50)
 
             }
             .frame(width: 414, height: 896)
         }
     }
+}
+
+#Preview {
+    LoginSignupView()
 }

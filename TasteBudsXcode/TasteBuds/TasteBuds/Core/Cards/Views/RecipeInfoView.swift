@@ -34,3 +34,16 @@ struct RecipeInfoView: View {
         )
     }
 }
+
+#Preview {
+    let fetchedRecipe = FetchedRecipe(
+            id: 1,
+            title: "Sample Title",
+            body: "Sample Body",
+            createdAt: "2024-12-09",
+            time: 30,
+            diets: [FetchedDiet(id: 1, name: "Vegan")],
+            recipeImage: nil
+    )
+    return RecipeInfoView(recipe: fetchedRecipe)
+}

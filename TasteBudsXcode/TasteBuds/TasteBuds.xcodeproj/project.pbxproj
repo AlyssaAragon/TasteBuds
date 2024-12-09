@@ -30,6 +30,7 @@
 		25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */; };
 		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
 		419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */; };
+		419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
+		419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAPICalloutTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -237,6 +239,7 @@
 				25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */,
 				25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */,
 				25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */,
+				419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
 				419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */,
+				419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
