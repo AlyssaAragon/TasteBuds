@@ -59,7 +59,7 @@ struct PartnerSetupView: View {
                 Button(action: {
                     sendInvitation()
                 }) {
-                    Text("Send Invitation")
+                    Text("Add Partner")
                         .font(Font.custom("Abyssinica SIL", size: 26))
                         .foregroundColor(.black)
                         .frame(width: 314, height: 70)
@@ -74,8 +74,8 @@ struct PartnerSetupView: View {
             
         }
         .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Invitation Sent"),
-                          message: Text("The invitation has been sent successfully!"),
+                    Alert(title: Text("Partner added"),
+                          message: Text("You have successfully added your partner!"),
                           dismissButton: .default(Text("OK")))
         }
     }

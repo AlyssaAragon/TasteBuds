@@ -1,7 +1,6 @@
 import SwiftUI
-// the design of this looks bad rn it needs to be fixed so it looks cuter
+
 struct CardView: View {
-<<<<<<< HEAD
     @State private var currentRecipe: FetchedRecipe? = nil
     @State private var nextRecipe: FetchedRecipe? = nil
     private let recipeFetcher = RecipeFetcher()
@@ -18,75 +17,53 @@ struct CardView: View {
                 .overlay(
                     VStack {
                         Text("TasteBuds")
-                            .font(Font.custom("Abyssinica SIL", size: 45))
+                            .font(Font.custom("Abyssinica SIL", size: 40))
                             .foregroundColor(Color(red: 0.86, green: 0.87, blue: 0.93))
-                            .padding(.top, 20)
+                            .padding(.top, 40)
                         Spacer()
                     }
                 )
 
             VStack {
                 Spacer().frame(height: 100)
+
                 if let recipe = currentRecipe {
                     VStack {
-
                         if let recipeImage = recipe.recipeImage,
                            let url = URL(string: recipeImage) {
                             AsyncImage(url: url) { image in
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 300, height: 200)
+                                    .frame(width: 350, height: 250)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             } placeholder: {
                                 Image("placeholder")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 100, height: 200)
+                                    .frame(width: 350, height: 250)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         } else {
-=======
-    //@ObservedObject var recipeFetcher: RecipeFetcher
-    @ObservedObject var viewModel: CardsViewModel
-    var body: some View {
-        VStack {
-            if let recipe = viewModel.currentRecipe {
-                VStack {
-                    // Display the recipe image
-                    if let recipeImage = recipe.recipeImage,
-                       let url = URL(string: recipeImage) {
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 300, height: 200)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        } placeholder: {
->>>>>>> 02e6dd86ac2df738a350ede54be517f22ba56d7c
                             Image("placeholder")
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 300, height: 200)
+                                .frame(width: 350, height: 250)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
 
-
                         Text(recipe.name)
                             .bold()
-                            .font(Font.custom("Abyssinica SIL", size: 35))
+                            .font(Font.custom("Abyssinica SIL", size: 40))
+                            .foregroundColor(Color(red: 0.86, green: 0.87, blue: 0.93))
                             .padding(.top, 20)
-
 
                         Text(recipe.description)
                             .font(.body)
                             .padding(.top, 5)
-                        //we need to format the ingredients to look better
-                        Text(recipe.ingredients)
-                            .font(.body)
-                            .padding(.top, 5)
                     }
                     .padding()
+                    .frame(width: 350, height: 400)
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
                     .offset(x: dragAmount.width, y: dragAmount.height)
                     .gesture(DragGesture()
@@ -95,15 +72,12 @@ struct CardView: View {
                                 }
                                 .onEnded { value in
                                     if abs(value.translation.width) > 150 {
-                                        // If dragged enough, consider it a swipe
                                         self.isSwiped = true
                                     } else {
-                                        // Reset drag if not swiped enough
                                         self.dragAmount = .zero
                                     }
                                 })
                 } else {
-                    // No recipe available
                     Text("No recipe available")
                         .font(.headline)
                         .foregroundColor(.gray)
@@ -111,10 +85,8 @@ struct CardView: View {
 
                 Spacer()
 
-                //buttons for swiping actions
                 HStack {
                     Button(action: {
-                        //Handle X (swipe left) action
                         print("Swiped left")
                         Task {
                             await fetchNextRecipe()
@@ -134,7 +106,6 @@ struct CardView: View {
                     Spacer()
 
                     Button(action: {
-                        //Handle heart (swipe right) action
                         print("Swiped right")
                         Task {
                             await fetchNextRecipe()
@@ -151,29 +122,24 @@ struct CardView: View {
                     }
                     .padding(.trailing, 40)
                 }
-                .padding(.bottom, 40) //Padding for the bottom
+                .padding(.bottom, 40)
             }
         }
         .onAppear {
             Task {
-<<<<<<< HEAD
                 await fetchRecipe()
             }
         }
+        // Weird warning here idk what it means
         .onChange(of: isSwiped) { _ in
-            // Fetch next recipe after swipe
             if isSwiped {
                 Task {
                     await fetchNextRecipe()
                 }
-=======
-                await viewModel.fetchRecipe()
->>>>>>> 02e6dd86ac2df738a350ede54be517f22ba56d7c
             }
         }
     }
 
-    //Fetch the current recipe directly from RecipeFetcher
     private func fetchRecipe() async {
         await recipeFetcher.fetchRecipe()
         if let fetchedRecipe = recipeFetcher.currentRecipe {
@@ -181,13 +147,10 @@ struct CardView: View {
         }
     }
 
-    //fetch the next recipe to replace the current one
     private func fetchNextRecipe() async {
-        // Reset swipe state and drag amount
         self.isSwiped = false
         self.dragAmount = .zero
 
-        // Fetch the next recipe (this should be based on your data source or API)
         await recipeFetcher.fetchRecipe()
         if let nextFetchedRecipe = recipeFetcher.currentRecipe {
             self.currentRecipe = nextFetchedRecipe

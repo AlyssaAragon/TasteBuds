@@ -1,5 +1,5 @@
 /*import SwiftUI
-
+// I removed the dependency in cardview on cardstack view so I think we can delete this file entirely
 struct CardStackView: View {
     @StateObject var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
     

@@ -7,8 +7,6 @@ struct LoginSignupView: View {
     @State private var email = ""
     @State private var password = ""
 
-    @StateObject private var viewModel = CardsViewModel(recipeFetcher: RecipeFetcher())
-
     var body: some View {
         ZStack {
             Color(red: 0.66, green: 0.31, blue: 0.33)
@@ -62,7 +60,7 @@ struct LoginSignupView: View {
                 }
                 .padding(.bottom, 30)
 
-                VStack(spacing: 15){
+                VStack(spacing: 15) {
                     if !isLogin {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Profile Name")
@@ -93,7 +91,7 @@ struct LoginSignupView: View {
                         .offset(y: -60)
                     }
 
-                    VStack(alignment: .leading, spacing: 5){
+                    VStack(alignment: .leading, spacing: 5) {
                         Text("Username")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.white)
@@ -120,55 +118,23 @@ struct LoginSignupView: View {
                             .foregroundColor(.white)
                     }
                     .offset(y: -50)
-                    .onAppear{
+                    .onAppear {
                         if isLogin {
-                            //HStack {
-                            Task{
-                                await viewModel.fetchRecipe()
+                            Task {
+                                
                             }
-                               // Spacer()
-                               // Text("Forgot password?")
-                                   // .font(Font.custom("Abyssinica SIL", size: 16))
-                                //    .foregroundColor(.white)
-                                //    .padding(.top, 5)
-                                 //   .offset(y: -50)
-                                 //   .offset(x: -225)
-                          //  }
                         }
                     }
                 }
                 .padding(30)
                 .offset(y: -50)
-<<<<<<< HEAD
+
                 NavigationLink(destination: {
-                                    if isLogin {
-                                        // If login, navigate to CardView which fetches its own recipe
-                                        return AnyView(CardView()) // Directly using CardView here
-                                    } else {
-                                        // If signing up, navigate to AddPartnerView
-                                        return AnyView(AddPartnerView())
-                                    }
-                                }()) {
-                                    Text(isLogin ? "Login" : "Sign-up")
-                                        .font(Font.custom("Abyssinica SIL", size: 26))
-                                        .foregroundColor(.black.opacity(0.8))
-                                        .frame(width: 314, height: 70)
-                                        .background(Color.white)
-                                        .cornerRadius(30)
-                                        .shadow(radius: 10)
-                                }
-                                .padding(.bottom, 50)
-=======
-                NavigationLink(destination: { //needs to be changed to reflect changes in cardview
                     if isLogin {
-                        //If the user is logging in, navigate to the CardView with the fetched recipe
-                        if let fetchedRecipe = viewModel.currentRecipe {
-                            return AnyView(CardView( viewModel: viewModel))
-                        } else {
-                            return AnyView(Text("No recipes available"))
-                        }
+                        // If login, navigate to CardView which fetches its own recipe
+                        return AnyView(CardView())
                     } else {
-                        //If the user is signing up, navigate to AddPartnerView
+                        // If signing up, navigate to AddPartnerView
                         return AnyView(AddPartnerView())
                     }
                 }()) {
@@ -181,9 +147,6 @@ struct LoginSignupView: View {
                         .shadow(radius: 10)
                 }
                 .padding(.bottom, 50)
->>>>>>> 02e6dd86ac2df738a350ede54be517f22ba56d7c
-
-
             }
             .frame(width: 414, height: 896)
         }
