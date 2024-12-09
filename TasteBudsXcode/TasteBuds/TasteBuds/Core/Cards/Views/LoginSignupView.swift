@@ -43,9 +43,9 @@ struct LoginSignupView: View {
                                 Text("Login")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(isLogin ? .black : .gray)
-                                    .padding(.top, 10)
+                                    .offset(y: -15)
                             }
-
+                            
                             Spacer()
 
                             Button(action: {
@@ -54,7 +54,7 @@ struct LoginSignupView: View {
                                 Text("Sign-up")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(!isLogin ? .black : .gray)
-                                    .padding(.top, 10)
+                                    .offset(y: -15)
                             }
                         }
                         .padding(.horizontal, 50)
@@ -62,7 +62,7 @@ struct LoginSignupView: View {
                 }
                 .padding(.bottom, 30)
 
-                VStack(spacing: 15) {
+                VStack(spacing: 15){
                     if !isLogin {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Profile Name")
@@ -76,8 +76,8 @@ struct LoginSignupView: View {
                                 .frame(height: 0.5)
                                 .foregroundColor(.white)
                         }
-                        .padding(.top, 10)
-
+                        .offset(y: -70)
+                        
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
@@ -90,10 +90,10 @@ struct LoginSignupView: View {
                                 .frame(height: 0.5)
                                 .foregroundColor(.white)
                         }
-                        .padding(.top, 10)
+                        .offset(y: -60)
                     }
 
-                    VStack(alignment: .leading, spacing: 5) {
+                    VStack(alignment: .leading, spacing: 5){
                         Text("Username")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.white)
@@ -105,7 +105,7 @@ struct LoginSignupView: View {
                             .frame(height: 0.5)
                             .foregroundColor(.white)
                     }
-                    .padding(.top, isLogin ? 10 : 30)
+                    .offset(y: isLogin ? -70 : -50)
 
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Password")
@@ -119,7 +119,7 @@ struct LoginSignupView: View {
                             .frame(height: 0.5)
                             .foregroundColor(.white)
                     }
-                    .padding(.top, 10)
+                    .offset(y: -50)
 
                     if isLogin {
                         HStack {
@@ -128,13 +128,27 @@ struct LoginSignupView: View {
                                 .font(Font.custom("Abyssinica SIL", size: 16))
                                 .foregroundColor(.white)
                                 .padding(.top, 5)
+                                .offset(y: -50)
+                                .offset(x: -225)
                         }
                     }
                 }
                 .padding(30)
                 .offset(y: -50)
-
-                NavigationLink(destination: isLogin ? AnyView(CardView(viewModel: viewModel, model: viewModel.cardModels.first!)) : AnyView(AddPartnerView())) {
+                NavigationLink(destination: {
+                    if isLogin {
+                        //If the user is logging in it navigates to the CardView
+                        if let firstCardModel = viewModel.cardModels.first {
+                            return AnyView(CardView(viewModel: viewModel, model: firstCardModel))
+                        } else {
+                            // Fallback if no card model is available
+                            return AnyView(Text("No cards available"))
+                        }
+                    } else {
+                        // If the user is signing up it navigates to AddPartnerView
+                        return AnyView(AddPartnerView())
+                    }
+                }()) {
                     Text(isLogin ? "Login" : "Sign-up")
                         .font(Font.custom("Abyssinica SIL", size: 26))
                         .foregroundColor(.black.opacity(0.8))
@@ -144,6 +158,7 @@ struct LoginSignupView: View {
                         .shadow(radius: 10)
                 }
                 .padding(.top, 20)
+
             }
             .frame(width: 414, height: 896)
         }

@@ -1,10 +1,3 @@
-//
-//  CardsViewModel.swift
-//  TinderTemplate
-//
-//  Created by Ali on 11/04/24.
-//
-
 import Foundation
 
 class CardsViewModel: ObservableObject {
@@ -14,19 +7,24 @@ class CardsViewModel: ObservableObject {
     private let recipeFetcher: RecipeFetcher
     
     init(recipeFetcher: RecipeFetcher) {
-            self.recipeFetcher = recipeFetcher
-            Task {
-                await fetchRecipes()
+        self.recipeFetcher = recipeFetcher
+        Task {
+            await fetchRecipe()
         }
     }
 
-    func fetchRecipes() async {
-        await recipeFetcher.fetchRecipes()
-        DispatchQueue.main.async {
-            self.cardModels = self.recipeFetcher.recipes.map { CardModel(recipe: Recipe(from: $0)) }
+    //Fetch a single recipe instead
+    func fetchRecipe() async {
+        await recipeFetcher.fetchRecipe() //fetch one recipe
+        
+        if let fetchedRecipe = recipeFetcher.currentRecipe {
+            DispatchQueue.main.async {
+
+                self.cardModels = [CardModel(recipe: fetchedRecipe)]
+            }
         }
     }
-    
+
     func removeCard() {
         guard !cardModels.isEmpty else { return }
         cardModels.removeFirst()
@@ -37,35 +35,6 @@ class CardsViewModel: ObservableObject {
     }
 
     func swipeLeft() {
-        removeCard() 
+        removeCard()
     }
 }
-
-//    init() {
-//        Task {
-//            await fetchCardModels()
-//        }
-//    }
-//    
-//    func fetchCardModels() async {
-//        await recipeFetcher.fetchRecipes() // Ensure recipes are fetched first
-//        
-//        DispatchQueue.main.async {
-//            // Map fetched recipes to cardModels
-//            self.cardModels = self.recipeFetcher.recipes.map { fetchedRecipe in
-//                CardModel(recipe: Recipe(
-//                    id: fetchedRecipe.id,
-//                    title: fetchedRecipe.title,
-//                    body: fetchedRecipe.body,
-//                    createdAt: fetchedRecipe.createdAt,
-//                    time: fetchedRecipe.time,
-//                    diets: fetchedRecipe.diets
-//                ))
-//            }
-//        }
-//    }
-//
-//    // func removeCard(_ card: CardModel){
-//        
-//    // }
-//}

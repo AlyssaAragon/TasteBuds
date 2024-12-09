@@ -93,15 +93,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 
 
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'tastebuds',
+#        'USER': 'alyssaaragon', 
+#        'PASSWORD': 'Sla244o4',  
+#        'HOST': 'localhost',  
+#        'PORT': '5432',       
+#    }
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-'''This is what my postgres stuff is when you run it on your computer youll have to change it DONT LAUGH AT MY PASSWORD OR USERNAME i was confused'''
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tastebuds',
-        'USER': 'alyssaaragon', 
-        'PASSWORD': 'Sla244o4',  
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Capstone Recipe Dataset',
+        'USER': 'postgres', 
+        'PASSWORD': 'hannah',  
         'HOST': 'localhost',  
         'PORT': '5432',       
     }

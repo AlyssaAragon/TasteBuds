@@ -12,7 +12,6 @@
 		2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */; };
 		2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */; };
 		2503BECD2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */; };
-		2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEDC2CED5734008BCD0B /* ContentView.swift */; };
 		2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE52CED5734008BCD0B /* SizeConstants.swift */; };
 		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
 		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
@@ -59,7 +58,6 @@
 		2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITests.swift; sourceTree = "<group>"; };
 		2503BECC2CED546D008BCD0B /* TasteBudsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		2503BEDC2CED5734008BCD0B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2503BEE52CED5734008BCD0B /* SizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeConstants.swift; sourceTree = "<group>"; };
 		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 				2503BEE22CED5734008BCD0B /* Shared */,
 				2503BEEA2CED5734008BCD0B /* Utils */,
 				2503BEB32CED546D008BCD0B /* Assets.xcassets */,
-				2503BEDC2CED5734008BCD0B /* ContentView.swift */,
 			);
 			path = TasteBuds;
 			sourceTree = "<group>";
@@ -409,7 +406,6 @@
 				25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */,
 				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
 				2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */,
-				2503BEFB2CED5734008BCD0B /* ContentView.swift in Sources */,
 				2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */,
 				25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,

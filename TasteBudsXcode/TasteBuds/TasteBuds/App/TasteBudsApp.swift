@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct TasteBudsApp: App { //idk why this has an error idk whats going on here
+struct TasteBudsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WelcomeView()
         }
     }
 }
