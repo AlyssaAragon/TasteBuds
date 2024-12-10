@@ -22,18 +22,18 @@ struct TasteBudsApp: App {
                                 .foregroundColor(.black) // Icon color
                         }
                     
-                    // SettingsView with Gear icon
-                    SettingsView()
-                        .tabItem {
-                            Image(systemName: "gearshape.fill") // Gear icon for settings
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
-                        }
 
                     // FavoritesView with Heart icon
                     FavoritesView()
                         .tabItem {
                             Image(systemName: "heart.fill") // Heart icon for favorites
+                                .font(.system(size: 40)) // Icon size
+                                .foregroundColor(.black) // Icon color
+                        }
+                    // SettingsView with Gear icon
+                    SettingsView()
+                        .tabItem {
+                            Image(systemName: "gearshape.fill") // Gear icon for settings
                                 .font(.system(size: 40)) // Icon size
                                 .foregroundColor(.black) // Icon color
                         }

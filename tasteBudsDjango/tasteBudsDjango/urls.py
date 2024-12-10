@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from tastebuds import views
 from tastebuds.views import random_recipe
+from tastebuds.views import user_profile
 
 
 router = DefaultRouter()
@@ -36,5 +37,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  
     path('api/', include(router.urls)),  
     path('api/random_recipe/', random_recipe, name='random_recipe'),
-    
+    path('api/user_profile/', user_profile, name='user_profile'),
 ]

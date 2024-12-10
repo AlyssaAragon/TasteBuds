@@ -17,10 +17,8 @@
 		2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */; };
 		2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF12CED5734008BCD0B /* CardStackView.swift */; };
 		2503BF062CED5734008BCD0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF22CED5734008BCD0B /* CardView.swift */; };
-		2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */; };
 		2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */; };
 		2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF72CED5734008BCD0B /* MainTabView.swift */; };
-		2503BF0B2CEE9468008BCD0B /* RecipeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */; };
 		2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526677D2CEE9E9E002C0AF7 /* Recipe.swift */; };
 		255E9F1E2D07955E00E32A24 /* RecipeFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */; };
 		2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE332D07BE75006CD76B /* SettingsView.swift */; };
@@ -67,10 +65,8 @@
 		2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 		2503BEF12CED5734008BCD0B /* CardStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStackView.swift; sourceTree = "<group>"; };
 		2503BEF22CED5734008BCD0B /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeInfoView.swift; sourceTree = "<group>"; };
 		2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionIndicatorView.swift; sourceTree = "<group>"; };
 		2503BEF72CED5734008BCD0B /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFetcher.swift; sourceTree = "<group>"; };
 		2526677D2CEE9E9E002C0AF7 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFetcherTests.swift; sourceTree = "<group>"; };
 		2570DE332D07BE75006CD76B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -88,6 +84,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		251EFFE92D07D565005B3FF7 /* Backend Connection */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Backend Connection"; sourceTree = "<group>"; };
 		419F96882D04CF65006CC8FA /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -147,6 +144,7 @@
 		2503BEAE2CED546C008BCD0B /* TasteBuds */ = {
 			isa = PBXGroup;
 			children = (
+				251EFFE92D07D565005B3FF7 /* Backend Connection */,
 				419F96882D04CF65006CC8FA /* App */,
 				2503BEF92CED5734008BCD0B /* Core */,
 				2503BEB52CED546D008BCD0B /* Preview Content */,
@@ -248,8 +246,6 @@
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
 				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
-				2503BEF32CED5734008BCD0B /* RecipeInfoView.swift */,
-				2503BF0A2CEE9468008BCD0B /* RecipeFetcher.swift */,
 				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
 				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
@@ -305,6 +301,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				251EFFE92D07D565005B3FF7 /* Backend Connection */,
 				419F96882D04CF65006CC8FA /* App */,
 			);
 			name = TasteBuds;
@@ -454,7 +451,6 @@
 			files = (
 				2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */,
 				2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */,
-				2503BF072CED5734008BCD0B /* RecipeInfoView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
 				25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */,
 				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
@@ -473,7 +469,6 @@
 				DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
-				2503BF0B2CEE9468008BCD0B /* RecipeFetcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

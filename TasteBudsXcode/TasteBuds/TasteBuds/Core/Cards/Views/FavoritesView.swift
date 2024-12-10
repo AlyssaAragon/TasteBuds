@@ -27,9 +27,9 @@ struct FavoritesView: View {
                             VStack(alignment: .leading) {
                                 Text(recipe.name)
                                     .font(.headline)
-                                Text(recipe.description)
+                                /*Text(recipe.description)
                                     .font(.subheadline)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.gray)*/
                             }
                             .padding(.vertical, 5)
                         }
