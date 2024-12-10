@@ -1,8 +1,3 @@
-//  SettingsView.swift
-//  TasteBuds
-//
-//  Created by Hannah Haggerty on 12/9/24.
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -48,9 +43,13 @@ struct SettingsView: View {
 
                 //Settings List
                 VStack(spacing: 0) {
-                    settingsRow(title: "Partner")
+                    NavigationLink(destination: PartnerSetupView()) {
+                        settingsRow(title: "Partner")
+                    }
                     Divider()
-                    settingsRow(title: "Dietary Preferences")
+                    NavigationLink(destination: DietaryPreferencesView()) {
+                        settingsRow(title: "Dietary Preferences") //after alyssa is done i need to change this so the skip button is gone  skip button only appears on first use of app
+                    }
                     Divider()
                     settingsRow(title: "Notifications")
                     Divider()
@@ -67,7 +66,7 @@ struct SettingsView: View {
             .navigationBarHidden(true)
             .onAppear {
                 Task {
-                    await userFetcher.fetchUser() 
+                    await userFetcher.fetchUser()
                 }
             }
         }

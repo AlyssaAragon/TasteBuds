@@ -4,7 +4,8 @@ from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, 
 from rest_framework import viewsets
 import random
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
@@ -20,6 +21,7 @@ def random_recipe(request):
 
 # View to get the current user's profile data
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])  # Only authenticated users can access
 def user_profile(request):
     try:
         user = request.user
@@ -30,7 +32,6 @@ def user_profile(request):
         return Response(user_data)
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
-
 # User views
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
