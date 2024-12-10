@@ -17,10 +17,11 @@ struct CardView: View {
                 .frame(maxHeight: .infinity)
                 .overlay(
                     VStack {
-                        Text("TasteBuds")
-                            .font(Font.custom("Abyssinica SIL", size: 40))
-                            .foregroundColor(Color(red: 0.86, green: 0.87, blue: 0.93))
-                            .padding(.top, 40)
+                        Image("white_logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 250)
+                            .padding(.top, -70)
                         Spacer()
                     }
                 )
@@ -36,7 +37,7 @@ struct CardView: View {
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 350, height: 250)
+                                    .frame(width: 350, height: 280)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             } placeholder: {
                                 Image("placeholder")
@@ -56,15 +57,18 @@ struct CardView: View {
                         Text(recipe.name)
                             .bold()
                             .font(Font.custom("Abyssinica SIL", size: 40))
-                            .foregroundColor(Color(red: 0.86, green: 0.87, blue: 0.93))
                             .padding(.top, 20)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.5)
+
+
 
                         Text(recipe.description)
                             .font(.body)
                             .padding(.top, 5)
                     }
                     .padding()
-                    .frame(width: 350, height: 400)
+                    .frame(width: 380, height: 570)
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
                     .offset(x: dragAmount.width, y: dragAmount.height)
                     .gesture(DragGesture()

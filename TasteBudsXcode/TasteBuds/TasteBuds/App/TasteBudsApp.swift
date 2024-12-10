@@ -38,8 +38,8 @@ struct MainTabView: View {
                     Text("Settings")
                 }
         }
-        .background(Color.white) // TabView always has a white background
-        .edgesIgnoringSafeArea(.bottom) // Ensures background stretches under the TabView
-        .accentColor(.primary) // Tab item selection color
+        .background(Color.white)
+        .edgesIgnoringSafeArea(.bottom)
+        .accentColor(.primary)
     }
 }
