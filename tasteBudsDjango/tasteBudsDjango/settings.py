@@ -95,9 +95,9 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'tastebuds',
-#        'USER': 'alyssaaragon', 
-#        'PASSWORD': 'Sla244o4',  
+#        'NAME': 'Capstone Recipe Dataset',
+#        'USER': 'postgres', 
+#        'PASSWORD': 'hannah',  
 #        'HOST': 'localhost',  
 #        'PORT': '5432',       
 #    }
@@ -108,9 +108,9 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Capstone Recipe Dataset',
-        'USER': 'postgres', 
-        'PASSWORD': 'hannah',  
+        'NAME': 'tastebuds',
+        'USER': 'alyssaaragon', 
+        'PASSWORD': 'Sla244o4',  
         'HOST': 'localhost',  
         'PORT': '5432',       
     }

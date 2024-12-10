@@ -10,6 +10,7 @@ struct FetchedRecipe: Identifiable, Decodable {
     let servings: Int
     let steps: String
     let tags: String
+    let search_terms: String
    // let createdAt: String
    // let time: Int
    // let diets: [FetchedDiet]
@@ -25,6 +26,7 @@ struct FetchedRecipe: Identifiable, Decodable {
         case servings
         case steps
         case tags
+        case search_terms
        // case createdAt = "created_at"
        // case time
        // case diets

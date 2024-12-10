@@ -6,6 +6,7 @@ import random
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 
 User = get_user_model()
 
@@ -32,6 +33,29 @@ def user_profile(request):
         return Response(user_data)
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
+
+# diet filter 
+@api_view (['GET'])
+def filter_recipes(request):
+    dietary_preferences = request.GET.getlist('tags')
+    recipes = AllRecipe.objects.all()
+
+    if dietary_preferences:
+        query = Q()
+
+        for preference in dietary_preferences:
+            query |= Q(tags__icontains=preference) | Q(search_terms__icontains=preference)  
+        recipes = recipes.filter(query)
+
+    if not recipes.exists():
+        return Response({"message": "No recipes found matching your criteria."})
+
+    recipe = random.choice(list(recipes))
+
+    serializer = AllRecipeSerializer(recipe)
+    return Response(serializer.data)
+
+
 # User views
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
