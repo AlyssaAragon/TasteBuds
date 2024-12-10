@@ -33,6 +33,7 @@
 		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
 		419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */; };
 		419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */; };
+		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
 		419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAPICalloutTest.swift; sourceTree = "<group>"; };
+		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -224,6 +226,7 @@
 		2503BEEC2CED5734008BCD0B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */,
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
 				419F96482D04CCB4006CC8FA /* SwipeAction.swift */,
 			);
@@ -467,6 +470,7 @@
 				419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */,
 				419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
+				DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
 				2503BF0B2CEE9468008BCD0B /* RecipeFetcher.swift in Sources */,

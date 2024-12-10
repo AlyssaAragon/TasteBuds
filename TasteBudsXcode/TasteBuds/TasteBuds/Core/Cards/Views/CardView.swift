@@ -8,6 +8,7 @@ struct CardView: View {
     @State private var offset = CGSize.zero
     @State private var dragAmount = CGSize.zero
     @State private var isSwiped = false
+    @EnvironmentObject var favoritesManager: FavoritesManager
     
     var body: some View {
         ZStack {
@@ -107,6 +108,9 @@ struct CardView: View {
 
                     Button(action: {
                         print("Swiped right")
+                        if let currentRecipe = currentRecipe {
+                            favoritesManager.addFavorite(currentRecipe)
+                        }
                         Task {
                             await fetchNextRecipe()
                         }
@@ -161,5 +165,6 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView()
+            .environmentObject(FavoritesManager())
     }
 }

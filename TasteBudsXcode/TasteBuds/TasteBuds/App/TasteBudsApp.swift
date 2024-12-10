@@ -8,7 +8,8 @@ import SwiftUI
 @main
 struct TasteBudsApp: App {
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore: Bool = false
-    
+    @StateObject private var favoritesManager = FavoritesManager()
+
     var body: some Scene {
         WindowGroup {
             if hasLaunchedBefore {
@@ -37,6 +38,7 @@ struct TasteBudsApp: App {
                                 .foregroundColor(.black) // Icon color
                         }
                 }
+                .environmentObject(favoritesManager)
             } else {
                 WelcomeView()
                     .onAppear {
