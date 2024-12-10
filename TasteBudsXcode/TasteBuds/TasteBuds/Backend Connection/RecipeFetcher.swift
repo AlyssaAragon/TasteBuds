@@ -70,6 +70,37 @@ class RecipeFetcher: ObservableObject {
             print("Error decoding recipe: \(error)")
         }
     }
+    
+    // Fetch recipes filtered by tags
+    func fetchFilteredRecipes(tags: [String]) async {
+        print("Fetching filtered recipes...")
+
+        let tagsQuery = tags.map { "tags=\($0)" }.joined(separator: "&")
+        let urlString = "http://127.0.0.1:8000/api/filter_recipes/?" + tagsQuery
+
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Response status code: \(httpResponse.statusCode)")
+            }
+
+            let decodedRecipes = try JSONDecoder().decode([FetchedRecipe].self, from: data)
+            DispatchQueue.main.async {
+                if let randomRecipe = decodedRecipes.randomElement() {
+                    self.currentRecipe = randomRecipe
+                    print("Fetched random filtered recipe: \(randomRecipe.name)")
+                }
+            }
+        } catch {
+            print("Error decoding filtered recipes: \(error)")
+        }
+    }
 
     // Simple test method to fetch and print a recipe
     func testFetchRecipe() async {
