@@ -77,6 +77,7 @@
 		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
 		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
 		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
 		419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAPICalloutTest.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		2503BEAE2CED546C008BCD0B /* TasteBuds */ = {
 			isa = PBXGroup;
 			children = (
+				419E24B42D08E84700172A1C /* Info.plist */,
 				251EFFE92D07D565005B3FF7 /* Backend Connection */,
 				419F96882D04CF65006CC8FA /* App */,
 				2503BEF92CED5734008BCD0B /* Core */,
@@ -642,9 +644,9 @@
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TasteBuds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -671,9 +673,9 @@
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TasteBuds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
