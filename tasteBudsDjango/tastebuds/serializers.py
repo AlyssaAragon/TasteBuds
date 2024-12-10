@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User #uses django's user not the model's
+from django.contrib.auth.models import User
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe 
+from django.contrib.auth import get_user_model
+
 
 class AllRecipeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,5 +31,5 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = '__all__'  
+        model = get_user_model()  #uses our custom user model
+        fields = '__all__'

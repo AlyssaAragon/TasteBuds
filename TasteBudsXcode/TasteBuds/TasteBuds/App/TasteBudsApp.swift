@@ -1,50 +1,45 @@
-// TasteBudsApp.swift
-// TasteBuds
-//
-// Created by Hannah Haggerty on 11/19/24.
-
 import SwiftUI
 
 @main
 struct TasteBudsApp: App {
-    @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore: Bool = false
+    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
     @StateObject private var favoritesManager = FavoritesManager()
 
     var body: some Scene {
         WindowGroup {
-            if hasLaunchedBefore {
-                TabView {
-                    // CardView with Home icon
-                    CardView()
-                        .tabItem {
-                            Image(systemName: "house.fill") // Home icon
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
-                        }
-                    
-
-                    // FavoritesView with Heart icon
-                    FavoritesView()
-                        .tabItem {
-                            Image(systemName: "heart.fill") // Heart icon for favorites
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
-                        }
-                    // SettingsView with Gear icon
-                    SettingsView()
-                        .tabItem {
-                            Image(systemName: "gearshape.fill") // Gear icon for settings
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
-                        }
-                }
-                .environmentObject(favoritesManager)
+            if isLoggedIn {
+                MainTabView()
+                    .environmentObject(favoritesManager)
             } else {
                 WelcomeView()
-                    .onAppear {
-                        hasLaunchedBefore = true
-                    }
             }
         }
+    }
+}
+
+struct MainTabView: View {
+    var body: some View {
+        TabView {
+            CardView()
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+
+            FavoritesView()
+                .tabItem {
+                    Image(systemName: "heart.fill")
+                    Text("Favorites")
+                }
+
+            SettingsView()
+                .tabItem {
+                    Image(systemName: "gearshape.fill")
+                    Text("Settings")
+                }
+        }
+        .background(Color.white) // TabView always has a white background
+        .edgesIgnoringSafeArea(.bottom) // Ensures background stretches under the TabView
+        .accentColor(.primary) // Tab item selection color
     }
 }

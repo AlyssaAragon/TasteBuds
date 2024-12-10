@@ -32,6 +32,7 @@ class AllRecipe(models.Model):
     steps = models.TextField()
     tags = models.TextField()
     search_terms = models.TextField()
+    image_url = models.URLField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.name
