@@ -9,7 +9,8 @@ struct LoginSignupView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 0.66, green: 0.31, blue: 0.33)
+//            Color(red: 0.66, green: 0.31, blue: 0.33)
+            Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
                 .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 0) {
@@ -27,7 +28,7 @@ struct LoginSignupView: View {
                         .offset(y: -100)
 
                     VStack {
-                        Image("chefhat")
+                        Image("tasteBudMascot")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 150, height: 150)
@@ -65,28 +66,28 @@ struct LoginSignupView: View {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Profile Name")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                             TextField("Enter profile name here", text: $profileName)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .foregroundColor(.white)
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                             Rectangle()
                                 .frame(height: 0.5)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                         }
                         .offset(y: -70)
                         
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                             TextField("Enter email address here", text: $email)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .foregroundColor(.white)
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                             Rectangle()
                                 .frame(height: 0.5)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                         }
                         .offset(y: -60)
                     }
@@ -94,28 +95,28 @@ struct LoginSignupView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Username")
                             .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                         TextField("Enter username here", text: $username)
                             .textFieldStyle(PlainTextFieldStyle())
                             .foregroundColor(.white)
                             .font(Font.custom("Abyssinica SIL", size: 20))
                         Rectangle()
                             .frame(height: 0.5)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                     }
                     .offset(y: isLogin ? -70 : -50)
 
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Password")
                             .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                         SecureField("Enter password here", text: $password)
                             .textFieldStyle(PlainTextFieldStyle())
                             .foregroundColor(.white)
                             .font(Font.custom("Abyssinica SIL", size: 20))
                         Rectangle()
                             .frame(height: 0.5)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                     }
                     .offset(y: -50)
                     .onAppear {
@@ -144,7 +145,7 @@ struct LoginSignupView: View {
                         .frame(width: 314, height: 70)
                         .background(Color.white)
                         .cornerRadius(30)
-                        .shadow(radius: 10)
+//                       .shadow(radius: 10)
                 }
                 .padding(.bottom, 50)
             }

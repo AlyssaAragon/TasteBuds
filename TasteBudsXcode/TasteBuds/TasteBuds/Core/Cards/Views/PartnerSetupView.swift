@@ -8,7 +8,7 @@ struct PartnerSetupView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.66, green: 0.31, blue: 0.33)
+            Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 30) {
@@ -17,25 +17,27 @@ struct PartnerSetupView: View {
                     // Cancel button
                     NavigationLink(destination: AddPartnerView()) {
                         Text("Cancel")
-                            .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.white.opacity(0.8))
+//                            .font(Font.custom("Abyssinica SIL", size: 20))
+                            .foregroundColor(.gray)
                     }
                     .frame(width: 120, height: 37)
-                    .padding(.trailing, 20)
+                    .padding(/*.trailing, 20*/)
                     .offset(y: 50)
                 }
                 
-                Image("pair")
+                Image("connectPartner")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 350, height: 350)
                     .padding(.top, 60)
                 
                 Text("Add your TasteBud")
-                    .font(Font.custom("Abyssinica SIL", size: 27))
-                    .foregroundColor(.white)
+//                    .font(Font.custom("Abyssinica SIL", size: 27))
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.center)
-                    .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 5)
+//                    .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 5)
                 
                 VStack(spacing: 20) {
                     TextField("Partner's Username", text: $partnerUsername)
@@ -52,12 +54,13 @@ struct PartnerSetupView: View {
                     sendInvitation()
                 }) {
                     Text("Add Partner")
-                        .font(Font.custom("Abyssinica SIL", size: 26))
+//                        .font(Font.custom("Abyssinica SIL", size: 26))
+                        .font(.headline)
                         .foregroundColor(.black.opacity(0.8))
                         .frame(width: 314, height: 70)
                         .background(Color.white)
                         .cornerRadius(30)
-                        .shadow(radius: 10)
+//                        .shadow(radius: 10)
                 }
                 .padding(.bottom, 30)
                 .offset(y: 50)

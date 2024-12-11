@@ -28,13 +28,17 @@ struct DietaryPreferencesView: View {
                 .padding(.top, 20)
                 
                 Text("Dietary Preferences")
-                    .font(Font.custom("Abyssinica SIL", size: 32))
+//                    .font(Font.custom("Abyssinica SIL", size: 32))
+                    .font(.title)
+                    .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
-                    .shadow(color: .gray.opacity(0.6), radius: 4, x: 0, y: 4)
+//                    .shadow(color: .gray.opacity(0.6), radius: 4, x: 0, y: 4)
                 
                 Text("You can set your dietary preferences here. These will affect your recipe recommendations.")
-                    .font(Font.custom("Abyssinica SIL", size: 20))
+//                    .font(Font.custom("Abyssinica SIL", size: 20))
+                    .font(.body)
+                    .italic()
                     .foregroundColor(.black)
                     .frame(width: 340, height: 81, alignment: .topLeading)
                 
@@ -89,12 +93,12 @@ struct DietaryPreferencesView: View {
                             .frame(width: 314, height: 70)
                             .background(Color(red: 0.66, green: 0.31, blue: 0.33))
                             .cornerRadius(30)
-                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30)
-                                    .inset(by: 0.5)
-                                    .stroke(.black, lineWidth: 1)
-                            )
+//                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+//                            .overlay(
+//                                RoundedRectangle(cornerRadius: 30)
+//                                    .inset(by: 0.5)
+//                                    .stroke(.black, lineWidth: 1)
+//                            )
                         
                         Text("Next")
                             .font(Font.custom("Abyssinica SIL", size: 26))
