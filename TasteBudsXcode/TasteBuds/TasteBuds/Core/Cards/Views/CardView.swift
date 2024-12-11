@@ -214,7 +214,9 @@ struct CardView: View {
                     // Button to see filtered recipes
                     Button("See filtered recipes") {
                         print("Filtered recipes button tapped")
-                        // Add your code to handle showing filtered recipes
+                        Task {
+                            await fetchFilteredRecipes()
+                        }
                     }
                     .padding()
                     .background(Color.blue)
@@ -226,7 +228,14 @@ struct CardView: View {
             }
         }
     }
-
+    
+    private func fetchFilteredRecipes() async {
+        await recipeFetcher.fetchFilteredRecipes(tags: selectedFilters)
+        if let fetchedRecipe = recipeFetcher.currentRecipe {
+            self.currentRecipe = fetchedRecipe
+        }
+    }
+    
     private func fetchRecipe() async {
         await recipeFetcher.fetchRecipe()
         if let fetchedRecipe = recipeFetcher.currentRecipe {
@@ -246,6 +255,8 @@ struct CardView: View {
 
     private func swipeLeft() {
         print("Swiped left")
+        self.isSwiped = true
+        self.dragAmount = .zero
         Task {
             await fetchNextRecipe()
         }
@@ -256,6 +267,8 @@ struct CardView: View {
         if let currentRecipe = currentRecipe {
             favoritesManager.addFavorite(currentRecipe)
         }
+        self.isSwiped = true
+        self.dragAmount = .zero
         Task {
             await fetchNextRecipe()
         }
