@@ -2,8 +2,8 @@ import SwiftUI
 
 @main
 struct TasteBudsApp: App {
-    @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore: Bool = false
     @StateObject private var favoritesManager = FavoritesManager()
+    @State private var isWelcomeViewPresented = true
 
     init() {
         let appearance = UITabBarAppearance()
@@ -11,41 +11,40 @@ struct TasteBudsApp: App {
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
         UITabBar.appearance().isTranslucent = false
-        UITabBar.appearance().frame.size.height = 100
     }
 
     var body: some Scene {
         WindowGroup {
-            if !hasLaunchedBefore {
+            NavigationView {
+            if isWelcomeViewPresented {
                 WelcomeView()
-                    .onAppear {
-                        hasLaunchedBefore = true
+                    .onDisappear {
+                        isWelcomeViewPresented = false
                     }
             } else {
-                TabView {
-                    CardView()
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color.black)
-                        }
+                    TabView {
+                        CardView()
+                            .tabItem {
+                                Image(systemName: "house.fill")
+                                Text("Home")
+                            }
 
-                    FavoritesView()
-                        .tabItem {
-                            Image(systemName: "heart.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color.black)
-                        }
+                        FavoritesView()
+                            .tabItem {
+                                Image(systemName: "heart.fill")
+                                Text("Favorites")
+                            }
 
-                    SettingsView()
-                        .tabItem {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color.black)
-                        }
+                        SettingsView()
+                            .tabItem {
+                                Image(systemName: "gearshape.fill")
+                                Text("Settings")
+                            }
+                    }
+                    .navigationBarTitleDisplayMode(.inline) // Ensure the title displays
+                    .environmentObject(favoritesManager)
+                    .accentColor(.blue)
                 }
-                .environmentObject(favoritesManager)
-                .accentColor(.blue)
             }
         }
     }
