@@ -21,7 +21,7 @@ TasteBuds is an iOS application that matches recipes between a pair. The main fe
   <li><strong>Clone the Repository:</strong> Clone the TasteBuds project repository from GitHub
   </li>
   <li><strong>Navigate to the Project Directory:</strong> Use the terminal or command prompt to navigate to the server directory:
-    <pre><code>cd tastebuds/server</code></pre>
+    <pre><code>cd tastebuds/tasteBudsDjango</code></pre>
   </li>
   <li><strong>Install Dependencies:</strong> Set up a virtual environment and install the required packages using the Pipfile.
   </li>
