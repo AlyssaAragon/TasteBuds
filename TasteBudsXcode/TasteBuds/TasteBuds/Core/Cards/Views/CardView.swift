@@ -16,7 +16,7 @@ struct CardView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                Color(red: 0.66, green: 0.31, blue: 0.33)
+                Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxHeight: .infinity)
                     .overlay(

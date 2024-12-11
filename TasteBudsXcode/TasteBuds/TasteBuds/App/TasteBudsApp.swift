@@ -16,13 +16,18 @@ struct TasteBudsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if hasLaunchedBefore {
+            if !hasLaunchedBefore {
+                WelcomeView()
+                    .onAppear {
+                        hasLaunchedBefore = true
+                    }
+            } else {
                 TabView {
                     CardView()
                         .tabItem {
                             Image(systemName: "house.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(Color.black) 
+                                .foregroundColor(Color.black)
                         }
 
                     FavoritesView()
@@ -41,11 +46,6 @@ struct TasteBudsApp: App {
                 }
                 .environmentObject(favoritesManager)
                 .accentColor(.blue)
-            } else {
-                WelcomeView()
-                    .onAppear {
-                        hasLaunchedBefore = true
-                    }
             }
         }
     }

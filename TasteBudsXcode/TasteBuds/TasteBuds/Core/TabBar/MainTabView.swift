@@ -1,35 +1,36 @@
-//
-//  MainTabBar.swift
-//  TasteBuds
-//
-//  Created by Ali on 11/03/24.
-//
 /*
-import SwiftUI
+ Ideally this would be implemented here but for some reason this isn't interacting with TasteBudsApp.swift
+ 
+ 
+ import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
-        TabView{
-            CardStackView()
-                .tabItem{ Image(systemName: "flame")}
-                .tag(0)
-            
-//            Text("Search View")
-//                .tabItem{ Image(systemName: "magnifyingglass")}
-//                .tag(1)
-//            
-//            Text("Inbox View")
-//                .tabItem{ Image(systemName: "bubble")}
-//                .tag(2)
-            
-            Text("Profile View")
-                .tabItem{ Image(systemName: "person")}
-                .tag(3)
-        }
-        .tint(.primary)
-    }
-}
+            TabView {
+                CardView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(Color.black)
+                    }
 
+                FavoritesView()
+                    .tabItem {
+                        Image(systemName: "heart.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(Color.black)
+                    }
+
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(Color.black)
+                    }
+            }
+            .accentColor(.blue)
+        }
+    }
 #Preview {
     MainTabView()
 }

@@ -91,7 +91,7 @@ struct DietaryPreferencesView: View {
                         Rectangle()
                             .foregroundColor(.clear)
                             .frame(width: 314, height: 70)
-                            .background(Color(red: 0.66, green: 0.31, blue: 0.33))
+                            .background(Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0))
                             .cornerRadius(30)
 //                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
 //                            .overlay(
