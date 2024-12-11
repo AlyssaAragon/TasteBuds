@@ -57,8 +57,8 @@ struct SettingsView: View {
                 }
                 .background(Color.white)
                 .cornerRadius(8)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 46)
+//                .padding(.horizontal, 16)
+//                .padding(.bottom, 46)
 
                 Spacer()
             }

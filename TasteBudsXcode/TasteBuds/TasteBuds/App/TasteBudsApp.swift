@@ -8,14 +8,12 @@ struct TasteBudsApp: App {
     init() {
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = UIColor.white
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
-        UITabBar.appearance().isTranslucent = false
     }
 
     var body: some Scene {
         WindowGroup {
             NavigationView {
+                //WelcomeView()
             if isWelcomeViewPresented {
                 WelcomeView()
                     .onDisappear {
@@ -41,7 +39,7 @@ struct TasteBudsApp: App {
                                 Text("Settings")
                             }
                     }
-                    .navigationBarTitleDisplayMode(.inline) // Ensure the title displays
+                    .navigationBarTitleDisplayMode(.inline)
                     .environmentObject(favoritesManager)
                     .accentColor(.blue)
                 }
