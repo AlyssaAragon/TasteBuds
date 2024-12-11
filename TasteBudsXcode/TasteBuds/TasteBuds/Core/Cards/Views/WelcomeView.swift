@@ -1,19 +1,22 @@
-
-
 import SwiftUI
 
 struct WelcomeView: View {
     var body: some View {
-        NavigationView { 
+        NavigationView {
             ZStack {
                 Color(red: 0.66, green: 0.31, blue: 0.33)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("Taste\n     Buds")
-                        .font(Font.custom("Abyssinica SIL", size: 65))
-                        .foregroundColor(.white)
-                        .padding(.top, 50)
+                    VStack {
+                        Image("white_logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 380, height: 270)
+                            .offset(y: 35)
+                            .padding(.top, 0)
+                        Spacer()
+                    }
                     
                     Spacer()
                     

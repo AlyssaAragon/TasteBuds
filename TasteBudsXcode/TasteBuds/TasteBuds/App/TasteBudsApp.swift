@@ -1,41 +1,44 @@
-// TasteBudsApp.swift
-// TasteBuds
-//
-// Created by Hannah Haggerty on 11/19/24.
-
 import SwiftUI
 
 @main
 struct TasteBudsApp: App {
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore: Bool = false
-    
+    @StateObject private var favoritesManager = FavoritesManager()
+
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = UIColor.white
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().frame.size.height = 100
+    }
+
     var body: some Scene {
         WindowGroup {
             if hasLaunchedBefore {
                 TabView {
-                    // CardView with Home icon
                     CardView()
                         .tabItem {
-                            Image(systemName: "house.fill") // Home icon
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
+                            Image(systemName: "house.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.black)
                         }
-                    
-                    // SettingsView with Gear icon
-                    SettingsView()
-                        .tabItem {
-                            Image(systemName: "gearshape.fill") // Gear icon for settings
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
-                        }
-                    // FavoritesView with Heart icon
+
                     FavoritesView()
                         .tabItem {
-                            Image(systemName: "heart.fill") // Heart icon for favorites
-                                .font(.system(size: 40)) // Icon size
-                                .foregroundColor(.black) // Icon color
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.black)
+                        }
+                    SettingsView()
+                        .tabItem {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.black)
                         }
                 }
+                .environmentObject(favoritesManager)
             } else {
                 WelcomeView()
                     .onAppear {

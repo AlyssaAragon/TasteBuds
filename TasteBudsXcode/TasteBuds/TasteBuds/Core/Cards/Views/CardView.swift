@@ -10,8 +10,6 @@ struct CardView: View {
     @State private var isSwiped = false
     @EnvironmentObject var favoritesManager: FavoritesManager
     
-    @State private var selectedFilters: [String] = []
-    
     var body: some View {
         ZStack {
             Color(red: 0.66, green: 0.31, blue: 0.33)
@@ -29,68 +27,6 @@ struct CardView: View {
                 )
 
             VStack {
-                VStack {
-                    Text("Filter Recipes")
-                        .font(.title)
-                        .bold()
-                        .padding()
-
-                    // filter options
-                    Toggle("Low-Carb", isOn: Binding(
-                        get: { selectedFilters.contains("low-carb") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-carb")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-carb" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Low-Calorie", isOn: Binding(
-                        get: { selectedFilters.contains("low-calorie") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-calorie")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-calorie" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Low-Sodium", isOn: Binding(
-                        get: { selectedFilters.contains("low-sodium") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-sodium")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-sodium" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Vegetarian", isOn: Binding(
-                        get: { selectedFilters.contains("vegetarian") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("vegetarian")
-                            } else {
-                                selectedFilters.removeAll { $0 == "vegetarian" }
-                            }
-                        })
-                    ).padding()
-
-                    Button("Fetch Recipes") {
-                        Task {
-                            await fetchFilteredRecipes()
-                        }
-                    }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                }
-                
                 Spacer().frame(height: 100)
 
                 if let recipe = currentRecipe {
@@ -211,14 +147,7 @@ struct CardView: View {
             }
         }
     }
-    
-    private func fetchFilteredRecipes() async {
-        await recipeFetcher.fetchFilteredRecipes(tags: selectedFilters)
-        if let fetchedRecipe = recipeFetcher.currentRecipe {
-            self.currentRecipe = fetchedRecipe
-        }
-    }
-    
+
     private func fetchRecipe() async {
         await recipeFetcher.fetchRecipe()
         if let fetchedRecipe = recipeFetcher.currentRecipe {

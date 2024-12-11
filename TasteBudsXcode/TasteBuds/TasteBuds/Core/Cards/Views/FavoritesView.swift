@@ -1,7 +1,6 @@
 // FavoritesView.swift
 // TasteBuds
-//
-// Created by Hannah Haggerty on 12/9/24.
+
 
 import SwiftUI
 
@@ -39,7 +38,7 @@ struct FavoritesView: View {
                 }
                 Spacer()
             }
-            .navigationTitle("Favorites")
+            //.navigationTitle("Favorites")
         }
     }
 }
