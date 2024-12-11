@@ -22,23 +22,25 @@ struct TasteBudsApp: App {
                         .tabItem {
                             Image(systemName: "house.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.black) 
                         }
 
                     FavoritesView()
                         .tabItem {
                             Image(systemName: "heart.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.black)
                         }
+
                     SettingsView()
                         .tabItem {
                             Image(systemName: "gearshape.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.black)
                         }
                 }
                 .environmentObject(favoritesManager)
+                .accentColor(.blue)
             } else {
                 WelcomeView()
                     .onAppear {
