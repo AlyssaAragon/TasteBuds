@@ -90,12 +90,11 @@ class RecipeFetcher: ObservableObject {
                 print("Response status code: \(httpResponse.statusCode)")
             }
 
-            let decodedRecipes = try JSONDecoder().decode([FetchedRecipe].self, from: data)
+            let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
-                if let randomRecipe = decodedRecipes.randomElement() {
-                    self.currentRecipe = randomRecipe
-                    print("Fetched random filtered recipe: \(randomRecipe.name)")
-                }
+                self.currentRecipe = decodedRecipe
+                print("Fetched random filtered recipe: \(decodedRecipe.name)")
+                
             }
         } catch {
             print("Error decoding filtered recipes: \(error)")

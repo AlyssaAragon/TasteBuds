@@ -29,56 +29,59 @@ struct CardView: View {
                 )
 
             VStack {
-                VStack {
-                    Text("Filter Recipes")
-                        .font(.title)
-                        .bold()
-                        .padding()
-
-                    // filter options
-                    Toggle("Low-Carb", isOn: Binding(
-                        get: { selectedFilters.contains("low-carb") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-carb")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-carb" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Low-Calorie", isOn: Binding(
-                        get: { selectedFilters.contains("low-calorie") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-calorie")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-calorie" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Low-Sodium", isOn: Binding(
-                        get: { selectedFilters.contains("low-sodium") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("low-sodium")
-                            } else {
-                                selectedFilters.removeAll { $0 == "low-sodium" }
-                            }
-                        })
-                    ).padding()
-
-                    Toggle("Vegetarian", isOn: Binding(
-                        get: { selectedFilters.contains("vegetarian") },
-                        set: { isSelected in
-                            if isSelected {
-                                selectedFilters.append("vegetarian")
-                            } else {
-                                selectedFilters.removeAll { $0 == "vegetarian" }
-                            }
-                        })
-                    ).padding()
+                ScrollView{
+                    VStack {
+                        Text("Filter Recipes")
+                            .font(.title)
+                            .bold()
+                            .padding()
+                        
+                        // filter options
+                        Toggle("Low-Carb", isOn: Binding(
+                            get: { selectedFilters.contains("low-carb") },
+                            set: { isSelected in
+                                if isSelected {
+                                    selectedFilters.append("low-carb")
+                                } else {
+                                    selectedFilters.removeAll { $0 == "low-carb" }
+                                }
+                            })
+                        ).padding(.horizontal)
+                        
+                        Toggle("Low-Calorie", isOn: Binding(
+                            get: { selectedFilters.contains("low-calorie") },
+                            set: { isSelected in
+                                if isSelected {
+                                    selectedFilters.append("low-calorie")
+                                } else {
+                                    selectedFilters.removeAll { $0 == "low-calorie" }
+                                }
+                            })
+                        ).padding(.horizontal)
+                        
+                        Toggle("Low-Sodium", isOn: Binding(
+                            get: { selectedFilters.contains("low-sodium") },
+                            set: { isSelected in
+                                if isSelected {
+                                    selectedFilters.append("low-sodium")
+                                } else {
+                                    selectedFilters.removeAll { $0 == "low-sodium" }
+                                }
+                            })
+                        ).padding(.horizontal)
+                        
+                        Toggle("Vegetarian", isOn: Binding(
+                            get: { selectedFilters.contains("vegetarian") },
+                            set: { isSelected in
+                                if isSelected {
+                                    selectedFilters.append("vegetarian")
+                                } else {
+                                    selectedFilters.removeAll { $0 == "vegetarian" }
+                                }
+                            })
+                        ).padding(.horizontal)
+                    }
+                    .padding()
 
                     Button("Fetch Recipes") {
                         Task {
@@ -86,12 +89,15 @@ struct CardView: View {
                         }
                     }
                     .padding()
-                    .background(Color.blue)
+                    .background(Color.red)
                     .foregroundColor(.white)
                     .cornerRadius(10)
+                    .frame(maxWidth: .infinity)  
+                    .padding(.horizontal)
                 }
-                
-                Spacer().frame(height: 100)
+                .padding(.bottom, 10)
+
+               // Spacer().frame(height: 100)
 
                 if let recipe = currentRecipe {
                     VStack {
@@ -243,3 +249,5 @@ struct CardView_Previews: PreviewProvider {
             .environmentObject(FavoritesManager())
     }
 }
+
+
