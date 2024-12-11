@@ -62,7 +62,7 @@ struct PartnerSetupView: View {
                         .cornerRadius(30)
 //                        .shadow(radius: 10)
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom, 50)
                 .offset(y: 50)
                 
                 Spacer()
