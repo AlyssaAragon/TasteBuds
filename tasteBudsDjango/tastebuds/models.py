@@ -1,7 +1,8 @@
 from django.db import models
 from .managers import CustomUserManager
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.conf import settings 
+# alyssa and hannah, other than the class customuser at the bottom
 class Diet(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
@@ -52,22 +53,7 @@ class Partner(models.Model):
     class Meta:
         unique_together = ('user', 'partner')
 
-class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None, **extra_fields):
-        if not email:
-            raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, username=username, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, username, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, username, password, **extra_fields)
-
-
+# this class specifically was adapted from same source as CustomUserManager in managers.py but i added unique elements here to fit it for tastebuds
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, unique=True)

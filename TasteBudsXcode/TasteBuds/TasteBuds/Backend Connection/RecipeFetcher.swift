@@ -1,4 +1,4 @@
-// Hannah Haggerty
+// Hannah Haggerty and Alyssa 
 import Foundation
 
 struct FetchedRecipe: Identifiable, Decodable {
