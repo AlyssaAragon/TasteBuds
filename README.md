@@ -30,10 +30,11 @@ TasteBuds is an iOS application that matches recipes between a pair. The main fe
   </li>
   <li><strong>Start the Server:</strong> Run the following command to start the development server:
     <pre><code>python manage.py runserver</code></pre>
-    The server should now be running on <code>http://localhost:3000</code>.
+    The recipe server should now be running on <code>http://localhost:3000</code>.
   </li>
   <li><strong>Start the Image Server:</strong> Run the following command in the image file to start the image server:
     <pre><code>python3 -m http.server 8000</code></pre>
+    The image server should now be running on <code>http://localhost:8000/</code>.
   </li>
   <li><strong>Open the Frontend on Xcode:</strong> Open the project in Xcode, build the frontend, and run the app on an iOS simulator or connected device.</li>
 </ol>
