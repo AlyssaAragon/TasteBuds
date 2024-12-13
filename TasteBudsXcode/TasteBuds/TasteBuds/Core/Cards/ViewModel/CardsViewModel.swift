@@ -1,3 +1,4 @@
+// Hannah, Alyssa, Alicia
 import Foundation
 
 class CardsViewModel: ObservableObject {
@@ -15,7 +16,7 @@ class CardsViewModel: ObservableObject {
         await recipeFetcher.fetchRecipe() // Fetch the recipe asynchronously
         
         if let fetchedRecipe = recipeFetcher.currentRecipe {
-            // Once fetched, update the cardModels with a new CardModel using the fetched recipe
+            // Once recipe is fetched it updates the cardModels with a new CardModel using the fetched recipe
             DispatchQueue.main.async {
                 self.cardModels = [CardModel(recipe: fetchedRecipe)]
             }
@@ -24,15 +25,13 @@ class CardsViewModel: ObservableObject {
 
     func removeCard() {
         guard !cardModels.isEmpty else { return }
-        cardModels.removeFirst() // Remove the top card
+        cardModels.removeFirst()
     }
-    
     func swipeRight() {
-        removeCard() // Handle swipe right (like)
+        removeCard() // Handle swipe right action
     }
-
     func swipeLeft() {
-        removeCard() // Handle swipe left (reject)
+        removeCard() // Handle swipe left action
     }
 }
 

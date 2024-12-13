@@ -1,6 +1,7 @@
+// Hannah Haggerty
 import XCTest
 @testable import TasteBuds
-//test if recipe fetcher is actually fetching
+// Test if recipe fetcher is actually fetching
 final class RecipeFetcherTests: XCTestCase {
 
     var recipeFetcher: RecipeFetcher!
@@ -15,7 +16,7 @@ final class RecipeFetcherTests: XCTestCase {
         super.tearDown()
     }
 
-    // Test that fetchRecipe properly fetches a recipe
+
     func testFetchRecipe() async {
         let expectation = XCTestExpectation(description: "Fetching recipe from API")
 
@@ -28,7 +29,6 @@ final class RecipeFetcherTests: XCTestCase {
             print("Fetched Recipe: \(recipe.name)")
             print("Body: \(recipe.description)")
             
-            //Check that the title and body are not empty
             XCTAssertFalse(recipe.name.isEmpty, "Recipe title should not be empty")
             XCTAssertFalse(recipe.description.isEmpty, "Recipe body should not be empty")
 

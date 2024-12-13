@@ -1,3 +1,4 @@
+// Hannah, Alyssa, Alicia
 import SwiftUI
 
 struct CardView: View {
@@ -16,7 +17,7 @@ struct CardView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
+                Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0) // Background color
                     .edgesIgnoringSafeArea(.all)
                     .frame(maxHeight: .infinity)
                     .overlay(
@@ -32,7 +33,8 @@ struct CardView: View {
                 
                 VStack {
                     Spacer().frame(height: 100)
-                    
+                    // Recipe card display
+                    // We need to add flipping the recipe for more information
                     if let recipe = currentRecipe {
                         VStack {
                             if let recipeImage = recipe.recipeImage,
@@ -124,8 +126,8 @@ struct CardView: View {
                         Button(action: {
                             self.swipeRight()
                         }) {
-                            Circle()
-                                .fill(Color.green)
+                            Circle() // The buttons need to be fixed
+                                .fill(Color.green) 
                                 .frame(width: 60, height: 60)
                                 .overlay(
                                     Image(systemName: "heart.fill")
@@ -150,6 +152,8 @@ struct CardView: View {
                     }
                 }
             }
+
+            // Dietary filters button
             .navigationBarItems(trailing: Button(action: {
                 showFilterMenu.toggle()
             }) {
@@ -211,7 +215,7 @@ struct CardView: View {
                     }
                     .padding()
                     
-                    // Button to see filtered recipes
+                    // Button to display filtered recipes
                     Button("See filtered recipes") {
                         print("Filtered recipes button tapped")
                         Task {

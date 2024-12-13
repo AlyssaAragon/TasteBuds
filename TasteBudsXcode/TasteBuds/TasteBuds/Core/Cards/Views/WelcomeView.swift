@@ -1,3 +1,4 @@
+// Hannah and Alicia
 import SwiftUI
 
 struct WelcomeView: View {

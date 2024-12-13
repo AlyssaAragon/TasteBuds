@@ -1,3 +1,4 @@
+# Alyssa and Hannah
 from django.contrib.auth import get_user_model
 from .models import AllRecipe, Diet, Favorite, Partner, Recipe  # Include all models
 from .serializers import UserSerializer, RecipeSerializer, AllRecipeSerializer, DietSerializer, FavoriteSerializer, PartnerSerializer
@@ -28,7 +29,7 @@ def user_profile(request):
         user = request.user
         user_data = {
             'username': user.username,
-            # Optionally include more fields like first_name and last_name when needed
+            # Include more fields like first_name and last_name when needed
         }
         return Response(user_data)
     except User.DoesNotExist:

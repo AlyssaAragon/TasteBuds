@@ -1,3 +1,4 @@
+// Hannah Haggerty and Alicia Chiang
 struct Recipe: Identifiable, Decodable {
     let id: Int
     let title: String

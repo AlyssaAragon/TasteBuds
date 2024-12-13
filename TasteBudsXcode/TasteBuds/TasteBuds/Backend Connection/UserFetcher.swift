@@ -3,7 +3,7 @@
 //  TasteBuds
 //
 //  Created by Hannah Haggerty on 12/9/24.
-//
+// This isn't fully functioning yet
 import SwiftUI
 class UserFetcher: ObservableObject {
     @Published var currentUser: FetchedUser?

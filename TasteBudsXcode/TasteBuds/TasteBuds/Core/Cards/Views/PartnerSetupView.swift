@@ -1,3 +1,5 @@
+// Hannah Haggerty
+
 import SwiftUI
 
 struct PartnerSetupView: View {
@@ -68,7 +70,7 @@ struct PartnerSetupView: View {
                 Spacer()
             }
             .frame(width: 414, height: 896)
-            
+            // Needs to be changed for better modularity
             // NavigationLink to navigate to DietaryPreferencesView
             NavigationLink(destination: DietaryPreferencesView(), isActive: $navigateToDietaryPreferences) {
                 EmptyView()
@@ -78,7 +80,7 @@ struct PartnerSetupView: View {
             Alert(title: Text("Partner added"),
                   message: Text("You have successfully added your partner!"),
                   dismissButton: .default(Text("OK"), action: {
-                      navigateToDietaryPreferences = true // Trigger navigation after dismiss
+                      navigateToDietaryPreferences = true
                   }))
         }
     }
