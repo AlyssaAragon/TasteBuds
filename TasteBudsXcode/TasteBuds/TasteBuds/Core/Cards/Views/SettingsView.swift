@@ -1,3 +1,4 @@
+// Hannah Haggerty
 import SwiftUI
 
 struct SettingsView: View {
@@ -48,7 +49,8 @@ struct SettingsView: View {
                     }
                     Divider()
                     NavigationLink(destination: DietaryPreferencesView()) {
-                        settingsRow(title: "Dietary Preferences") //after alyssa is done i need to change this so the skip button is gone  skip button only appears on first use of app
+                        settingsRow(title: "Dietary Preferences") 
+                        // This needs to be changed so the skip button is gone, skip button should only appears on first use of app
                     }
                     Divider()
                     settingsRow(title: "Notifications")
@@ -57,8 +59,6 @@ struct SettingsView: View {
                 }
                 .background(Color.white)
                 .cornerRadius(8)
-//                .padding(.horizontal, 16)
-//                .padding(.bottom, 46)
 
                 Spacer()
             }

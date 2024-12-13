@@ -1,3 +1,5 @@
+// Hannah Haggerty
+
 import SwiftUI
 
 struct LoginSignupView: View {
@@ -9,7 +11,6 @@ struct LoginSignupView: View {
 
     var body: some View {
         ZStack {
-//            Color(red: 0.66, green: 0.31, blue: 0.33)
             Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
                 .edgesIgnoringSafeArea(.all)
 
@@ -129,7 +130,7 @@ struct LoginSignupView: View {
                 }
                 .padding(30)
                 .offset(y: -50)
-
+                // This needs to be changed so it's more modular
                 NavigationLink(destination: {
                     if isLogin {
                         // If login, navigate to CardView which fetches its own recipe
@@ -145,7 +146,6 @@ struct LoginSignupView: View {
                         .frame(width: 314, height: 70)
                         .background(Color.white)
                         .cornerRadius(30)
-//                       .shadow(radius: 10)
                 }
                 .padding(.bottom, 50)
             }

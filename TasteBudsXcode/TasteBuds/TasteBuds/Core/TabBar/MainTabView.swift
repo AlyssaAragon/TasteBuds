@@ -1,5 +1,6 @@
+// Hannah Haggerty
 /*
- Ideally this would be implemented here but for some reason this isn't interacting with TasteBudsApp.swift
+ Ideally this would be implemented here but for some reason this isn't interacting with TasteBudsApp.swift correctly
  
  
  import SwiftUI

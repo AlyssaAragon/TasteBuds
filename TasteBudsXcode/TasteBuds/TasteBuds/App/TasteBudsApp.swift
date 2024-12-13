@@ -1,3 +1,4 @@
+//Hannah Haggerty
 import SwiftUI
 
 @main
@@ -9,11 +10,10 @@ struct TasteBudsApp: App {
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = UIColor.white
     }
-
+// We need to seperate the tab view and main app files but for now this will have to do.
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                //WelcomeView()
             if isWelcomeViewPresented {
                 WelcomeView()
                     .onDisappear {
