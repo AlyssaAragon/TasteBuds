@@ -1,12 +1,11 @@
-// Hannah Haggerty and Alyssa Aragon
-
 import SwiftUI
 
 struct PartnerSetupView: View {
     @State private var partnerUsername: String = ""
-    @State private var partnerEmail: String = ""
     @State private var showAlert: Bool = false
-    @State private var navigateToDietaryPreferences: Bool = false
+    @State private var isFirstUse: Bool = UserDefaults.standard.bool(forKey: "isFirstUse")
+    
+    var isNewUser: Bool
     
     var body: some View {
         ZStack {
@@ -14,17 +13,20 @@ struct PartnerSetupView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 30) {
-                HStack {
-                    Spacer()
-                    // Cancel button
-                    NavigationLink(destination: AddPartnerView()) {
-                        Text("Cancel")
-//                            .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.gray)
+                // Only show the "Skip" button if it's the first use
+                if isFirstUse {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            // Handle skip action
+                        }) {
+                            Text("Skip")
+                                .foregroundColor(.gray)
+                        }
+                        .frame(width: 120, height: 37)
+                        .padding()
+                        .offset(y: 50)
                     }
-                    .frame(width: 120, height: 37)
-                    .padding(/*.trailing, 20*/)
-                    .offset(y: 50)
                 }
                 
                 Image("connectPartner")
@@ -34,12 +36,10 @@ struct PartnerSetupView: View {
                     .padding(.top, 60)
                 
                 Text("Add your TasteBud")
-//                    .font(Font.custom("Abyssinica SIL", size: 27))
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
-//                    .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 5)
                 
                 VStack(spacing: 20) {
                     TextField("Partner's Username", text: $partnerUsername)
@@ -56,32 +56,33 @@ struct PartnerSetupView: View {
                     sendInvitation()
                 }) {
                     Text("Add Partner")
-//                        .font(Font.custom("Abyssinica SIL", size: 26))
                         .font(.headline)
                         .foregroundColor(.black.opacity(0.8))
                         .frame(width: 314, height: 70)
                         .background(Color.white)
                         .cornerRadius(30)
-//                        .shadow(radius: 10)
                 }
                 .padding(.bottom, 50)
                 .offset(y: 50)
                 
+                if isNewUser {
+                    NavigationLink(destination: DietaryPreferencesView()) {
+                    }
+                }
+                
                 Spacer()
             }
             .frame(width: 414, height: 896)
-            // Needs to be changed for better modularity
-            // NavigationLink to navigate to DietaryPreferencesView
-            NavigationLink(destination: DietaryPreferencesView(), isActive: $navigateToDietaryPreferences) {
-                EmptyView()
+        }
+        .onAppear {
+            if isFirstUse {
+                UserDefaults.standard.set(false, forKey: "isFirstUse")
             }
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Partner added"),
                   message: Text("You have successfully added your partner!"),
-                  dismissButton: .default(Text("OK"), action: {
-                      navigateToDietaryPreferences = true
-                  }))
+                  dismissButton: .default(Text("OK")))
         }
     }
     
@@ -91,5 +92,5 @@ struct PartnerSetupView: View {
 }
 
 #Preview {
-    PartnerSetupView()
+    PartnerSetupView(isNewUser: true)
 }

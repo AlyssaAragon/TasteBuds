@@ -1,5 +1,3 @@
-// Hannah Haggerty
-
 import SwiftUI
 
 struct LoginSignupView: View {
@@ -8,6 +6,8 @@ struct LoginSignupView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("isNewUser") private var isNewUser = false
 
     var body: some View {
         ZStack {
@@ -37,20 +37,16 @@ struct LoginSignupView: View {
                             .offset(y: -30)
 
                         HStack {
-                            Button(action: {
-                                isLogin = true
-                            }) {
+                            Button(action: { isLogin = true }) {
                                 Text("Login")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(isLogin ? .black : .gray)
                                     .offset(y: -15)
                             }
-                            
+
                             Spacer()
 
-                            Button(action: {
-                                isLogin = false
-                            }) {
+                            Button(action: { isLogin = false }) {
                                 Text("Sign-up")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
                                     .foregroundColor(!isLogin ? .black : .gray)
@@ -69,23 +65,17 @@ struct LoginSignupView: View {
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
                             TextField("Enter profile name here", text: $profileName)
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .foregroundColor(.white)
-                                .font(Font.custom("Abyssinica SIL", size: 20))
                             Rectangle()
                                 .frame(height: 0.5)
                                 .foregroundColor(.black)
                         }
                         .offset(y: -70)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
                             TextField("Enter email address here", text: $email)
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .foregroundColor(.white)
-                                .font(Font.custom("Abyssinica SIL", size: 20))
                             Rectangle()
                                 .frame(height: 0.5)
                                 .foregroundColor(.black)
@@ -98,9 +88,6 @@ struct LoginSignupView: View {
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
                         TextField("Enter username here", text: $username)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.white)
-                            .font(Font.custom("Abyssinica SIL", size: 20))
                         Rectangle()
                             .frame(height: 0.5)
                             .foregroundColor(.black)
@@ -112,34 +99,22 @@ struct LoginSignupView: View {
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
                         SecureField("Enter password here", text: $password)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.white)
-                            .font(Font.custom("Abyssinica SIL", size: 20))
                         Rectangle()
                             .frame(height: 0.5)
                             .foregroundColor(.black)
                     }
                     .offset(y: -50)
-                    .onAppear {
-                        if isLogin {
-                            Task {
-                                
-                            }
-                        }
-                    }
                 }
                 .padding(30)
                 .offset(y: -50)
-                // This needs to be changed so it's more modular
-                NavigationLink(destination: {
+
+                Button(action: {
                     if isLogin {
-                        // If login, navigate to CardView which fetches its own recipe
-                        return AnyView(CardView())
+                        isLoggedIn = true
                     } else {
-                        // If signing up navigate to AddPartnerView
-                        return AnyView(AddPartnerView())
+                        isNewUser = true
                     }
-                }()) {
+                }) {
                     Text(isLogin ? "Login" : "Sign-up")
                         .font(Font.custom("Abyssinica SIL", size: 26))
                         .foregroundColor(.black.opacity(0.8))

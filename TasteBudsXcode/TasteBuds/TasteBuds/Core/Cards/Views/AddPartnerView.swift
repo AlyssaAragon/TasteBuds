@@ -49,7 +49,7 @@ struct AddPartnerView: View {
 
                 Spacer()
 
-                NavigationLink(destination: PartnerSetupView()){
+                NavigationLink(destination: PartnerSetupView(isNewUser: true)){
                     Text("Next")
                         .font(.headline)
                         .foregroundColor(.black.opacity(0.8))

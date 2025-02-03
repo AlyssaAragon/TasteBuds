@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		2503BEB42CED546D008BCD0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB32CED546D008BCD0B /* Assets.xcassets */; };
 		2503BEB72CED546D008BCD0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */; };
-		2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */; };
-		2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */; };
 		2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE52CED5734008BCD0B /* SizeConstants.swift */; };
 		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
 		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
@@ -20,7 +18,6 @@
 		2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */; };
 		2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF72CED5734008BCD0B /* MainTabView.swift */; };
 		2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526677D2CEE9E9E002C0AF7 /* Recipe.swift */; };
-		255E9F1E2D07955E00E32A24 /* RecipeFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */; };
 		2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE332D07BE75006CD76B /* SettingsView.swift */; };
 		2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE362D07BE9D006CD76B /* FavoritesView.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
@@ -58,9 +55,7 @@
 		2503BEB32CED546D008BCD0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2503BEBC2CED546D008BCD0B /* TasteBudsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsTests.swift; sourceTree = "<group>"; };
 		2503BEC62CED546D008BCD0B /* TasteBudsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasteBudsUITests.swift; sourceTree = "<group>"; };
 		2503BEE52CED5734008BCD0B /* SizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeConstants.swift; sourceTree = "<group>"; };
 		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
@@ -70,7 +65,6 @@
 		2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionIndicatorView.swift; sourceTree = "<group>"; };
 		2503BEF72CED5734008BCD0B /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		2526677D2CEE9E9E002C0AF7 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
-		255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFetcherTests.swift; sourceTree = "<group>"; };
 		2570DE332D07BE75006CD76B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2570DE362D07BE9D006CD76B /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		257B64422CF155ED0039FB32 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -129,8 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				2503BEAE2CED546C008BCD0B /* TasteBuds */,
-				2503BEBF2CED546D008BCD0B /* TasteBudsTests */,
-				2503BEC92CED546D008BCD0B /* TasteBudsUITests */,
 				2503BEAD2CED546C008BCD0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,23 +159,6 @@
 				2503BEB62CED546D008BCD0B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		2503BEBF2CED546D008BCD0B /* TasteBudsTests */ = {
-			isa = PBXGroup;
-			children = (
-				2503BEC02CED546D008BCD0B /* TasteBudsTests.swift */,
-			);
-			path = TasteBudsTests;
-			sourceTree = "<group>";
-		};
-		2503BEC92CED546D008BCD0B /* TasteBudsUITests */ = {
-			isa = PBXGroup;
-			children = (
-				255E9F1D2D07955E00E32A24 /* RecipeFetcherTests.swift */,
-				2503BECA2CED546D008BCD0B /* TasteBudsUITests.swift */,
-			);
-			path = TasteBudsUITests;
 			sourceTree = "<group>";
 		};
 		2503BEE02CED5734008BCD0B /* Model */ = {
@@ -486,7 +461,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2503BEC12CED546D008BCD0B /* TasteBudsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,8 +468,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				255E9F1E2D07955E00E32A24 /* RecipeFetcherTests.swift in Sources */,
-				2503BECB2CED546D008BCD0B /* TasteBudsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
