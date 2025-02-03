@@ -44,13 +44,12 @@ struct SettingsView: View {
 
                 //Settings List
                 VStack(spacing: 0) {
-                    NavigationLink(destination: PartnerSetupView()) {
+                    NavigationLink(destination: PartnerSetupView(isNewUser: false)) {
                         settingsRow(title: "Partner")
                     }
                     Divider()
                     NavigationLink(destination: DietaryPreferencesView()) {
-                        settingsRow(title: "Dietary Preferences") 
-                        // This needs to be changed so the skip button is gone, skip button should only appears on first use of app
+                        settingsRow(title: "Dietary Preferences") // There's a back button on the upper left corner but its blending with the background since they're both white 
                     }
                     Divider()
                     settingsRow(title: "Notifications")
