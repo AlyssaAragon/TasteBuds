@@ -20,14 +20,11 @@ struct TasteBudsApp: App {
                     WelcomeView()
                         .onAppear {
                             // Set the next view when WelcomeView finishes
+                            hasSeenWelcome = true  // Mark that user has seen welcome
                             navigationState.nextView = .loginSignup
                         }
                 case .loginSignup:
-                    LoginSignupView()
-                        .onAppear {
-                            // Set the next view when LoginSignupView finishes
-                            navigationState.nextView = isNewUser ? .addPartner : .cardView
-                        }
+                    LoginSignupView(navigationState: navigationState) // Pass the navigation state to LoginSignupView
                 case .addPartner:
                     AddPartnerView()
                         .onAppear {
