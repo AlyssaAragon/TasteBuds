@@ -8,7 +8,14 @@ struct LoginSignupView: View {
     @State private var password = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
-
+    
+    // Add navigationState as a parameter
+    @ObservedObject var navigationState: NavigationState
+    
+    // Control which view should show up
+    // When user creates an account, it's skipping past the set partner and set diet preferences
+    @State private var isWaitingForNextView = false
+    
     var body: some View {
         ZStack {
             Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
@@ -111,8 +118,11 @@ struct LoginSignupView: View {
                 Button(action: {
                     if isLogin {
                         isLoggedIn = true
+                        navigationState.nextView = .cardView // Navigate to card view on login
                     } else {
                         isNewUser = true
+                        navigationState.nextView = .addPartner // Navigate to add partner on sign-up
+                        isWaitingForNextView = true // Add waiting state
                     }
                 }) {
                     Text(isLogin ? "Login" : "Sign-up")
@@ -125,10 +135,24 @@ struct LoginSignupView: View {
                 .padding(.bottom, 50)
             }
             .frame(width: 414, height: 896)
+            .onChange(of: navigationState.nextView) { newView in
+                if isWaitingForNextView && newView == .addPartner {
+                    // Give the user a chance to see the AddPartnerView
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        navigationState.nextView = .dietaryPreferences // After 1 second, move to dietary preferences
+                    }
+                }
+                if newView == .dietaryPreferences {
+                    // After user completes dietary preferences, navigate to card view
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        navigationState.nextView = .cardView
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    LoginSignupView()
+    LoginSignupView(navigationState: NavigationState())
 }
