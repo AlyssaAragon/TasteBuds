@@ -11,8 +11,29 @@ struct LoginSignupView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
+            ZStack {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xffa65b),
+                        Color(hex: 0xffa4c2)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
                 .edgesIgnoringSafeArea(.all)
+                
+                RadialGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xfbe13f, opacity: 0.9), // Transparent white
+                        Color.clear // Fully transparent
+                    ]),
+                    center: .bottomLeading,
+                    startRadius: 5,
+                    endRadius: 400
+                )
+                .blendMode(.overlay)
+                .edgesIgnoringSafeArea(.all)
+            }
 
             VStack(spacing: 0) {
                 ZStack {
@@ -20,21 +41,23 @@ struct LoginSignupView: View {
                         .foregroundColor(.clear)
                         .frame(width: 414, height: 382)
                         .background(.white)
+                        .opacity(0.25)
                         .cornerRadius(30)
                         .shadow(color: .black.opacity(0.06), radius: 15, x: 0, y: 4)
                         .overlay(
                             RoundedRectangle(cornerRadius: 30)
-                                .stroke(.white, lineWidth: 1)
+                                .stroke(.white, lineWidth: 0)
                         )
                         .offset(y: -100)
 
                     VStack {
-                        Image("tasteBudMascot")
+                        Image("white_logo")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 150, height: 150)
+                            .frame(width: 300)
                             .padding(.bottom, 20)
-                            .offset(y: -30)
+                            .shadow(radius: 60)
+                            .offset(y: -70)
 
                         HStack {
                             Button(action: { isLogin = true }) {
@@ -120,6 +143,7 @@ struct LoginSignupView: View {
                         .foregroundColor(.black.opacity(0.8))
                         .frame(width: 314, height: 70)
                         .background(Color.white)
+                        .shadow(radius: 75)
                         .cornerRadius(30)
                 }
                 .padding(.bottom, 50)

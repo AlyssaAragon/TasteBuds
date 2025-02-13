@@ -11,12 +11,9 @@ struct SettingsView: View {
                     Text("Settings")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding(.horizontal, 0)
                 .padding(.vertical, 19.5)
-                .frame(width: 375, height: 56, alignment: .center)
-                .background(Color.white)
 
                 VStack(spacing: 8) {
                     if let user = userFetcher.currentUser {
@@ -84,4 +81,8 @@ struct SettingsView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+}
+
+#Preview {
+    SettingsView()
 }
