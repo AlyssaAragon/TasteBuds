@@ -223,6 +223,7 @@
 		2503BEF52CED5734008BCD0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */,
 				DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
@@ -231,12 +232,11 @@
 				25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
-				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
-				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
 				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
 				25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */,
 				419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */,
+				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
