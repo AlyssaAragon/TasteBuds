@@ -8,26 +8,20 @@ struct MainTabView: View {
             CardView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                        .font(.system(size: 40))
-                        .foregroundColor(Color.black)
                 }
 
             FavoritesView()
                 .tabItem {
                     Image(systemName: "heart.fill")
-                        .font(.system(size: 40))
-                        .foregroundColor(Color.black)
                 }
                 .environmentObject(favoritesManager) // Inject the FavoritesManager into the environment
 
             SettingsView()
                 .tabItem {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 40))
-                        .foregroundColor(Color.black)
+                    Image(systemName: "person.fill")
                 }
         }
-        .accentColor(.blue)
+        .accentColor(Color.black)
     }
 }
 

@@ -1,6 +1,19 @@
 // Hannah, Alyssa, Alicia
 import SwiftUI
 
+// color hex code extension (format: 0xFFFFFF)
+extension Color {
+    init(hex: Int, opacity: Double = 1) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: opacity
+        )
+    }
+}
+
 struct CardView: View {
     @State private var currentRecipe: FetchedRecipe? = nil
     @State private var nextRecipe: FetchedRecipe? = nil
@@ -17,24 +30,43 @@ struct CardView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0) // Background color
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(maxHeight: .infinity)
-                    .overlay(
-                        VStack {
-                            Image("white_logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300, height: 250)
-                                .padding(.top, -70)
-                            Spacer()
-                        }
+//                Gradient background
+                ZStack {
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(hex: 0xffa65b),
+                            Color(hex: 0xffa4c2)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-                
+                    .edgesIgnoringSafeArea(.all)
+                    
+                    RadialGradient(
+                        gradient: Gradient(colors: [
+                            Color(hex: 0xfbe13f, opacity: 0.9), // Transparent white
+                            Color.clear // Fully transparent
+                        ]),
+                        center: .bottomLeading,
+                        startRadius: 5,
+                        endRadius: 400
+                    )
+                    .blendMode(.overlay)
+                    .edgesIgnoringSafeArea(.all)
+                }
+//                TasteBuds Logo
                 VStack {
+                    Image("white_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 210, height: 250)
+                        .padding(.top, -145)
+
                     Spacer().frame(height: 100)
-                    // Recipe card display
-                    // We need to add flipping the recipe for more information
+                    
+// Recipe card display
+// We need to add flipping the recipe for more information
+                    
                     if let recipe = currentRecipe {
                         VStack {
                             if let recipeImage = recipe.recipeImage,
@@ -106,16 +138,18 @@ struct CardView: View {
                     
                     Spacer()
                     
+//  swipe buttons
                     HStack {
                         Button(action: {
                             self.swipeLeft()
                         }) {
                             Circle()
-                                .fill(Color.red)
+                                .fill(Color(hex: 0x5bc3eb))
+                                .shadow(radius: 65)
                                 .frame(width: 60, height: 60)
                                 .overlay(
-                                    Image(systemName: "xmark")
-                                        .foregroundColor(.white)
+                                    Image(systemName: "hand.thumbsdown.fill")
+                                        .foregroundColor(Color.white)
                                         .font(.title)
                                 )
                         }
@@ -126,25 +160,28 @@ struct CardView: View {
                         Button(action: {
                             self.swipeRight()
                         }) {
-                            Circle() // The buttons need to be fixed
-                                .fill(Color.green) 
+                            Circle()
+                                .fill(Color(hex: 0xda2c38))
+                                .shadow(radius: 65)
                                 .frame(width: 60, height: 60)
                                 .overlay(
                                     Image(systemName: "heart.fill")
-                                        .foregroundColor(.white)
+                                        .foregroundColor(Color.white)
                                         .font(.title)
                                 )
                         }
                         .padding(.trailing, 40)
                     }
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 60)
                 }
             }
+            
             .onAppear {
                 Task {
                     await fetchRecipe()
                 }
             }
+            
             .onChange(of: isSwiped) { _ in
                 if isSwiped {
                     Task {
@@ -153,13 +190,15 @@ struct CardView: View {
                 }
             }
 
-            // Dietary filters button
+            
+//  Dietary filters button
+            
             .navigationBarItems(trailing: Button(action: {
                 showFilterMenu.toggle()
             }) {
-                Image(systemName: "ellipsis.circle.fill")
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(Color.white)
             })
             .sheet(isPresented: $showFilterMenu) {
                 VStack {
@@ -220,6 +259,7 @@ struct CardView: View {
                         print("Filtered recipes button tapped")
                         Task {
                             await fetchFilteredRecipes()
+                            showFilterMenu.toggle()
                         }
                     }
                     .padding()
