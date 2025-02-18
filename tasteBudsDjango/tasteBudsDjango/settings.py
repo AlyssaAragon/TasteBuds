@@ -29,8 +29,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
-    '127.0.0.1',
-    '0.0.0.0'
+    # zach said not to use this one '127.0.0.1',
+    '0.0.0.0',
+    'tastebuds-db.unr.dev' #server address
 
 ]
 SITE_ID = 1
@@ -108,10 +109,10 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Capstone Recipe Dataset',
+        'NAME': 'tastebuds',
         'USER': 'postgres', 
-        'PASSWORD': 'hannah',  
-        'HOST': 'localhost',  
+        'PASSWORD': 'tastebudsteam36',  
+        'HOST': '0.0.0.0',  
         'PORT': '5432',       
     }
 }
