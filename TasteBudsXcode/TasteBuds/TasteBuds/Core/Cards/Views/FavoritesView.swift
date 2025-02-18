@@ -11,17 +11,16 @@ struct FavoritesView: View {
         NavigationView {
             VStack {
                 Text("Favorites")
-                    .font(.largeTitle)
+                    .font(.title3)
                     .fontWeight(.bold)
                     .padding()
 
                 if favoritesManager.favoriteRecipes.isEmpty {
                     Text("No favorite recipes yet.")
-                        .font(.title3)
+                        .font(.headline)
                         .foregroundColor(.gray)
                         .padding()
                 } else {
-                    
                     List{
                         ForEach(favoritesManager.favoriteRecipes) { recipe in
                             VStack(alignment: .leading) {

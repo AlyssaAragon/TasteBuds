@@ -4,8 +4,29 @@ import SwiftUI
 struct AddPartnerView: View {
     var body: some View {
         ZStack {
-            Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0)
+            ZStack {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xffa65b),
+                        Color(hex: 0xffa4c2)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
                 .edgesIgnoringSafeArea(.all)
+                
+                RadialGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xfbe13f, opacity: 0.9), // Transparent white
+                        Color.clear // Fully transparent
+                    ]),
+                    center: .bottomLeading,
+                    startRadius: 5,
+                    endRadius: 400
+                )
+                .blendMode(.overlay)
+                .edgesIgnoringSafeArea(.all)
+            }
 
             VStack(spacing: 30) {
                 HStack {

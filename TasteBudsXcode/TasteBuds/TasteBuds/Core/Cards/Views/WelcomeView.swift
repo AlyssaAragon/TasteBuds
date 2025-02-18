@@ -5,15 +5,37 @@ struct WelcomeView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 246.0/255.0, green: 227.0/255.0, blue: 143.0/255.0)
+            ZStack {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xffa65b),
+                        Color(hex: 0xffa4c2)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
                 .edgesIgnoringSafeArea(.all)
+                
+                RadialGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: 0xfbe13f, opacity: 0.9), // Transparent white
+                        Color.clear // Fully transparent
+                    ]),
+                    center: .bottomLeading,
+                    startRadius: 5,
+                    endRadius: 400
+                )
+                .blendMode(.overlay)
+                .edgesIgnoringSafeArea(.all)
+            }
             
             VStack {
                 Image("white_logo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 380, height: 270)
-                    .offset(y: 35)
+                    .shadow(radius: 75)
+//                    .offset(y: 35)
                 
                 Image("kitchenWelcome")
                     .resizable()
@@ -27,7 +49,9 @@ struct WelcomeView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(Color.white)
+                            .opacity(0.7)
                             .frame(width: 314, height: 70)
+                            .shadow(radius: 75)
                         Text("Get started")
                             .font(Font.custom("Abyssinica SIL", size: 26))
                             .foregroundColor(.black)
