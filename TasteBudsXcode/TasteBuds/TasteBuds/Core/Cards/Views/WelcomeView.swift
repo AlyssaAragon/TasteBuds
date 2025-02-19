@@ -34,12 +34,13 @@ struct WelcomeView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 380, height: 270)
-                    .shadow(radius: 75)
+                    .shadow(radius: 65)
 //                    .offset(y: 35)
                 
                 Image("kitchenWelcome")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .shadow(color: Color(hex: 0xfbe13f),radius: 100)
                 
                 Spacer()
                 
