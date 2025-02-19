@@ -63,7 +63,7 @@ struct LoginSignupView: View {
                             .scaledToFit()
                             .frame(width: 300)
                             .padding(.bottom, 20)
-                            .shadow(radius: 60)
+                            .shadow(radius: 50)
                             .offset(y: -70)
 
                         HStack {
@@ -118,6 +118,9 @@ struct LoginSignupView: View {
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
                         TextField("Enter username here", text: $username)
+//                            .background(Color.white)
+//                            .opacity(0.5)
+//                            .cornerRadius(10)
                         Rectangle()
                             .frame(height: 0.5)
                             .foregroundColor(.black)

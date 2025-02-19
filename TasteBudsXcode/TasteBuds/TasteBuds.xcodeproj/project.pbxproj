@@ -13,21 +13,14 @@
 		2503BF012CED5734008BCD0B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEE92CED5734008BCD0B /* APIService.swift */; };
 		2503BF022CED5734008BCD0B /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEB2CED5734008BCD0B /* CardModel.swift */; };
 		2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */; };
-		2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF12CED5734008BCD0B /* CardStackView.swift */; };
 		2503BF062CED5734008BCD0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF22CED5734008BCD0B /* CardView.swift */; };
-		2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */; };
 		2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2503BEF72CED5734008BCD0B /* MainTabView.swift */; };
 		2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526677D2CEE9E9E002C0AF7 /* Recipe.swift */; };
 		2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE332D07BE75006CD76B /* SettingsView.swift */; };
 		2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE362D07BE9D006CD76B /* FavoritesView.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
-		25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */; };
-		25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */; };
-		25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */; };
 		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
-		419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */; };
-		419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */; };
 		DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */; };
 		DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
@@ -60,23 +53,16 @@
 		2503BEE92CED5734008BCD0B /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2503BEEB2CED5734008BCD0B /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		2503BEEF2CED5734008BCD0B /* CardsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
-		2503BEF12CED5734008BCD0B /* CardStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStackView.swift; sourceTree = "<group>"; };
 		2503BEF22CED5734008BCD0B /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionIndicatorView.swift; sourceTree = "<group>"; };
 		2503BEF72CED5734008BCD0B /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		2526677D2CEE9E9E002C0AF7 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		2570DE332D07BE75006CD76B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2570DE362D07BE9D006CD76B /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		257B64422CF155ED0039FB32 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
-		25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPartnerView.swift; sourceTree = "<group>"; usesTabs = 0; };
-		25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSetupView.swift; sourceTree = "<group>"; };
-		25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryPreferencesView.swift; sourceTree = "<group>"; };
 		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
-		419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionButtonView.swift; sourceTree = "<group>"; };
-		419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAPICalloutTest.swift; sourceTree = "<group>"; };
 		DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
 		DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
@@ -84,6 +70,8 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		251EFFE92D07D565005B3FF7 /* Backend Connection */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Backend Connection"; sourceTree = "<group>"; };
+		419D2E4C2D650FD600A00C6B /* Inactive */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Inactive; sourceTree = "<group>"; };
+		419D2E4F2D65159C00A00C6B /* Settings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Settings; sourceTree = "<group>"; };
 		419F96882D04CF65006CC8FA /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -228,15 +216,10 @@
 				DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
-				25C2913C2CFE646800B0DA69 /* AddPartnerView.swift */,
-				25C2913E2CFE71C800B0DA69 /* PartnerSetupView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
-				419F964A2D04CEED006CC8FA /* SwipeActionButtonView.swift */,
-				2503BEF42CED5734008BCD0B /* SwipeActionIndicatorView.swift */,
-				25C291402CFEC7A500B0DA69 /* DietaryPreferencesView.swift */,
-				419F96912D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift */,
-				2503BEF12CED5734008BCD0B /* CardStackView.swift */,
+				419D2E4F2D65159C00A00C6B /* Settings */,
+				419D2E4C2D650FD600A00C6B /* Inactive */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -285,6 +268,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				251EFFE92D07D565005B3FF7 /* Backend Connection */,
+				419D2E4C2D650FD600A00C6B /* Inactive */,
+				419D2E4F2D65159C00A00C6B /* Settings */,
 				419F96882D04CF65006CC8FA /* App */,
 			);
 			name = TasteBuds;
@@ -435,21 +420,14 @@
 				2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */,
 				2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
-				25C2913D2CFE646800B0DA69 /* AddPartnerView.swift in Sources */,
 				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
-				2503BF052CED5734008BCD0B /* CardStackView.swift in Sources */,
 				DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */,
-				2503BF082CED5734008BCD0B /* SwipeActionIndicatorView.swift in Sources */,
-				25C2913F2CFE71C800B0DA69 /* PartnerSetupView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
 				DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
-				25C291412CFEC7A500B0DA69 /* DietaryPreferencesView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
-				419F964B2D04CEED006CC8FA /* SwipeActionButtonView.swift in Sources */,
-				419F96922D0727DA006CC8FA /* AuthenticatedAPICalloutTest.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
 				DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
