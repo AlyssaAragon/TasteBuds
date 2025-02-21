@@ -59,17 +59,17 @@ struct CardView: View {
                     Image("white_logo")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 210, height: 250)
-                        .padding(.top, -145)
+                        .frame(width: 250, height: 290)
+                        .padding(.top, 290)
 
-                    Spacer().frame(height: 100)
+                    //Spacer().frame(height: -80)
                     
 // Recipe card display
 // We need to add flipping the recipe for more information
                     
                     if let recipe = currentRecipe {
                         VStack {
-                            if let recipeImage = recipe.recipeImage,
+                            if let recipeImage = recipe.imageName,
                                let url = URL(string: recipeImage) {
                                 AsyncImage(url: url) { image in
                                     image
@@ -101,15 +101,17 @@ struct CardView: View {
                                 .lineLimit(2)
                                 .minimumScaleFactor(0.5)
                             
-                            Text(recipe.description)
-                                .font(.body)
-                                .padding(.top, 5)
+                            
                         }
                         
-                        .padding()
-                        .frame(width: 380, height: 570)
+                        .padding(.top, 30)
+                        
+                        .frame(width: 380, height: 500)
+                        
+                        
+                        
                         .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
-                        .offset(x: dragAmount.width, y: dragAmount.height)
+                        .offset(x: dragAmount.width, y: dragAmount.height - 70)
                         .gesture(DragGesture()
                             .onChanged { value in
                                 self.dragAmount = value.translation
@@ -136,7 +138,7 @@ struct CardView: View {
                             .foregroundColor(.gray)
                     }
                     
-                    Spacer()
+                    //Spacer()
                     
 //  swipe buttons
                     HStack {
@@ -146,7 +148,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0x5bc3eb))
                                 .shadow(radius: 65)
-                                .frame(width: 60, height: 60)
+                                .frame(width: 70, height: 70)
                                 .overlay(
                                     Image(systemName: "hand.thumbsdown.fill")
                                         .foregroundColor(Color.white)
@@ -163,7 +165,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0xda2c38))
                                 .shadow(radius: 65)
-                                .frame(width: 60, height: 60)
+                                .frame(width: 70, height: 70)
                                 .overlay(
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.white)
@@ -172,7 +174,7 @@ struct CardView: View {
                         }
                         .padding(.trailing, 40)
                     }
-                    .padding(.bottom, 60)
+                    .padding(.bottom, 480)
                 }
             }
             

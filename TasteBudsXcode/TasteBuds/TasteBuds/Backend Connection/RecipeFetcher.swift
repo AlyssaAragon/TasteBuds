@@ -4,36 +4,21 @@ import Foundation
 struct FetchedRecipe: Identifiable, Decodable {
     let id: Int
     let name: String
-    let description: String
     let ingredients: String
-    let ingredientsRawStr: String
-    let servingSize: String
-    let servings: Int
-    let steps: String
-    let tags: String
-    let search_terms: String
-   // let createdAt: String
-   // let time: Int
-   // let diets: [FetchedDiet]
-    let recipeImage: String?
+    let instructions: String
+    let imageName: String?
+    let cleanedIngredients: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case description
         case ingredients
-        case ingredientsRawStr = "ingredients_raw_str"
-        case servingSize = "serving_size"
-        case servings
-        case steps
-        case tags
-        case search_terms
-       // case createdAt = "created_at"
-       // case time
-       // case diets
-        case recipeImage = "image_url" //JSON key "image_url" to the `recipeImage`
+        case instructions
+        case imageName = "image_name"
+        case cleanedIngredients = "cleaned_ingredients"
     }
 }
+
 
 
 
@@ -95,7 +80,6 @@ class RecipeFetcher: ObservableObject {
             DispatchQueue.main.async {
                 self.currentRecipe = decodedRecipe
                 print("Fetched random filtered recipe: \(decodedRecipe.name)")
-                
             }
         } catch {
             print("Error decoding filtered recipes: \(error)")
@@ -110,7 +94,6 @@ class RecipeFetcher: ObservableObject {
 
         if let recipe = currentRecipe {
             print("Test passed. Fetched recipe: \(recipe.name)")
-            print("Recipe Body: \(recipe.description)")
         } else {
             print("Test failed. No recipe fetched.")
         }
