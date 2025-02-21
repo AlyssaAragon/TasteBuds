@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '0.0.0.0',
     'tastebuds-db.unr.dev' #server address
-
+    'tastebuds.unr.dev'
 ]
 SITE_ID = 1
 
