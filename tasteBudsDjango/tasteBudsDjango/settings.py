@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
     '0.0.0.0',
-    'tastebuds-db.unr.dev' #server address
+    'tastebuds.unr.dev' #server address
 
 ]
 SITE_ID = 1
@@ -112,7 +112,7 @@ DATABASES = {
         'USER': 'postgres', 
         'PASSWORD': 'tastebudsteam36',  
         'HOST': 'tastebuds.unr.dev',  
-        'PORT': '8000',       
+        'PORT': '5432',       
     }
 }
 
