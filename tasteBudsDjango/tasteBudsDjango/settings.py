@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
     '0.0.0.0',
-    'tastebuds-db.unr.dev' #server address
+    'tastebuds-db.unr.dev', #server address
     'tastebuds.unr.dev'
 ]
 SITE_ID = 1
