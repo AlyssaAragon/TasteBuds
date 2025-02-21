@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
     # zach said not to use this one '127.0.0.1',
-    '127.0.0.1',
+    '0.0.0.0',
     'tastebuds-db.unr.dev' #server address
 
 ]
