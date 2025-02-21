@@ -111,7 +111,7 @@ DATABASES = {
         'NAME': 'tastebuds',
         'USER': 'postgres', 
         'PASSWORD': 'tastebudsteam36',  
-        'HOST': 'tastebuds.unr.dev',  
+        'HOST': '0.0.0.0',  
         'PORT': '5432',       
     }
 }
