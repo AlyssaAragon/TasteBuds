@@ -31,7 +31,8 @@ ALLOWED_HOSTS = [
     'localhost',
     # zach said not to use this one '127.0.0.1',
     '0.0.0.0',
-    'tastebuds-db.unr.dev' #server address
+    'tastebuds-db.unr.dev', #server address
+    'tastebuds.unr.dev',
 
 ]
 SITE_ID = 1
@@ -111,8 +112,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tastebuds',
         'USER': 'postgres', 
-        'PASSWORD': 'hannah',  #tastebudsteam36
-        'HOST': 'localhost',  #0.0.0.0
+        'PASSWORD': 'tastebudsteam36',
+        'HOST': '0.0.0.0',
         'PORT': '5432',       
     }
 }
