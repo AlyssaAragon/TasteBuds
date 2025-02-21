@@ -50,8 +50,8 @@ struct SettingsView: View {
                         settingsRow(title: "Dietary Preferences") // There's a back button on the upper left corner but its blending with the background since they're both white 
                     }
                     Divider()
-                    NavigationLink(destination: AccesibilityView()) {
-                        settingsRow(title: "Accesibility")
+                    NavigationLink(destination: AccessibilityView()) {
+                        settingsRow(title: "Accessibility")
                     }
                     Divider()
                     settingsRow(title: "Notifications")
