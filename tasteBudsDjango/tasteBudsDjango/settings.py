@@ -112,7 +112,7 @@ DATABASES = {
         'USER': 'postgres', 
         'PASSWORD': 'tastebudsteam36',  
         'HOST': 'tastebuds.unr.dev',  
-        'PORT': '5432',       
+        'PORT': '8000',       
     }
 }
 
