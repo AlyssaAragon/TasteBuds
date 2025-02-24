@@ -35,7 +35,7 @@ class RecipeFetcher: ObservableObject {
     func fetchRecipe() async {
         print("Starting recipe fetch...")
 
-        guard let url = URL(string: "http://127.0.0.1:8000/api/random_recipe/") else {
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/random_recipe/") else {
             print("Invalid URL")
             return
         }
@@ -62,7 +62,7 @@ class RecipeFetcher: ObservableObject {
         print("Fetching filtered recipes...")
 
         let tagsQuery = tags.map { "tags=\($0)" }.joined(separator: "&")
-        let urlString = "http://127.0.0.1:8000/api/filter_recipes/?" + tagsQuery
+        let urlString = "https://tastebuds.unr.dev/api/filter_recipes/?" + tagsQuery
 
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
