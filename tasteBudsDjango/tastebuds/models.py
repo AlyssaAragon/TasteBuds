@@ -1,74 +1,83 @@
 from django.db import models
-from .managers import CustomUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.conf import settings 
-# alyssa and hannah, other than the class customuser at the bottom
+from django.conf import settings
+from .managers import CustomUserManager
+
 class Diet(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    dietid = models.AutoField(primary_key=True, db_column='dietid')
+    dietname = models.CharField(max_length=255, unique=True, default="General", db_column='dietname')
 
     def __str__(self):
-        return self.name
+        return self.dietname
+
+    class Meta:
+        db_table = 'diet'
+        managed = False  # Set to False if you don't want Django managing this table
+
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=255)
-    body = models.TextField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    diets = models.ManyToManyField(Diet, through='RecipeDiet') 
+    recipeid = models.AutoField(primary_key=True, db_column='recipeid')
+    title = models.CharField(max_length=255, default="Untitled Recipe", db_column='title')
+    ingredients = models.TextField(default="No ingredients listed", db_column='ingredients')
+    instructions = models.TextField(default="No instructions provided", db_column='instructions')
+    image_name = models.CharField(max_length=255, null=True, blank=True, db_column='image_name')
+    cleaned_ingredients = models.TextField(default="", db_column='cleaned_ingredients')
 
     def __str__(self):
         return self.title
 
+    class Meta:
+        db_table = 'recipe'
+        managed = False
+
+
 class RecipeDiet(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    diet = models.ForeignKey(Diet, on_delete=models.CASCADE)
-
-class AllRecipe(models.Model):
-    name = models.TextField()
-    description = models.TextField(null=True, blank=True)
-    ingredients = models.TextField()
-    ingredients_raw_str = models.TextField()
-    serving_size = models.TextField()
-    servings = models.IntegerField()
-    steps = models.TextField()
-    tags = models.TextField()
-    search_terms = models.TextField()
-    image_url = models.URLField(max_length=500, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-class Favorite(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipedietid = models.AutoField(primary_key=True, db_column='recipedietid')
+    # Note: Use db_column to match the actual foreign key column names in your table.
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid')
+    diet = models.ForeignKey(Diet, on_delete=models.CASCADE, db_column='dietid')
 
     class Meta:
-        unique_together = ('user', 'recipe')
+        db_table = 'recipe_diet'
+        managed = False
 
-class Partner(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='partners')
-    partner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='partner_of')
+
+class SavedRecipe(models.Model):
+    savedid = models.AutoField(primary_key=True, db_column='savedid')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='userid')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid')
 
     class Meta:
-        unique_together = ('user', 'partner')
+        db_table = 'saved_recipe'
+        managed = False
 
-# this class specifically was adapted from same source as CustomUserManager in managers.py but i added unique elements here to fit it for tastebuds
-class CustomUser(AbstractBaseUser,PermissionsMixin):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    diet_preference = models.ForeignKey(Diet, null=True, blank=True, on_delete=models.SET_NULL)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    userid = models.AutoField(primary_key=True, db_column='userid')
+    partnerid = models.IntegerField(null=True, blank=True, db_column='partnerid')
+    username = models.CharField(max_length=150, unique=True, default="defaultuser", db_column='username')
+    email = models.EmailField(unique=True, default="user@example.com", db_column='email')
+    firstlastname = models.CharField(max_length=255, default="First Last", db_column='firstlastname')
+    password = models.TextField(default="", db_column='password')
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
     class Meta:
-        db_table = 'tastebuds_customuser'
-        
+        db_table = 'users'
+        managed = False
+
     def __str__(self):
         return self.username
+
+
+class UserDiet(models.Model):
+    userdietid = models.AutoField(primary_key=True, db_column='userdietid')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='userid')
+    diet = models.ForeignKey(Diet, on_delete=models.CASCADE, db_column='dietid')
+
+    class Meta:
+        db_table = 'user_diet'
+        managed = False

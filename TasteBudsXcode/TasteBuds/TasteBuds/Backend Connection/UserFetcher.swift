@@ -11,7 +11,7 @@ class UserFetcher: ObservableObject {
     func fetchUser() async {
         print("Starting user fetch...")
 
-        guard let url = URL(string: "http://127.0.0.1:8000/api/user_profile/") else {
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/user_profile/") else {
             print("Invalid URL")
             return
         }

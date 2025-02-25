@@ -6,9 +6,8 @@ struct DietaryPreferencesView: View {
     
     var body: some View {
         ZStack {
-            Color.white
-                .edgesIgnoringSafeArea(.all)
-            
+            Color.clear.customGradientBackground()
+    
             VStack(spacing: 30) {
                 // Only show the "Skip" button if it's the first use
                 if isFirstUse {
@@ -31,6 +30,7 @@ struct DietaryPreferencesView: View {
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
+                    .padding(.top, 40)
                 
                 Text("You can set your dietary preferences here. These will affect your recipe recommendations.")
                     .font(.body)
@@ -41,7 +41,8 @@ struct DietaryPreferencesView: View {
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 414, height: 68)
-                    .background(Color(red: 0.85, green: 0.85, blue: 0.85).opacity(0.7))
+                    .background(.white)
+                    .opacity(0.5)
                     .overlay(
                         Text("Allergies")
                             .font(Font.custom("Abyssinica SIL", size: 24))
@@ -63,7 +64,8 @@ struct DietaryPreferencesView: View {
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 414, height: 68)
-                    .background(Color(red: 0.85, green: 0.85, blue: 0.85).opacity(0.7))
+                    .background(.white)
+                    .opacity(0.5)
                     .overlay(
                         Text("Diets")
                             .font(Font.custom("Abyssinica SIL", size: 24))
@@ -91,13 +93,13 @@ struct DietaryPreferencesView: View {
                         Rectangle()
                             .foregroundColor(.clear)
                             .frame(width: 314, height: 70)
-                            .background(Color(red: 173.0/255.0, green: 233.0/255.0, blue: 251.0/255.0))
+                            .background(.white)
                             .cornerRadius(30)
                         
                         Text("Save Preferences")
                             .font(Font.custom("Abyssinica SIL", size: 26))
                             .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                     }
                 }
                 .padding(.bottom, 30)

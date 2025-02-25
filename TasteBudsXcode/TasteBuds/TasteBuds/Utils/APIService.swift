@@ -8,7 +8,10 @@ class APIService {
     // Fetch recipes from the Django backend
     func fetchRecipes(completion: @escaping ([Recipe]?) -> Void) {
         let urlString = "\(baseURL)/recipes/"
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
@@ -24,7 +27,10 @@ class APIService {
             
             do {
                 let decoder = JSONDecoder()
-                let recipes = try decoder.decode([Recipe].self, from: data)
+                // Decode into an array of FetchedRecipe
+                let fetchedRecipes = try decoder.decode([FetchedRecipe].self, from: data)
+                // Map the fetched recipes to your Recipe model
+                let recipes = fetchedRecipes.map { Recipe(from: $0) }
                 completion(recipes)
             } catch {
                 print("Error decoding data: \(error)")
