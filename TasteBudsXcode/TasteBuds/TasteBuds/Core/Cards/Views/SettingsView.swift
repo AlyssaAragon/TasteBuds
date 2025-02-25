@@ -41,6 +41,7 @@ struct SettingsView: View {
 
                 //Settings List
                 VStack(spacing: 0) {
+
                     NavigationLink(destination: PartnerSetupView(isNewUser: false)) {
                         settingsRow(title: "Partner")
                     }
@@ -49,9 +50,16 @@ struct SettingsView: View {
                         settingsRow(title: "Dietary Preferences") // There's a back button on the upper left corner but its blending with the background since they're both white 
                     }
                     Divider()
+                    NavigationLink(destination: AccessibilityView()) {
+                        settingsRow(title: "Accessibility")
+                    }
+                    Divider()
                     settingsRow(title: "Notifications")
                     Divider()
                     settingsRow(title: "Privacy and Security")
+                    Divider()
+                    settingsRow(title: "Sign Out")
+
                 }
                 .background(Color.white)
                 .cornerRadius(8)

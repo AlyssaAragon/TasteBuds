@@ -1,36 +1,36 @@
-# Alyssa and Hannah
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import AllRecipe, Diet, Favorite, Partner, Recipe 
-from django.contrib.auth import get_user_model
+from .models import CustomUser, Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
 
-
-class AllRecipeSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AllRecipe
-        fields = '__all__' 
+        model = CustomUser
+        fields = ['userid', 'partnerid', 'username', 'email', 'firstlastname']
+
+class RecipeSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='recipeid', read_only=True)
+    name = serializers.CharField(source='title', read_only=True)
+
+    class Meta:
+        model = Recipe
+        fields = ['id', 'name', 'ingredients', 'instructions', 'image_name', 'cleaned_ingredients']
+
 
 class DietSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diet
-        fields = '__all__'  
+        fields = '__all__'
 
-class FavoriteSerializer(serializers.ModelSerializer):
+class RecipeDietSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Favorite
-        fields = '__all__' 
+        model = RecipeDiet
+        fields = '__all__'
 
-class PartnerSerializer(serializers.ModelSerializer):
+class SavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Partner
-        fields = '__all__'  # or specify a list of fields
+        model = SavedRecipe
+        fields = '__all__'
 
-class RecipeSerializer(serializers.ModelSerializer):
+class UserDietSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Recipe
-        fields = '__all__'  
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()  #uses our custom user model
+        model = UserDiet
         fields = '__all__'

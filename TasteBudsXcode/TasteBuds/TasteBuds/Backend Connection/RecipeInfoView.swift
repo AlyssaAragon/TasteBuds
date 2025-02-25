@@ -23,9 +23,7 @@ struct RecipeInfoView: View {
                         .imageScale(.large)
                 }
             }
-            Text(recipe.description)
-                .font(.subheadline)
-                .lineLimit(2)
+           
         }
         .foregroundStyle(.white)
         .padding()
