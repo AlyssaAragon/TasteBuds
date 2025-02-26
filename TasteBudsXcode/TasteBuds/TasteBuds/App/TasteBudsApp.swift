@@ -9,6 +9,9 @@ struct TasteBudsApp: App {
     
     // this object stores and tracks the navigation state for the app.
     @StateObject private var navigationState = NavigationState()
+    
+    @StateObject private var favoritesManager = FavoritesManager()
+    @StateObject private var themeManager = ThemeManager()
 
     var body: some Scene {
         WindowGroup {
@@ -39,6 +42,8 @@ struct TasteBudsApp: App {
                         }
                 case .cardView:
                     MainTabView()
+                        .environmentObject(favoritesManager)
+                        .environmentObject(themeManager)
                         .onAppear {
                             // Set any additional logic once in CardView, if needed
                         }

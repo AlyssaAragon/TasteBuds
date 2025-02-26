@@ -22,6 +22,7 @@
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
 		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
+		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
 		DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */; };
 		DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
@@ -65,6 +66,7 @@
 		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
 		DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
@@ -214,13 +216,14 @@
 			isa = PBXGroup;
 			children = (
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
+				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
+				2570DE332D07BE75006CD76B /* SettingsView.swift */,
 				DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */,
 				DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
-				4753C63E2D67FCF500402D22 /* Extensions.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
-				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
-				2570DE332D07BE75006CD76B /* SettingsView.swift */,
+				4753C63E2D67FCF500402D22 /* Extensions.swift */,
+				4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */,
 				419D2E4F2D65159C00A00C6B /* Settings */,
 				419D2E4C2D650FD600A00C6B /* Inactive */,
 			);
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */,
+				4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */,
 				2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
 				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
