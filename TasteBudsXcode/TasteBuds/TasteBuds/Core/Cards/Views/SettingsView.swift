@@ -2,18 +2,18 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var userFetcher = UserFetcher()
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Text("Settings")
-                        .font(.title3)
+                        .font(.title)
                         .fontWeight(.bold)
+                        .padding()
                 }
-                .padding(.horizontal, 0)
-                .padding(.vertical, 19.5)
 
                 VStack(spacing: 8) {
                     if let user = userFetcher.currentUser {
@@ -50,7 +50,7 @@ struct SettingsView: View {
                         settingsRow(title: "Dietary Preferences") // There's a back button on the upper left corner but its blending with the background since they're both white 
                     }
                     Divider()
-                    NavigationLink(destination: AccessibilityView()) {
+                    NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
                         settingsRow(title: "Accessibility")
                     }
                     Divider()
@@ -93,4 +93,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(ThemeManager())
 }

@@ -141,17 +141,17 @@ struct LoginSignupView: View {
                 .padding(.bottom, 50)
             }
             .frame(width: 414, height: 896)
-            .onChange(of: navigationState.nextView) { newView in
-                if isWaitingForNextView && newView == .addPartner {
-                    // Give the user a chance to see the AddPartnerView
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        navigationState.nextView = .dietaryPreferences // After 1 second, move to dietary preferences
+            .onChange(of: navigationState.nextView) { oldView, newView in
+                if oldView != newView {
+                    if isWaitingForNextView && newView == .addPartner {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            navigationState.nextView = .dietaryPreferences
+                        }
                     }
-                }
-                if newView == .dietaryPreferences {
-                    // After user completes dietary preferences, navigate to card view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        navigationState.nextView = .cardView
+                    if newView == .dietaryPreferences {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            navigationState.nextView = .cardView
+                        }
                     }
                 }
             }
