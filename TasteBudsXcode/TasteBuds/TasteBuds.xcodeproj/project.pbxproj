@@ -23,7 +23,6 @@
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
 		DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */; };
-		DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -343,7 +342,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					2503BEAB2CED546C008BCD0B = {
 						CreatedOnToolsVersion = 15.4;
@@ -426,7 +425,6 @@
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
 				DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
-				DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */,
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
@@ -730,6 +728,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.1;
@@ -747,6 +746,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.1;

@@ -287,17 +287,26 @@ struct CardView: View {
                 Text("Ingredients")
                     .font(.title3)
                     .fontWeight(.bold)
-                    .padding(.bottom, 5)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                let cleanedIngredients = recipe.ingredients
+                    .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+                    .components(separatedBy: "', '")
+                    .map { $0.replacingOccurrences(of: "'", with: "").trimmingCharacters(in: .whitespacesAndNewlines) }
 
-                ForEach(recipe.ingredients, id: \.self) { ingredient in
+                ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
                         .foregroundColor(themeManager.selectedTheme.textColor)
                 }
-
+                
+                Spacer()
+                
                 Text("Instructions")
                     .font(.title3)
                     .fontWeight(.bold)
-                    .padding(.bottom, 5)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
 
                 Text(recipe.instructions)
                     .foregroundColor(themeManager.selectedTheme.textColor)
@@ -309,7 +318,7 @@ struct CardView: View {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
-                .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
+//                .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
 
