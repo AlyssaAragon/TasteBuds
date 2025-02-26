@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject private var favoritesManager = FavoritesManager() // Create the FavoritesManager instance
-
+    @StateObject private var favoritesManager = FavoritesManager(userId: "1") //TEMPORARY CHANGE THIS LATER
     var body: some View {
         TabView {
             CardView()

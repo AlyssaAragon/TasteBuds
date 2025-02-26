@@ -17,6 +17,10 @@ struct FetchedRecipe: Identifiable, Decodable {
         case imageName = "image_name"
         case cleanedIngredients = "cleaned_ingredients"
     }
+    var imageUrl: URL? {
+            guard let imageName = imageName else { return nil }
+            return URL(string: "https://tastebuds.unr.dev/media/\(imageName)")
+        }
 }
 
 

@@ -284,6 +284,6 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView()
-            .environmentObject(FavoritesManager())
+            .environmentObject(FavoritesManager(userId: "1")) //TEMPORARY NEEDS TO BE CHANGED LATER
     }
 }

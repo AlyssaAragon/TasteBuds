@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import random
 from django.shortcuts import redirect
+from rest_framework.decorators import action
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
 from .serializers import (
     UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer, 
@@ -71,10 +72,27 @@ class RecipeDietViewSet(viewsets.ModelViewSet):
     queryset = RecipeDiet.objects.all()
     serializer_class = RecipeDietSerializer
 
-# SavedRecipe views
+
 class SavedRecipeViewSet(viewsets.ModelViewSet):
     queryset = SavedRecipe.objects.all()
     serializer_class = SavedRecipeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        #filters to return the user's saved recipes
+        return SavedRecipe.objects.filter(user=self.request.user)
+
+    @action(detail=False, methods=['GET'])
+    def shared_favorites(self, request):
+        #returns recipes liked by both the user and their partner
+        if not request.user.partnerid:
+            return Response({"error": "No partner found"}, status=400)
+
+        user_favorites = SavedRecipe.objects.filter(user=request.user).values_list('recipe_id', flat=True)
+        shared_favorites = SavedRecipe.objects.filter(user_id=request.user.partnerid, recipe_id__in=user_favorites)
+
+        return Response(SavedRecipeSerializer(shared_favorites, many=True).data)
+
 
 # UserDiet views
 class UserDietViewSet(viewsets.ModelViewSet):
