@@ -11,6 +11,7 @@ struct CardView: View {
     @State private var offset = CGSize.zero
     @State private var dragAmount = CGSize.zero
     @State private var isSwiped = false
+    
     @EnvironmentObject var favoritesManager: FavoritesManager
     
     @State private var selectedFilters: [String] = []
@@ -33,7 +34,6 @@ struct CardView: View {
                     
 // Recipe card display
 // We need to add flipping the recipe for more information
-                    
                     if let recipe = currentRecipe {
                         VStack {
                             if let recipeImage = recipe.imageName,
@@ -49,7 +49,7 @@ struct CardView: View {
                                     Image("placeholder")
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 350, height: 250)
+                                        .frame(width: 350, height: 350)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
                             }
@@ -57,18 +57,15 @@ struct CardView: View {
                                 Image("placeholder")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 350, height: 250)
+                                    .frame(width: 350, height: 350)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             
                             Text(recipe.name)
-                                .bold()
-                                .font(Font.custom("Abyssinica SIL", size: 40))
-                                .padding(.top, 20)
+                                .font(.title.bold())
+                                .padding()
                                 .lineLimit(2)
                                 .minimumScaleFactor(0.5)
-                            
-                            
                         }
                         
                         .padding(.top, 30)
@@ -150,16 +147,7 @@ struct CardView: View {
                     await fetchRecipe()
                 }
             }
-            
-            .onChange(of: isSwiped) { _ in
-                if isSwiped {
-                    Task {
-                        await fetchNextRecipe()
-                    }
-                }
-            }
 
-            
 //  Dietary filters button
             
             .navigationBarItems(trailing: Button(action: {
@@ -268,20 +256,16 @@ struct CardView: View {
 
     private func swipeLeft() {
         print("Swiped left")
-        self.isSwiped = true
-        self.dragAmount = .zero
         Task {
             await fetchNextRecipe()
         }
     }
-    
+
     private func swipeRight() {
         print("Swiped right")
         if let currentRecipe = currentRecipe {
             favoritesManager.addFavorite(currentRecipe)
         }
-        self.isSwiped = true
-        self.dragAmount = .zero
         Task {
             await fetchNextRecipe()
         }
