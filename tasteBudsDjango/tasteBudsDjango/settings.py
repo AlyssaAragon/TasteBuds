@@ -179,3 +179,7 @@ CACHES = {
         }
     }
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://tastebuds.unr.dev"
+]
