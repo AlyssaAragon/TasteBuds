@@ -289,9 +289,10 @@ struct CardView: View {
                     .fontWeight(.bold)
                     .padding(.bottom, 5)
 
-                Text(recipe.ingredients)
-                    .foregroundColor(themeManager.selectedTheme.textColor)
-                    .padding(.bottom, 10)
+                ForEach(recipe.ingredients, id: \.self) { ingredient in
+                    Text("• \(ingredient)")
+                        .foregroundColor(themeManager.selectedTheme.textColor)
+                }
 
                 Text("Instructions")
                     .font(.title3)
