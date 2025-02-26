@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import random
+from django.shortcuts import redirect
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
 from .serializers import (
     UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer, 
@@ -79,3 +80,10 @@ class SavedRecipeViewSet(viewsets.ModelViewSet):
 class UserDietViewSet(viewsets.ModelViewSet):
     queryset = UserDiet.objects.all()
     serializer_class = UserDietSerializer
+
+
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to TasteBuds!")
+

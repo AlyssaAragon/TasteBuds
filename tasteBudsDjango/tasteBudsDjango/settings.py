@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 # backend settings: alyssa
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,8 +34,8 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     'tastebuds-db.unr.dev', #server address
     'tastebuds.unr.dev',
-
 ]
+
 SITE_ID = 1
 
 # Application definition
@@ -48,14 +49,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', #for the rest framework
     #for allauth
-    'django.contrib.sites',  
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'corsheaders', 
+    'corsheaders',
     'tastebuds.apps.TastebudsConfig',
 ]
-#backend for authentication
+
+# backend for authentication
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # Default authentication
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
@@ -67,11 +69,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'tasteBudsDjango.urls'
@@ -98,10 +101,10 @@ WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #        'NAME': 'Capstone Recipe Dataset',
-#        'USER': 'postgres', 
-#        'PASSWORD': 'hannah',  
-#        'HOST': 'localhost',  
-#        'PORT': '5432',       
+#        'USER': 'postgres',
+#        'PASSWORD': 'hannah',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
 #    }
 
 # Database
@@ -111,14 +114,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tastebuds',
-        'USER': 'postgres', 
+        'USER': 'postgres',
         'PASSWORD': 'tastebudsteam36',
         'HOST': '0.0.0.0',
-        'PORT': '5432',       
+        'PORT': '5432',
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -138,7 +139,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -150,23 +150,25 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Media files (for user-uploaded images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'  
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True  # Email is required for registration
 ACCOUNT_USERNAME_REQUIRED = True  # Username is required for login
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either email or username
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
-
 
 CACHES = {
     'default': {
