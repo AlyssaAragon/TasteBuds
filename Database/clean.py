@@ -2,7 +2,7 @@ import csv
 
 input_file = 'recipe.csv'
 output_file = 'recipe_updated.csv'
-base_url = 'http://localhost:8000/'
+base_url = 'http://localhost:8000/media/'
 max_lines = 2000  # Number of lines (rows) to process (excluding the header)
 
 with open(input_file, mode='r', encoding='utf-8') as infile, \

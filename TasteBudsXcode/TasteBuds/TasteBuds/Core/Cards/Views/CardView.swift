@@ -151,13 +151,6 @@ struct CardView: View {
                 }
             }
             
-            .onChange(of: isSwiped) { _ in
-                if isSwiped {
-                    Task {
-                        await fetchNextRecipe()
-                    }
-                }
-            }
 
             
 //  Dietary filters button
