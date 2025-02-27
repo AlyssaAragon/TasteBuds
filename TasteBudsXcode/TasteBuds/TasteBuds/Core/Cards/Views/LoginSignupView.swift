@@ -2,23 +2,21 @@ import SwiftUI
 
 struct LoginSignupView: View {
     @State private var isLogin = true
-    @State private var profileName = ""
+    @State private var emailOrUsername = ""
+    @State private var email = ""  // Separate email field for sign-up
     @State private var username = ""
-    @State private var email = ""
     @State private var password = ""
+    @State private var confirmPassword = ""  // Confirm password for sign-up
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
     
-    // Add navigationState as a parameter
     @ObservedObject var navigationState: NavigationState
-    
-    // Control which view should show up
-    // When user creates an account, it's skipping past the set partner and set diet preferences
     @State private var isWaitingForNextView = false
-    
+    @State private var showError = false
+    @State private var errorMessage = ""
+
     var body: some View {
         ZStack {
-            
             Color.clear.customGradientBackground()
 
             VStack(spacing: 0) {
@@ -26,8 +24,7 @@ struct LoginSignupView: View {
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: 414, height: 382)
-                        .background(.white)
-                        .opacity(0.25)
+                        .background(.white.opacity(0.25))
                         .cornerRadius(30)
                         .shadow(color: .black.opacity(0.06), radius: 15, x: 0, y: 4)
                         .overlay(
@@ -68,67 +65,60 @@ struct LoginSignupView: View {
                 .padding(.bottom, 30)
 
                 VStack(spacing: 15) {
-                    if !isLogin {
+                    if isLogin {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("Profile Name")
+                            Text("Email or Username")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
-                            TextField("Enter profile name here", text: $profileName)
-                            Rectangle()
-                                .frame(height: 0.5)
-                                .foregroundColor(.black)
+                            TextField("Enter email or username", text: $emailOrUsername)
+                            Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
-                        .offset(y: -70)
-
+                    } else {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
-                            TextField("Enter email address here", text: $email)
-                            Rectangle()
-                                .frame(height: 0.5)
-                                .foregroundColor(.black)
+                            TextField("Enter email address", text: $email)
+                            Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
-                        .offset(y: -60)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("Username")
+                                .font(Font.custom("Abyssinica SIL", size: 20))
+                                .foregroundColor(.black)
+                            TextField("Enter username", text: $username)
+                            Rectangle().frame(height: 0.5).foregroundColor(.black)
+                        }
                     }
-
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Username")
-                            .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.black)
-                        TextField("Enter username here", text: $username)
-//                            .background(Color.white)
-//                            .opacity(0.5)
-//                            .cornerRadius(10)
-                        Rectangle()
-                            .frame(height: 0.5)
-                            .foregroundColor(.black)
-                    }
-                    .offset(y: isLogin ? -70 : -50)
 
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Password")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
-                        SecureField("Enter password here", text: $password)
-                        Rectangle()
-                            .frame(height: 0.5)
-                            .foregroundColor(.black)
+                        SecureField("Enter password", text: $password)
+                        Rectangle().frame(height: 0.5).foregroundColor(.black)
                     }
-                    .offset(y: -50)
+
+                    if !isLogin {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("Confirm Password")
+                                .font(Font.custom("Abyssinica SIL", size: 20))
+                                .foregroundColor(.black)
+                            SecureField("Re-enter password", text: $confirmPassword)
+                            Rectangle().frame(height: 0.5).foregroundColor(.black)
+                        }
+                    }
                 }
                 .padding(30)
-                .offset(y: -50)
+
+                if showError {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.system(size: 16, weight: .medium))
+                        .padding(.top, 5)
+                }
 
                 Button(action: {
-                    if isLogin {
-                        isLoggedIn = true
-                        navigationState.nextView = .cardView // Navigate to card view on login
-                    } else {
-                        isNewUser = true
-                        navigationState.nextView = .addPartner // Navigate to add partner on sign-up
-                        isWaitingForNextView = true // Add waiting state
-                    }
+                    handleAuth()
                 }) {
                     Text(isLogin ? "Login" : "Sign-up")
                         .font(Font.custom("Abyssinica SIL", size: 26))
@@ -141,21 +131,35 @@ struct LoginSignupView: View {
                 .padding(.bottom, 50)
             }
             .frame(width: 414, height: 896)
-            .onChange(of: navigationState.nextView) { newView in
-                if isWaitingForNextView && newView == .addPartner {
-                    // Give the user a chance to see the AddPartnerView
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        navigationState.nextView = .dietaryPreferences // After 1 second, move to dietary preferences
-                    }
-                }
-                if newView == .dietaryPreferences {
-                    // After user completes dietary preferences, navigate to card view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        navigationState.nextView = .cardView
-                    }
-                }
-            }
         }
+    }
+    
+    private func handleAuth() {
+        if isLogin {
+            if emailOrUsername.isEmpty || password.isEmpty {
+                showErrorMessage("Please fill in all fields.")
+                return
+            }
+            isLoggedIn = true
+            navigationState.nextView = .cardView
+        } else {
+            if email.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+                showErrorMessage("All fields are required.")
+                return
+            }
+            if password != confirmPassword {
+                showErrorMessage("Passwords do not match.")
+                return
+            }
+            isNewUser = true
+            navigationState.nextView = .addPartner
+            isWaitingForNextView = true
+        }
+    }
+
+    private func showErrorMessage(_ message: String) {
+        errorMessage = message
+        showError = true
     }
 }
 

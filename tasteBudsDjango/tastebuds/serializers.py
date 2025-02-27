@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
-
+from django.conf import settings 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='recipeid', read_only=True)
     name = serializers.CharField(source='title', read_only=True)
-
+    
     class Meta:
         model = Recipe
         fields = ['id', 'name', 'ingredients', 'instructions', 'image_name', 'cleaned_ingredients']
