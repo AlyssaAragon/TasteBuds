@@ -94,6 +94,7 @@ struct CardView: View {
                         isFirstLoad = false
                         Task {
                             await fetchRecipe()
+                            await recipeFetcher.testImageUrl()
                         }
                     }
                 }
@@ -244,27 +245,29 @@ struct CardView: View {
                 .minimumScaleFactor(0.5)
                 .foregroundColor(themeManager.selectedTheme.textColor)
 
-            if let recipeImage = recipe.imageName, let url = URL(string: recipeImage) {
+            if let url = recipe.imageUrl {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: geometry.size.width * 0.8)
+                        .frame(width: 350, height: 280)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                } placeholder: {
+                }
+                placeholder: {
                     Image("placeholder")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: geometry.size.width * 0.8)
+                        .frame(width: 350, height: 250)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             } else {
                 Image("placeholder")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: geometry.size.width * 0.8)
+                    .frame(width: 350, height: 250)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
+
             
             Image(systemName: "ellipsis")
                 .font(.title) // ✅ Increases size for visibility
