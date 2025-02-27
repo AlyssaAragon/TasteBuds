@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.conf import settings
 from .managers import CustomUserManager
+from django.utils import timezone 
 
 class Diet(models.Model):
     dietid = models.AutoField(primary_key=True, db_column='dietid')
@@ -59,6 +60,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, default="user@example.com", db_column='email')
     firstlastname = models.CharField(max_length=255, default="First Last", db_column='firstlastname')
     password = models.TextField(default="", db_column='password')
+    last_login = None
 
     objects = CustomUserManager()
 
@@ -71,7 +73,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
-
+    
+    def get_last_login(self):
+        return None 
 
 class UserDiet(models.Model):
     userdietid = models.AutoField(primary_key=True, db_column='userdietid')

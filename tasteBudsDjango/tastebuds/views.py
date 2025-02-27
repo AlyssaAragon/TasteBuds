@@ -1,10 +1,13 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.http import JsonResponse
+from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import random
+import json
 from django.shortcuts import redirect
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
 from .serializers import (
@@ -87,3 +90,33 @@ from django.http import HttpResponse
 def home(request):
     return HttpResponse("Welcome to TasteBuds!")
 
+@api_view(['POST'])
+def login_view(request):
+    data = json.loads(request.body)
+    email = data.get("email")
+    password = data.get("password")
+
+    user = authenticate(request, username=email, password=password)
+
+    if user:
+        return Response({"success": True, "message": "Login successful", "userid": user.userid})
+    else:
+        return Response({"success": False, "message": "Invalid credentials"}, status=400)
+    
+@api_view(['POST'])
+def signup_view(request):
+    data = json.loads(request.body)
+    email = data.get("email")
+    username = data.get("username")
+    password = data.get("password")
+
+    if User.objects.filter(email=email).exists():
+        return Response({"success": False, "message": "Email already taken"}, status=400)
+
+    user = User.objects.create(
+        email=email,
+        username=username,
+        password=make_password(password)
+    )
+
+    return Response({"success": True, "message": "User created", "userid": user.userid})
