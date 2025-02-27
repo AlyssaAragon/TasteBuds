@@ -156,7 +156,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Media files (for user-uploaded images)
-MEDIA_URL = '/media/'
+MEDIA_URL = 'https://tastebuds.unr.dev/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
