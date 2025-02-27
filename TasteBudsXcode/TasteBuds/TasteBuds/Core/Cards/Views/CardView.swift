@@ -94,7 +94,8 @@ struct CardView: View {
                         isFirstLoad = false
                         Task {
                             await fetchRecipe()
-                            await recipeFetcher.testImageUrl()
+                            await recipeFetcher.testImageFetching()
+
                         }
                     }
                 }
