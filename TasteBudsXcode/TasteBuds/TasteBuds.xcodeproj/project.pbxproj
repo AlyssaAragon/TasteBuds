@@ -20,6 +20,7 @@
 		2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE362D07BE9D006CD76B /* FavoritesView.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
+		472464252D71998A006041F1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464242D71998A006041F1 /* CalendarView.swift */; };
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
@@ -61,6 +62,7 @@
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
 		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		472464242D71998A006041F1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			children = (
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
+				472464242D71998A006041F1 /* CalendarView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
@@ -422,6 +425,7 @@
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
+				472464252D71998A006041F1 /* CalendarView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
