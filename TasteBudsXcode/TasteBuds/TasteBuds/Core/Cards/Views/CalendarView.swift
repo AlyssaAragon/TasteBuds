@@ -7,93 +7,83 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct CalendarView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
-
-    @State private var calendarRecipes: [String: [FetchedRecipe]] = [:] // Store multiple recipes per day
+    @EnvironmentObject var calendarManager: CalendarManager
 
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
-                ZStack {
-                    themeManager.selectedTheme.backgroundView
-
-                    VStack {
-                        Text("Weekly Meal Planner")
-                            .font(.title.bold())
-                            .padding(.top, geometry.size.height * -0.04)
-
-                        ScrollView {
-                            VStack(spacing: 10) {
-                                ForEach(daysOfWeek, id: \.self) { day in
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            Text(day)
-                                                .font(.headline)
-                                                .frame(width: 100, alignment: .leading)
-                                            Spacer()
-                                            
-                                            // Add recipe button
-                                            Menu {
-                                                ForEach(favoritesManager.favoriteRecipes) { recipe in
-                                                    Button(recipe.name) {
-                                                        if calendarRecipes[day] == nil {
-                                                            calendarRecipes[day] = []
-                                                        }
-                                                        calendarRecipes[day]?.append(recipe) // Append instead of replacing
-                                                    }
-                                                }
-                                            } label: {
-                                                Image(systemName: "plus.circle")
-                                                    .foregroundColor(.black)
-                                            }
-                                        }
-                                        .padding(.bottom, 5)
-
-                                        // Display added recipes
-                                        if let recipes = calendarRecipes[day], !recipes.isEmpty {
-                                            VStack(alignment: .leading) {
-                                                ForEach(recipes, id: \.id) { recipe in
-                                                    HStack {
-                                                        Text(recipe.name)
-                                                            .font(.subheadline)
-                                                        Spacer()
-                                                        Button(action: {
-                                                            if let index = calendarRecipes[day]?.firstIndex(where: { $0.id == recipe.id }) {
-                                                                calendarRecipes[day]?.remove(at: index)
-                                                                if calendarRecipes[day]?.isEmpty == true {
-                                                                    calendarRecipes.removeValue(forKey: day) // Remove key if empty
-                                                                }
-                                                            }
-                                                        }) {
-                                                            Image(systemName: "trash")
-                                                                .foregroundColor(.red)
-                                                        }
-                                                    }
-                                                    .padding(.vertical, 2)
+            ZStack {
+                themeManager.selectedTheme.backgroundView
+                VStack {
+                    Text("Weekly Meal Planner")
+                        .font(.title.bold())
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, -40)
+                    
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(daysOfWeek, id: \.self) { day in
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text(day)
+                                            .font(.headline)
+                                            .frame(width: 100, alignment: .leading)
+                                        Spacer()
+                                        
+                                        Menu {
+                                            ForEach(favoritesManager.favoriteRecipes) { recipe in
+                                                Button(recipe.name) {
+                                                    calendarManager.addRecipe(to: day, recipe: recipe)
                                                 }
                                             }
-                                            .padding(.horizontal)
+                                        } label: {
+                                            Image(systemName: "plus.circle")
+                                                .foregroundColor(.blue)
                                         }
                                     }
-                                    .padding()
-                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.25)))
+                                    .padding(.bottom, 5)
+                                    
+                                    if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
+                                        VStack(alignment: .leading) {
+                                            ForEach(recipes, id: \.id) { recipe in
+                                                HStack {
+                                                    Text(recipe.name)
+                                                        .font(.subheadline)
+                                                    Spacer()
+                                                    Button(action: {
+                                                        calendarManager.removeRecipe(from: day, recipe: recipe)
+                                                    }) {
+                                                        Image(systemName: "trash")
+                                                            .foregroundColor(.red)
+                                                    }
+                                                }
+                                                .padding(.vertical, 2)
+                                            }
+                                        }
+                                        .padding(.horizontal)
+                                    }
                                 }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.25)))
                             }
-                            .padding()
                         }
+                        .padding()
+                        .padding(.bottom, 50)
                     }
-                    .padding()
                 }
+                .padding()
                 .navigationBarItems(trailing: Button(action: {
-                    calendarRecipes.removeAll()
+                    calendarManager.clearCalendar()
                 }) {
                     Image(systemName: "x.circle")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color.red)
+                        .foregroundColor(.red)
                 })
             }
         }
@@ -105,6 +95,7 @@ struct CalendarView_Previews: PreviewProvider {
         CalendarView()
             .environmentObject(FavoritesManager())
             .environmentObject(ThemeManager())
+            .environmentObject(CalendarManager())
     }
 }
 

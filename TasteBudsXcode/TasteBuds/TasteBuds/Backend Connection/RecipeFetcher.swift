@@ -1,7 +1,7 @@
 // Hannah Haggerty and Alyssa
 import Foundation
 
-struct FetchedRecipe: Identifiable, Decodable {
+struct FetchedRecipe: Identifiable, Codable {
     let id: Int
     let name: String
     let ingredients: String
