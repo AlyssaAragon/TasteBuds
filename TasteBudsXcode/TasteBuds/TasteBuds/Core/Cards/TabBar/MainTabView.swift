@@ -22,41 +22,43 @@ struct MainTabView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // Main Content
-            Group {
-                switch selectedTab {
-                case .home:
-                    CardView()
-                case .favorites:
-                    FavoritesView()
-                case .calendar:
-                    CalendarView()
-                case .settings:
-                    SettingsView()
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                // Main Content
+                Group {
+                    switch selectedTab {
+                    case .home:
+                        CardView()
+                    case .favorites:
+                        FavoritesView()
+                    case .calendar:
+                        CalendarView()
+                    case .settings:
+                        SettingsView()
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
+                
+                // Custom Tab Bar (solid background, standard look)
+                HStack {
+                    Spacer()
+                    tabBarItem(tab: .home, iconName: "house.fill")
+                    Spacer()
+                    tabBarItem(tab: .favorites, iconName: "heart.fill")
+                    Spacer()
+                    tabBarItem(tab: .calendar, iconName: "calendar")
+                    Spacer()
+                    tabBarItem(tab: .settings, iconName: "person.fill")
+                    Spacer()
+                }
+                .frame(height: 100)
+                .background(Color.white) // ✅ Solid white background
+                .clipShape(Rectangle()) // ✅ Standard rectangular shape
+                .padding(.bottom, geometry.size.height - 825)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .edgesIgnoringSafeArea(.all)
-
-            // Custom Tab Bar (solid background, standard look)
-            HStack {
-                Spacer()
-                tabBarItem(tab: .home, iconName: "house.fill")
-                Spacer()
-                tabBarItem(tab: .favorites, iconName: "heart.fill")
-                Spacer()
-                tabBarItem(tab: .calendar, iconName: "calendar")
-                Spacer()
-                tabBarItem(tab: .settings, iconName: "person.fill")
-                Spacer()
-            }
-            .frame(height: 100)
-            .background(Color.white) // ✅ Solid white background
-            .clipShape(Rectangle()) // ✅ Standard rectangular shape
-            .padding(.bottom, -40)
+            .accentColor(.black)
         }
-        .accentColor(.black)
     }
 
     // MARK: - Tab Bar Item View

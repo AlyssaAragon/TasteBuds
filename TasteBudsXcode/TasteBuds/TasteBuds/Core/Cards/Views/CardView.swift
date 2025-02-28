@@ -268,19 +268,20 @@ struct CardView: View {
 
     // MARK: - Front of Card
     private func frontOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .center, spacing: 10) {
             Text(recipe.name)
                 .font(.title.bold())
                 .padding()
                 .lineLimit(2)
                 .minimumScaleFactor(0.1)
                 .foregroundColor(themeManager.selectedTheme.textColor)
+                .multilineTextAlignment(.center)
             
             //dietary icons
             let dietaryIcons: [String: (icon: String, color: Color)] = [
                 "vegetarian": ("leaf.circle.fill", .green),
-                "vegan": ("leaf.fill", .mint),
-                "gluten-free": ("tortoise.fill", .yellow)
+                "gluten-free": ("tortoise.circle.fill", .orange),
+                "low-sodium": ("heart.circle.fill", .red)
             ]
             
             HStack(spacing: 10) { // Adjust spacing as needed
