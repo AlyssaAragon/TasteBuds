@@ -109,72 +109,102 @@ struct CardView: View {
                         .foregroundColor(Color.white)
                 })
                 .sheet(isPresented: $showFilterMenu) {
-                    VStack {
-                        Text("Filter Options")
-                            .font(.title)
-                            .bold()
-                        Toggle("Low-Carb", isOn: Binding(
-                            get: { selectedFilters.contains("low-carb") },
-                            set: { isSelected in
-                                if isSelected {
-                                    selectedFilters.append("low-carb")
-                                } else {
-                                    selectedFilters.removeAll { $0 == "low-carb" }
-                                }
-                            })
-                        ).padding(.horizontal)
-
-                        Toggle("Low-Calorie", isOn: Binding(
-                            get: { selectedFilters.contains("low-calorie") },
-                            set: { isSelected in
-                                if isSelected {
-                                    selectedFilters.append("low-calorie")
-                                } else {
-                                    selectedFilters.removeAll { $0 == "low-calorie" }
-                                }
-                            })
-                        ).padding(.horizontal)
-
-                        Toggle("Low-Sodium", isOn: Binding(
-                            get: { selectedFilters.contains("low-sodium") },
-                            set: { isSelected in
-                                if isSelected {
-                                    selectedFilters.append("low-sodium")
-                                } else {
-                                    selectedFilters.removeAll { $0 == "low-sodium" }
-                                }
-                            })
-                        ).padding(.horizontal)
-
-                        Toggle("Vegetarian", isOn: Binding(
-                            get: { selectedFilters.contains("vegetarian") },
-                            set: { isSelected in
-                                if isSelected {
-                                    selectedFilters.append("vegetarian")
-                                } else {
-                                    selectedFilters.removeAll { $0 == "vegetarian" }
-                                }
-                            })
-                        ).padding(.horizontal)
-
-                        Button("Close") {
-                            showFilterMenu.toggle()
-                        }
-                        .padding()
-
-                        Button("See filtered recipes") {
-                            Task {
-                                await fetchFilteredRecipes()
+                    ZStack {
+                        themeManager.selectedTheme.backgroundView
+                        VStack {
+                            Button("Close") {
                                 showFilterMenu.toggle()
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            Spacer()
+                            
+                            Text("Filter Options")
+                                .font(.title)
+                                .bold()
+                            Spacer()
+                            
+                            Toggle("Vegetarian", isOn: Binding(
+                                get: { selectedFilters.contains("vegetarian") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("vegetarian")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "vegetarian" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Toggle("Gluten-Free", isOn: Binding(
+                                get: { selectedFilters.contains("gluten-free") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("gluten-free")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "gluten-free" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Toggle("Low-Carb", isOn: Binding(
+                                get: { selectedFilters.contains("low-carb") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("low-carb")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "low-carb" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Toggle("Low-Calorie", isOn: Binding(
+                                get: { selectedFilters.contains("low-calorie") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("low-calorie")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "low-calorie" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Toggle("Low-Sodium", isOn: Binding(
+                                get: { selectedFilters.contains("low-sodium") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("low-sodium")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "low-sodium" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Spacer()
+                            
+                            Button("See filtered recipes") {
+                                Task {
+                                    await fetchFilteredRecipes()
+                                    showFilterMenu.toggle()
+                                }
+                            }
+                            .padding()
+                            .font(.title3)
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
                         }
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.bottom, 20)
                     }
-                    .padding()
                 }
             }
         }
@@ -238,13 +268,35 @@ struct CardView: View {
 
     // MARK: - Front of Card
     private func frontOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .center, spacing: 10) {
             Text(recipe.name)
                 .font(.title.bold())
                 .padding()
                 .lineLimit(2)
-                .minimumScaleFactor(0.5)
+                .minimumScaleFactor(0.1)
                 .foregroundColor(themeManager.selectedTheme.textColor)
+                .multilineTextAlignment(.center)
+            
+            //dietary icons
+            let dietaryIcons: [String: (icon: String, color: Color)] = [
+                "vegetarian": ("leaf.circle.fill", .green),
+                "gluten-free": ("tortoise.circle.fill", .orange),
+                "low-sodium": ("heart.circle.fill", .red)
+            ]
+            
+            HStack(spacing: 10) { // Adjust spacing as needed
+                ForEach(selectedFilters, id: \.self) { filter in
+                    if let iconData = dietaryIcons[filter] {
+                        Image(systemName: iconData.icon)
+                            .resizable()         // Allows resizing
+                            .scaledToFit()       // Maintains aspect ratio
+                            .frame(width: 50, height: 50) // Adjust size as needed
+                            .foregroundColor(iconData.color) // Apply custom color
+                    }
+                }
+            }
+            .padding()
+
 
             if let url = recipe.imageUrl {
                 AsyncImage(url: url) { image in
@@ -268,7 +320,7 @@ struct CardView: View {
                     .frame(width: 350, height: 250)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-
+            Spacer()
             
             Image(systemName: "ellipsis")
                 .font(.title) // ✅ Increases size for visibility

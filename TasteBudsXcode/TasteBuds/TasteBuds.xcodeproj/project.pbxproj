@@ -20,9 +20,10 @@
 		2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE362D07BE9D006CD76B /* FavoritesView.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
+		472464252D71998A006041F1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464242D71998A006041F1 /* CalendarView.swift */; };
+		4724649F2D71B534006041F1 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724649E2D71B534006041F1 /* CalendarManager.swift */; };
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
-		DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,10 +63,10 @@
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
 		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		472464242D71998A006041F1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		4724649E2D71B534006041F1 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
-		DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
-		DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */,
+				4724649E2D71B534006041F1 /* CalendarManager.swift */,
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
 			);
 			path = Model;
@@ -213,9 +215,8 @@
 			children = (
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
+				472464242D71998A006041F1 /* CalendarView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
-				DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */,
-				DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
 				4753C63E2D67FCF500402D22 /* Extensions.swift */,
@@ -231,6 +232,7 @@
 			children = (
 				2503BEEC2CED5734008BCD0B /* Model */,
 				2503BEF02CED5734008BCD0B /* ViewModel */,
+				2503BEF82CED5734008BCD0B /* TabBar */,
 				2503BEF52CED5734008BCD0B /* Views */,
 			);
 			path = Cards;
@@ -248,7 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				2503BEF62CED5734008BCD0B /* Cards */,
-				2503BEF82CED5734008BCD0B /* TabBar */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -423,17 +424,18 @@
 				4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */,
 				2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
-				DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
+				472464252D71998A006041F1 /* CalendarView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
 				DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
+				4724649F2D71B534006041F1 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
