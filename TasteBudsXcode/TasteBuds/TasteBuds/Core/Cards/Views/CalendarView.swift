@@ -70,7 +70,7 @@ struct CalendarView: View {
                                     }
                                 }
                                 .padding()
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.25)))
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)))
                             }
                         }
                         .padding()
