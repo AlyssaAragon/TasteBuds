@@ -12,6 +12,7 @@ struct TasteBudsApp: App {
     
     @StateObject private var favoritesManager = FavoritesManager()
     @StateObject private var themeManager = ThemeManager()
+    @StateObject private var calendarManager = CalendarManager()
 
     var body: some Scene {
         WindowGroup {
@@ -44,6 +45,7 @@ struct TasteBudsApp: App {
                     MainTabView()
                         .environmentObject(favoritesManager)
                         .environmentObject(themeManager)
+                        .environmentObject(calendarManager)
                         .onAppear {
                             // Set any additional logic once in CardView, if needed
                         }

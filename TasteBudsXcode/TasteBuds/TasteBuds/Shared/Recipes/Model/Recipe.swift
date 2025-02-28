@@ -1,5 +1,5 @@
 // Hannah Haggerty and Alicia Chiang
-struct Recipe: Identifiable {
+struct Recipe: Identifiable, Codable {
     let id: Int
     let title: String
     let recipeImage: String?
