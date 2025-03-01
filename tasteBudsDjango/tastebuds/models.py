@@ -62,6 +62,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     password = models.TextField(default="", db_column='password')
     last_login = None
 
+    # Permission-related fields
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)  
+    is_superuser = models.BooleanField(default=False) 
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
