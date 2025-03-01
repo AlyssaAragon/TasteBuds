@@ -184,3 +184,4 @@ CSRF_TRUSTED_ORIGINS = [
     "https://tastebuds.unr.dev"
 ]
 
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}

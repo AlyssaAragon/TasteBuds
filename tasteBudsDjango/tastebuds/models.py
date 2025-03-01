@@ -74,7 +74,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'users'
-        managed = False
+        managed = True
 
     def __str__(self):
         return self.username
