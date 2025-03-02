@@ -34,13 +34,37 @@ class Recipe(models.Model):
 
 class RecipeDiet(models.Model):
     recipedietid = models.AutoField(primary_key=True, db_column='recipedietid')
-    # Note: Use db_column to match the actual foreign key column names in your table.
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid')
-    diet = models.ForeignKey(Diet, on_delete=models.CASCADE, db_column='dietid')
+    
+    vegetarian = models.BooleanField(default=False, db_column='vegetarian')
+    vegan = models.BooleanField(default=False, db_column='vegan')
+    gluten_free = models.BooleanField(default=False, db_column='gluten_free')
+    dairy_free = models.BooleanField(default=False, db_column='dairy_free')
+    nut_free = models.BooleanField(default=False, db_column='nut_free')
+    low_carb = models.BooleanField(default=False, db_column='low_carb')
+    keto = models.BooleanField(default=False, db_column='keto')
+    paleo = models.BooleanField(default=False, db_column='paleo')
 
     class Meta:
         db_table = 'recipe_diet'
         managed = False
+        
+class Category(models.Model):
+    category_id = models.AutoField(primary_key=True, db_column='category_id')
+    category_name = models.CharField(max_length=50, unique=True, db_column='category_name')
+    def __str__(self):
+        return self.category_name
+    class Meta:
+        db_table = 'categories'
+        managed = False
+class RecipeCategory(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid', related_name="categories")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, db_column='category_id', related_name="recipes")
+
+    class Meta:
+        db_table = 'recipe_categories'
+        managed = False
+
 
 
 class SavedRecipe(models.Model):
@@ -55,17 +79,24 @@ class SavedRecipe(models.Model):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     userid = models.AutoField(primary_key=True, db_column='userid')
-    partnerid = models.IntegerField(null=True, blank=True, db_column='partnerid')
+    # Remove the integer partnerid field and add a self-referential field:
+    partner = models.OneToOneField(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='partner_of',  # Optional: allows reverse access
+        db_column='partnerid'
+    )
     username = models.CharField(max_length=150, unique=True, default="defaultuser", db_column='username')
     email = models.EmailField(unique=True, default="user@example.com", db_column='email')
     firstlastname = models.CharField(max_length=255, default="First Last", db_column='firstlastname')
-    password = models.TextField(default="", db_column='password')
-    last_login = None
+   
 
     # Permission-related fields
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  
-    is_superuser = models.BooleanField(default=False) 
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
@@ -73,14 +104,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['username']
 
     class Meta:
-        db_table = 'users'
+        # Removing the custom table name now that everything is standardized:
+        # db_table = 'users'
         managed = True
 
     def __str__(self):
         return self.username
-    
-    def get_last_login(self):
-        return None 
+
+ 
 
 class UserDiet(models.Model):
     userdietid = models.AutoField(primary_key=True, db_column='userdietid')
@@ -90,3 +121,6 @@ class UserDiet(models.Model):
     class Meta:
         db_table = 'user_diet'
         managed = False
+        
+        
+

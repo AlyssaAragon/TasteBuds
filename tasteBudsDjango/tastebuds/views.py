@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model, authenticate
 from django.http import JsonResponse
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
+from rest_framework.views import APIView 
+from rest_framework.response import Response 
+from rest_framework import status 
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -9,10 +12,10 @@ from rest_framework.response import Response
 import random
 import json
 from django.shortcuts import redirect
-from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet
+from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, CustomUser, Category, RecipeCategory
 from .serializers import (
-    UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer, 
-    SavedRecipeSerializer, UserDietSerializer
+    UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer,
+    SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer
 )
 
 User = get_user_model()
@@ -32,27 +35,146 @@ def random_recipe(request):
 @permission_classes([IsAuthenticated])
 def user_profile(request):
     user = request.user
-    user_data = {'username': user.username}
+    user_data = {
+        'userid': user.userid,
+        'username': user.username,
+        'email': user.email,
+        'firstlastname': user.firstlastname,
+    }
+    # Include partner details if available
+    if user.partner:
+        user_data['partner'] = {
+            'userid': user.partner.userid,
+            'username': user.partner.username,
+            'email': user.partner.email,
+        }
     return Response(user_data)
 
-# Diet filter
 @api_view(['GET'])
-def filter_recipes(request):
-    dietary_preferences = request.GET.getlist('tags')
+def filter_recipes_by_diet(request):
+    # Expect one or more dietary preferences via query parameters: ?diet=vegetarian&diet=vegan, etc.
+    dietary_preferences = request.GET.getlist('diet')
     recipes = Recipe.objects.all()
 
     if dietary_preferences:
-        query = Q()
-        for preference in dietary_preferences:
-            query |= Q(tags__icontains=preference) | Q(search_terms__icontains=preference)
-        recipes = recipes.filter(query)
+        for pref in dietary_preferences:
+            p = pref.lower()
+            if p == 'vegetarian':
+                recipes = recipes.filter(recipediet__vegetarian=True)
+            elif p == 'vegan':
+                recipes = recipes.filter(recipediet__vegan=True)
+            elif p in ['gluten_free', 'gluten-free']:
+                recipes = recipes.filter(recipediet__gluten_free=True)
+            elif p in ['dairy_free', 'dairy-free']:
+                recipes = recipes.filter(recipediet__dairy_free=True)
+            elif p in ['nut_free', 'nut-free']:
+                recipes = recipes.filter(recipediet__nut_free=True)
+            elif p in ['low_carb', 'low-carb']:
+                recipes = recipes.filter(recipediet__low_carb=True)
+            elif p == 'keto':
+                recipes = recipes.filter(recipediet__keto=True)
+            elif p == 'paleo':
+                recipes = recipes.filter(recipediet__paleo=True)
 
     if not recipes.exists():
-        return Response({"message": "No recipes found matching your criteria."})
+        return Response({"message": "No recipes found matching your criteria."}, status=404)
 
-    recipe = random.choice(list(recipes))
-    serializer = RecipeSerializer(recipe)
-    return Response(serializer.data)
+    # Choose a random recipe from the filtered queryset.
+    random_recipe = random.choice(list(recipes))
+    data = {
+        "recipeid": random_recipe.recipeid,
+        "title": random_recipe.title,
+        "ingredients": random_recipe.ingredients,
+        "instructions": random_recipe.instructions,
+        "image_name": random_recipe.image_name,
+        "cleaned_ingredients": random_recipe.cleaned_ingredients,
+    }
+    return Response(data)
+
+
+@api_view(['GET'])
+def get_random_recipe_by_category(request):
+    category_name = request.GET.get("category")
+
+    if not category_name:
+        return Response({"error": "Category parameter is required."}, status=400)
+
+    try:
+        category = Category.objects.get(category_name=category_name)
+    except Category.DoesNotExist:
+        return Response({"error": "Invalid category name."}, status=404)
+
+    # Now use the custom related name 'categories' from Recipe side, or 'recipes' from Category side.
+    # For instance, to get recipes for the category, you can do:
+    recipes = Recipe.objects.filter(categories__category=category).distinct()
+
+    if not recipes.exists():
+        return Response({"error": "No recipes found for this category."}, status=404)
+
+    random_recipe = random.choice(list(recipes))
+    return Response({
+        "recipeid": random_recipe.recipeid,
+        "title": random_recipe.title,
+        "ingredients": random_recipe.ingredients,
+        "instructions": random_recipe.instructions,
+        "image_name": random_recipe.image_name,
+        "cleaned_ingredients": random_recipe.cleaned_ingredients
+    })
+
+@api_view(['GET'])
+def filter_recipes_combined(request):
+    category_name = request.GET.get("category")   # e.g., "meal"
+    dietary_preferences = request.GET.getlist('diet')  # e.g., ["vegetarian"]
+
+    recipes = Recipe.objects.all()
+
+    # Filter by category if provided
+    if category_name:
+        try:
+            category = Category.objects.get(category_name=category_name)
+            recipes = recipes.filter(categories__category=category)
+        except Category.DoesNotExist:
+            return Response({"error": "Invalid category name."}, status=404)
+
+    # Filter by dietary preferences
+    if dietary_preferences:
+        for pref in dietary_preferences:
+            p = pref.lower()
+            if p == 'vegetarian':
+                recipes = recipes.filter(recipediet__vegetarian=True)
+            elif p == 'vegan':
+                recipes = recipes.filter(recipediet__vegan=True)
+            elif p in ['gluten_free', 'gluten-free']:
+                recipes = recipes.filter(recipediet__gluten_free=True)
+            elif p in ['dairy_free', 'dairy-free']:
+                recipes = recipes.filter(recipediet__dairy_free=True)
+            elif p in ['nut_free', 'nut-free']:
+                recipes = recipes.filter(recipediet__nut_free=True)
+            elif p in ['low_carb', 'low-carb']:
+                recipes = recipes.filter(recipediet__low_carb=True)
+            elif p == 'keto':
+                recipes = recipes.filter(recipediet__keto=True)
+            elif p == 'paleo':
+                recipes = recipes.filter(recipediet__paleo=True)
+
+    if not recipes.exists():
+        return Response({"message": "No recipes found matching your criteria."}, status=404)
+
+    random_recipe = random.choice(list(recipes))
+    data = {
+        "recipeid": random_recipe.recipeid,
+        "title": random_recipe.title,
+        "ingredients": random_recipe.ingredients,
+        "instructions": random_recipe.instructions,
+        "image_name": random_recipe.image_name,
+        "cleaned_ingredients": random_recipe.cleaned_ingredients,
+    }
+    return Response(data)
+
+
+
+
+
 
 # User views
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -73,6 +195,7 @@ class DietViewSet(viewsets.ModelViewSet):
 class RecipeDietViewSet(viewsets.ModelViewSet):
     queryset = RecipeDiet.objects.all()
     serializer_class = RecipeDietSerializer
+
 
 # SavedRecipe views
 class SavedRecipeViewSet(viewsets.ModelViewSet):
@@ -120,3 +243,37 @@ def signup_view(request):
     )
 
     return Response({"success": True, "message": "User created", "userid": user.userid})
+
+
+class LinkPartnerAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        serializer = PartnerLinkSerializer(data=request.data)
+        if serializer.is_valid():
+            partner_email = serializer.validated_data['partner_email']
+            try:
+                partner = CustomUser.objects.get(email=partner_email)
+            except CustomUser.DoesNotExist:
+                return Response({'error': 'No user found with that email.'}, status=status.HTTP_404_NOT_FOUND)
+
+            if partner == request.user:
+                return Response({'error': 'You cannot link with your own account.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Check if the partner is already linked with another account
+            if partner.partner is not None and partner.partner != request.user:
+                return Response({'error': 'This user is already linked with another account.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Set the linking symmetrically
+            request.user.partner = partner
+            partner.partner = request.user
+            request.user.save()
+            partner.save()
+
+            return Response({'message': 'Partner linked successfully!'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+
+
+
