@@ -9,6 +9,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 import random
 import json
+from django.core.mail import send_mail
+from django.conf import settings
 from allauth.account.views import LoginView, SignupView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -263,10 +265,20 @@ class LinkPartnerAPIView(APIView):
             partner.partner = request.user
             request.user.save()
             partner.save()
+            
+            self.send_partner_invitation_email(partner_email)
 
             return Response({'message': 'Partner linked successfully!'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def send_partner_invitation_email(self, partner_email):
+        subject = 'You have been invited to link with a partner on TasteBuds'
+        message = 'Click the link below to accept the invitation and link your accounts.'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        
+        invitation_link = 'https://tastebuds.unr.dev/invite/accept?email=' + partner_email
 
+        send_mail(subject, message + '\n' + invitation_link, from_email, [partner_email])
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptLoginView(LoginView):
