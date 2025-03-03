@@ -4,19 +4,14 @@ struct LoginSignupView: View {
     @State private var isLogin = true
     @State private var emailOrUsername = ""
     @State private var email = ""
-    @State private var emailOrUsername = ""
-    @State private var email = ""
     @State private var username = ""
     @State private var password = ""
-    @State private var confirmPassword = ""
     @State private var confirmPassword = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
     
     @ObservedObject var navigationState: NavigationState
     @State private var isWaitingForNextView = false
-    @State private var showError = false
-    @State private var errorMessage = ""
     @State private var showError = false
     @State private var errorMessage = ""
     
@@ -37,7 +32,6 @@ struct LoginSignupView: View {
                         )
                         .offset(y: -100)
                     
-                    
                     VStack {
                         Image("white_logo")
                             .resizable()
@@ -47,7 +41,6 @@ struct LoginSignupView: View {
                             .shadow(radius: 50)
                             .offset(y: -70)
                         
-                        
                         HStack {
                             Button(action: { isLogin = true }) {
                                 Text("Login")
@@ -56,9 +49,7 @@ struct LoginSignupView: View {
                                     .offset(y: -15)
                             }
                             
-                            
                             Spacer()
-                            
                             
                             Button(action: { isLogin = false }) {
                                 Text("Sign-up")
@@ -74,7 +65,6 @@ struct LoginSignupView: View {
                 
                 VStack(spacing: 15) {
                     if isLogin {
-                    if isLogin {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
@@ -82,7 +72,6 @@ struct LoginSignupView: View {
                             TextField("Enter email", text: $emailOrUsername)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
-                    } else {
                     } else {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Email Address")
@@ -105,18 +94,6 @@ struct LoginSignupView: View {
                         Text("Password")
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
-                        SecureField("Enter password", text: $password)
-                        Rectangle().frame(height: 0.5).foregroundColor(.black)
-                    }
-                    
-                    if !isLogin {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Confirm Password")
-                                .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.black)
-                            SecureField("Re-enter password", text: $confirmPassword)
-                            Rectangle().frame(height: 0.5).foregroundColor(.black)
-                        }
                         SecureField("Enter password", text: $password)
                         Rectangle().frame(height: 0.5).foregroundColor(.black)
                     }
