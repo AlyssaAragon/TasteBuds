@@ -4,6 +4,7 @@ from django.conf import settings
 from .managers import CustomUserManager
 from django.utils import timezone 
 
+
 class Diet(models.Model):
     dietid = models.AutoField(primary_key=True, db_column='dietid')
     dietname = models.CharField(max_length=255, unique=True, default="General", db_column='dietname')
@@ -78,35 +79,34 @@ class SavedRecipe(models.Model):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    userid = models.AutoField(primary_key=True, db_column='userid')
-    # Remove the integer partnerid field and add a self-referential field:
+    id = models.AutoField(primary_key=True, db_column='userid')
     partner = models.OneToOneField(
         'self',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='partner_of',  # Optional: allows reverse access
+        related_name='partner_of',
         db_column='partnerid'
     )
-    username = models.CharField(max_length=150, unique=True, default="defaultuser", db_column='username')
-    email = models.EmailField(unique=True, default="user@example.com", db_column='email')
+    username = models.CharField(max_length=150, unique=True, db_column='username')
+    email = models.EmailField(unique=True, db_column='email')
     firstlastname = models.CharField(max_length=255, default="First Last", db_column='firstlastname')
-   
-
-    # Permission-related fields
+    
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-
+    
     objects = CustomUserManager()
-
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
-    class Meta:
-        # Removing the custom table name now that everything is standardized:
-        # db_table = 'users'
-        managed = True
+    def save(self, *args, **kwargs):
+        if self.email:
+            self.email = self.email.strip().lower()
+        if self.username:
+            self.username = self.username.strip().lower()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username

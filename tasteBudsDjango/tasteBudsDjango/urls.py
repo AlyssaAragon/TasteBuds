@@ -19,9 +19,12 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from tastebuds import views
 from tastebuds.views import home
-from tastebuds.views import random_recipe, user_profile, filter_recipes_by_diet, LinkPartnerAPIView, get_random_recipe_by_category, filter_recipes_combined, ExemptLoginView, ExemptSignupView
+from tastebuds.views import random_recipe, user_profile, filter_recipes_by_diet, LinkPartnerAPIView, get_random_recipe_by_category, filter_recipes_combined, ExemptLoginView, ExemptSignupView, api_signup
 from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 router = DefaultRouter()
@@ -46,6 +49,9 @@ urlpatterns = [
     path('api/link-partner/', LinkPartnerAPIView.as_view(), name='api-link-partner'),
     path('api/filter_recipes_combined/', filter_recipes_combined, name='filter_recipes_combined'),
     path('', home, name='home'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/signup/', api_signup, name='api_signup'),
 ]
 
 if settings.DEBUG:
