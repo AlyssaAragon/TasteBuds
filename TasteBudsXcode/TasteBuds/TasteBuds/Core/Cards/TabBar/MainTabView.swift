@@ -4,6 +4,7 @@ struct MainTabView: View {
     @EnvironmentObject private var favoritesManager: FavoritesManager
     @EnvironmentObject private var themeManager: ThemeManager
     @EnvironmentObject private var calendarManager: CalendarManager
+    @EnvironmentObject private var userFetcher: UserFetcher
     
     @State private var selectedTab: Tab = .home // Track the selected tab
 
@@ -89,4 +90,5 @@ struct MainTabView: View {
         .environmentObject(FavoritesManager())
         .environmentObject(ThemeManager())
         .environmentObject(CalendarManager())
+        .environmentObject(UserFetcher())
 }
