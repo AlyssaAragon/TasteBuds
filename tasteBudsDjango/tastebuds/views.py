@@ -1,20 +1,17 @@
 from django.contrib.auth import get_user_model, authenticate
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
-from rest_framework.views import APIView 
-from rest_framework.response import Response 
-from rest_framework import status 
-from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 import random
 import json
 from allauth.account.views import LoginView, SignupView
 from django.utils.decorators import method_decorator
-
-from django.views.decorators.csrf import csrf_exempt 
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, CustomUser, Category, RecipeCategory
 from .serializers import (
@@ -24,7 +21,36 @@ from .serializers import (
 
 User = get_user_model()
 
-# View to get a random recipe (for the swiping)
+# --- API SIGNUP ENDPOINT (CSRF-EXEMPT) ---
+@api_view(['POST'])
+@csrf_exempt
+def api_signup(request):
+    # Extract required fields from the request data
+    email = request.data.get('email')
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    # Validate required fields
+    if not email or not username or not password:
+        return Response(
+            {"error": "Email, username, and password are required."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    try:
+        # Create the user using your custom manager
+        user = CustomUser.objects.create_user(email=email, password=password, username=username)
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    return Response({"message": "User created successfully."}, status=status.HTTP_200_OK)
+
+
+# --- RECIPE & USER ENDPOINTS ---
+
 @api_view(['GET'])
 def random_recipe(request):
     recipes = Recipe.objects.all()
@@ -34,13 +60,13 @@ def random_recipe(request):
     serializer = RecipeSerializer(recipe)
     return Response(serializer.data)
 
-# View to get the current user's profile data
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile(request):
     user = request.user
     user_data = {
-        'userid': user.userid,
+        'userid': user.id,  # Use user.id for consistency
         'username': user.username,
         'email': user.email,
         'firstlastname': user.firstlastname,
@@ -48,15 +74,16 @@ def user_profile(request):
     # Include partner details if available
     if user.partner:
         user_data['partner'] = {
-            'userid': user.partner.userid,
+            'userid': user.partner.id,
             'username': user.partner.username,
             'email': user.partner.email,
         }
     return Response(user_data)
 
+
 @api_view(['GET'])
 def filter_recipes_by_diet(request):
-    # Expect one or more dietary preferences via query parameters: ?diet=vegetarian&diet=vegan, etc.
+    # Expect dietary preferences via query parameters, e.g., ?diet=vegetarian&diet=vegan
     dietary_preferences = request.GET.getlist('diet')
     recipes = Recipe.objects.all()
 
@@ -83,15 +110,14 @@ def filter_recipes_by_diet(request):
     if not recipes.exists():
         return Response({"message": "No recipes found matching your criteria."}, status=404)
 
-    # Choose a random recipe from the filtered queryset.
-    random_recipe = random.choice(list(recipes))
+    random_recipe_obj = random.choice(list(recipes))
     data = {
-        "recipeid": random_recipe.recipeid,
-        "title": random_recipe.title,
-        "ingredients": random_recipe.ingredients,
-        "instructions": random_recipe.instructions,
-        "image_name": random_recipe.image_name,
-        "cleaned_ingredients": random_recipe.cleaned_ingredients,
+        "recipeid": random_recipe_obj.recipeid,
+        "title": random_recipe_obj.title,
+        "ingredients": random_recipe_obj.ingredients,
+        "instructions": random_recipe_obj.instructions,
+        "image_name": random_recipe_obj.image_name,
+        "cleaned_ingredients": random_recipe_obj.cleaned_ingredients,
     }
     return Response(data)
 
@@ -108,22 +134,21 @@ def get_random_recipe_by_category(request):
     except Category.DoesNotExist:
         return Response({"error": "Invalid category name."}, status=404)
 
-    # Now use the custom related name 'categories' from Recipe side, or 'recipes' from Category side.
-    # For instance, to get recipes for the category, you can do:
     recipes = Recipe.objects.filter(categories__category=category).distinct()
 
     if not recipes.exists():
         return Response({"error": "No recipes found for this category."}, status=404)
 
-    random_recipe = random.choice(list(recipes))
+    random_recipe_obj = random.choice(list(recipes))
     return Response({
-        "recipeid": random_recipe.recipeid,
-        "title": random_recipe.title,
-        "ingredients": random_recipe.ingredients,
-        "instructions": random_recipe.instructions,
-        "image_name": random_recipe.image_name,
-        "cleaned_ingredients": random_recipe.cleaned_ingredients
+        "recipeid": random_recipe_obj.recipeid,
+        "title": random_recipe_obj.title,
+        "ingredients": random_recipe_obj.ingredients,
+        "instructions": random_recipe_obj.instructions,
+        "image_name": random_recipe_obj.image_name,
+        "cleaned_ingredients": random_recipe_obj.cleaned_ingredients
     })
+
 
 @api_view(['GET'])
 def filter_recipes_combined(request):
@@ -164,55 +189,50 @@ def filter_recipes_combined(request):
     if not recipes.exists():
         return Response({"message": "No recipes found matching your criteria."}, status=404)
 
-    random_recipe = random.choice(list(recipes))
+    random_recipe_obj = random.choice(list(recipes))
     data = {
-        "recipeid": random_recipe.recipeid,
-        "title": random_recipe.title,
-        "ingredients": random_recipe.ingredients,
-        "instructions": random_recipe.instructions,
-        "image_name": random_recipe.image_name,
-        "cleaned_ingredients": random_recipe.cleaned_ingredients,
+        "recipeid": random_recipe_obj.recipeid,
+        "title": random_recipe_obj.title,
+        "ingredients": random_recipe_obj.ingredients,
+        "instructions": random_recipe_obj.instructions,
+        "image_name": random_recipe_obj.image_name,
+        "cleaned_ingredients": random_recipe_obj.cleaned_ingredients,
     }
     return Response(data)
 
 
 
-
-
-
-# User views
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-# Recipe views
+
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
-# Diet views
+
 class DietViewSet(viewsets.ModelViewSet):
     queryset = Diet.objects.all()
     serializer_class = DietSerializer
 
-# RecipeDiet views
+
 class RecipeDietViewSet(viewsets.ModelViewSet):
     queryset = RecipeDiet.objects.all()
     serializer_class = RecipeDietSerializer
 
 
-# SavedRecipe views
 class SavedRecipeViewSet(viewsets.ModelViewSet):
     queryset = SavedRecipe.objects.all()
     serializer_class = SavedRecipeSerializer
 
-# UserDiet views
+
 class UserDietViewSet(viewsets.ModelViewSet):
     queryset = UserDiet.objects.all()
     serializer_class = UserDietSerializer
 
 
-from django.http import HttpResponse
+# --- MISC VIEWS ---
 
 def home(request):
     return HttpResponse("Welcome to TasteBuds!")
@@ -228,16 +248,17 @@ class LinkPartnerAPIView(APIView):
             try:
                 partner = CustomUser.objects.get(email=partner_email)
             except CustomUser.DoesNotExist:
-                return Response({'error': 'No user found with that email.'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'error': 'No user found with that email.'},
+                                status=status.HTTP_404_NOT_FOUND)
 
             if partner == request.user:
-                return Response({'error': 'You cannot link with your own account.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'You cannot link with your own account.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
-            # Check if the partner is already linked with another account
             if partner.partner is not None and partner.partner != request.user:
-                return Response({'error': 'This user is already linked with another account.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'This user is already linked with another account.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
-            # Set the linking symmetrically
             request.user.partner = partner
             partner.partner = request.user
             request.user.save()
@@ -245,14 +266,17 @@ class LinkPartnerAPIView(APIView):
 
             return Response({'message': 'Partner linked successfully!'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptLoginView(LoginView):
     pass
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptSignupView(SignupView):
-    pass        
+    pass
+
 
 
 

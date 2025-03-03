@@ -188,3 +188,9 @@ CSRF_TRUSTED_ORIGINS = [
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 
 CSRF_COOKIE_SECURE = True 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
