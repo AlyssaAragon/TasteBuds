@@ -3,10 +3,10 @@ import SwiftUI
 struct LoginSignupView: View {
     @State private var isLogin = true
     @State private var emailOrUsername = ""
-    @State private var email = ""  // Separate email field for sign-up
+    @State private var email = ""
     @State private var username = ""
     @State private var password = ""
-    @State private var confirmPassword = ""  // Confirm password for sign-up
+    @State private var confirmPassword = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
     
@@ -14,12 +14,11 @@ struct LoginSignupView: View {
     @State private var isWaitingForNextView = false
     @State private var showError = false
     @State private var errorMessage = ""
-
+    
     var body: some View {
         ZStack {
             Color.clear.customGradientBackground()
-
-            VStack(spacing: 0) {
+                    VStack(spacing: 0) {
                 ZStack {
                     Rectangle()
                         .foregroundColor(.clear)
@@ -32,7 +31,7 @@ struct LoginSignupView: View {
                                 .stroke(.white, lineWidth: 0)
                         )
                         .offset(y: -100)
-
+                    
                     VStack {
                         Image("white_logo")
                             .resizable()
@@ -41,7 +40,7 @@ struct LoginSignupView: View {
                             .padding(.bottom, 20)
                             .shadow(radius: 50)
                             .offset(y: -70)
-
+                        
                         HStack {
                             Button(action: { isLogin = true }) {
                                 Text("Login")
@@ -49,9 +48,9 @@ struct LoginSignupView: View {
                                     .foregroundColor(isLogin ? .black : .gray)
                                     .offset(y: -15)
                             }
-
+                            
                             Spacer()
-
+                            
                             Button(action: { isLogin = false }) {
                                 Text("Sign-up")
                                     .font(Font.custom("Abyssinica SIL", size: 25))
@@ -63,7 +62,7 @@ struct LoginSignupView: View {
                     }
                 }
                 .padding(.bottom, 30)
-
+                
                 VStack(spacing: 15) {
                     if isLogin {
                         VStack(alignment: .leading, spacing: 5) {
@@ -89,7 +88,7 @@ struct LoginSignupView: View {
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
                     }
-
+                    
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Password")
                             .font(Font.custom("Abyssinica SIL", size: 20))
@@ -97,7 +96,7 @@ struct LoginSignupView: View {
                         SecureField("Enter password", text: $password)
                         Rectangle().frame(height: 0.5).foregroundColor(.black)
                     }
-
+                    
                     if !isLogin {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Confirm Password")
@@ -109,14 +108,14 @@ struct LoginSignupView: View {
                     }
                 }
                 .padding(30)
-
+                
                 if showError {
                     Text(errorMessage)
                         .foregroundColor(.red)
                         .font(.system(size: 16, weight: .medium))
                         .padding(.top, 5)
                 }
-
+                
                 Button(action: {
                     handleAuth()
                 }) {
@@ -133,30 +132,53 @@ struct LoginSignupView: View {
             .frame(width: 414, height: 896)
         }
     }
-    
+//the server is not properly fetching the csrf token so im going to make it csrf exempt for now. but hoping to get it working after demo
     private func handleAuth() {
-        if isLogin {
-            if emailOrUsername.isEmpty || password.isEmpty {
-                showErrorMessage("Please fill in all fields.")
+        let action = isLogin ? "login" : "signup"
+        CSRFHandler.checkCSRFToken(for: action) { token in
+            guard let csrfToken = token else {
+                DispatchQueue.main.async { self.showErrorMessage("Failed to fetch CSRF token.") }
                 return
             }
-            isLoggedIn = true
-            navigationState.nextView = .cardView
-        } else {
-            if email.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
-                showErrorMessage("All fields are required.")
-                return
+            
+            let url = URL(string: "https://tastebuds.unr.dev/accounts/\(action)/")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue(csrfToken, forHTTPHeaderField: "X-CSRF-Token")
+            if let cookies = HTTPCookieStorage.shared.cookies(for: url), let csrfCookie = cookies.first(where: { $0.name == "csrftoken" }) {
+                request.setValue("\(csrfCookie.name)=\(csrfCookie.value)", forHTTPHeaderField: "Cookie")
             }
-            if password != confirmPassword {
-                showErrorMessage("Passwords do not match.")
-                return
-            }
-            isNewUser = true
-            navigationState.nextView = .addPartner
-            isWaitingForNextView = true
+            let body: [String: String] = isLogin ?
+                ["emailOrUsername": emailOrUsername, "password": password] :
+                ["email": email, "username": username, "password": password]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.showErrorMessage("Network error: \(error.localizedDescription)")
+                    }
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        if isLogin {
+                            self.isLoggedIn = true
+                            self.navigationState.nextView = .cardView
+                        } else {
+                            self.isNewUser = true
+                            self.navigationState.nextView = .addPartner
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async { self.showErrorMessage("Error.") }
+                }
+            }.resume()
         }
     }
-
+    
     private func showErrorMessage(_ message: String) {
         errorMessage = message
         showError = true
