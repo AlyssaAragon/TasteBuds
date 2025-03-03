@@ -181,7 +181,10 @@ CACHES = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://tastebuds.unr.dev"
+    "https://tastebuds.unr.dev", 
+    "http://tastebuds.unr.dev",
 ]
 
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+
+CSRF_COOKIE_SECURE = True 
