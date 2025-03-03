@@ -3,8 +3,10 @@
 //  TasteBuds
 //
 //  Created by Hannah Haggerty on 12/9/24.
-// This isn't fully functioning yet
+
 import SwiftUI
+
+@MainActor
 class UserFetcher: ObservableObject {
     @Published var currentUser: FetchedUser?
 
@@ -15,23 +17,29 @@ class UserFetcher: ObservableObject {
             print("Invalid URL")
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Token YOUR_TOKEN_HERE", forHTTPHeaderField: "Authorization")
-
+        
+        // Retrieve the access token from storage and set it 
+        if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("No access token found.")
+            return
+        }
+        
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-
+            
             if let httpResponse = response as? HTTPURLResponse {
                 print("Response status code: \(httpResponse.statusCode)")
             }
-
+            
+            // Decode JSON into your FetchedUser model
             let decodedUser = try JSONDecoder().decode(FetchedUser.self, from: data)
-            DispatchQueue.main.async {
-                self.currentUser = decodedUser
-                print("Fetched user: \(decodedUser.username)")
-            }
+            self.currentUser = decodedUser
+            print("Fetched user: \(decodedUser.username) with ID: \(decodedUser.userid)")
         } catch {
             print("Error decoding user: \(error)")
         }
@@ -39,7 +47,6 @@ class UserFetcher: ObservableObject {
 
     func testFetchUser() async {
         print("Running fetch user test...")
-
         await fetchUser()
 
         if let user = currentUser {
