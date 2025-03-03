@@ -119,7 +119,25 @@ struct CardView: View {
                             .padding()
                             Spacer()
                             
-                            Text("Filter Options")
+                            Text("Filter")
+                                .font(.title)
+                                .bold()
+                            Spacer()
+                            
+                            Toggle("Drinks", isOn: Binding(
+                                get: { selectedFilters.contains("drink") },
+                                set: { isSelected in
+                                    if isSelected {
+                                        selectedFilters.append("drink")
+                                    } else {
+                                        selectedFilters.removeAll { $0 == "drink" }
+                                    }
+                                })
+                            )
+                            .font(.title3)
+                            .padding()
+                            
+                            Text("Dietary Preferences")
                                 .font(.title)
                                 .bold()
                             Spacer()
@@ -272,7 +290,7 @@ struct CardView: View {
             Text(recipe.name)
                 .font(.title.bold())
                 .padding()
-                .lineLimit(2)
+                .lineLimit(3)
                 .minimumScaleFactor(0.1)
                 .foregroundColor(themeManager.selectedTheme.textColor)
                 .multilineTextAlignment(.center)
