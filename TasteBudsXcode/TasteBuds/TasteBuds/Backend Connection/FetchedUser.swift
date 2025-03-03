@@ -6,14 +6,18 @@
 //
 import Foundation
 
-struct FetchedUser: Identifiable, Decodable {
-    let id: Int
+struct FetchedUser: Codable {
+    let userid: Int
     let username: String
-    let dietPreference: String?
+    let email: String
+    let firstlastname: String
+    let partner: PartnerUser?
 
-    enum CodingKeys: String, CodingKey {
-        case id
-        case username
-        case dietPreference = "diet_preference"
+    struct PartnerUser: Codable {
+        let userid: Int
+        let username: String
+        let email: String
     }
 }
+
+

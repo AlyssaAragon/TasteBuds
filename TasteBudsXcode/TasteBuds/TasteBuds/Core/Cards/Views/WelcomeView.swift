@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
+    @EnvironmentObject var navigationState: NavigationState
     
     var body: some View {
         ZStack {
-
             Color.clear.customGradientBackground()
             
             VStack {
@@ -23,7 +22,8 @@ struct WelcomeView: View {
                 Spacer()
                 
                 Button(action: {
-                    hasSeenWelcome = true
+                    // Navigate to the login/signup screen
+                    navigationState.nextView = .loginSignup
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
@@ -44,4 +44,6 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environmentObject(NavigationState())
 }
+

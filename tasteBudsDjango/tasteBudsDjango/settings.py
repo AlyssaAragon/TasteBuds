@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '3.134.252.214',  # public aws IPv4 address
     'localhost',
-    # zach said not to use this one '127.0.0.1',
+    #'127.0.0.1',  zach said not to use this one '127.0.0.1',
     '0.0.0.0',
     'tastebuds-db.unr.dev', #server address
     'tastebuds.unr.dev',
@@ -156,7 +156,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Media files (for user-uploaded images)
-MEDIA_URL = 'https://tastebuds.unr.dev/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
@@ -181,5 +181,16 @@ CACHES = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://tastebuds.unr.dev"
+    "https://tastebuds.unr.dev", 
+    "http://tastebuds.unr.dev",
 ]
+
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+
+CSRF_COOKIE_SECURE = True 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
