@@ -320,22 +320,22 @@ struct CardView: View {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 350, height: 280)
+                        .scaledToFit()
+//                        .frame(width: 350, height: 280)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 placeholder: {
                     Image("placeholder")
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 350, height: 250)
+                        .scaledToFit()
+//                        .frame(width: 350, height: 250)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             } else {
                 Image("placeholder")
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: 350, height: 250)
+                    .scaledToFit()
+//                    .frame(width: 350, height: 250)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             Spacer()

@@ -89,7 +89,7 @@ struct FavoritesView: View {
             .foregroundColor(themeManager.selectedTheme.textColor)
             .padding()
     }
-    
+    //MARK: - Gallery View
     private func galleryView() -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
@@ -101,28 +101,57 @@ struct FavoritesView: View {
     }
     
     private func galleryCard(recipe: FetchedRecipe) -> some View {
-        VStack {
-            recipeTitle(recipe.name)
-            recipeImage(recipe.imageName)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.25)))
-        .onTapGesture {
-            // Navigate to Recipe Detail
-        }
-        .onLongPressGesture {
-            selectedRecipe = recipe
-            showDeleteConfirmation = true
+        NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+            VStack (alignment: .center, spacing: 5) {
+                recipeTitle(recipe.name)
+                    .padding()
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.1)
+                if let url = recipe.imageUrl {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 170)
+                            .clipShape(
+                                .rect(
+                                    topLeadingRadius: 0,
+                                    bottomLeadingRadius: 10,
+                                    bottomTrailingRadius: 10,
+                                    topTrailingRadius: 0
+                                )
+                            )
+//                            .padding(.bottom, 10)
+                        
+                    }
+                    placeholder: {
+//                        Image("placeholder")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 100, height: 100)
+//                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                } else {
+//                    Image("placeholder")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .frame(width: 100, height: 100)
+//                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)))
+            .padding()
         }
     }
     
     private func recipeTitle(_ name: String) -> some View {
         Text(name)
             .font(.headline)
-            .padding(5)
-            .background(Color.white.opacity(0.7))
+            .foregroundStyle(.black)
+//            .background(Color.white.opacity(0.7))
     }
     
+    //for placeholder image
     private func recipeImage(_ imageName: String?) -> some View {
         Image(imageName ?? "placeholder")
             .resizable()
@@ -131,10 +160,11 @@ struct FavoritesView: View {
             .cornerRadius(10)
     }
     
+    //MARK: - List View
     private func listView() -> some View {
         List {
-            ForEach(sortedRecipes, id: \ .id) { recipe in
-                NavigationLink(destination: Text("Recipe Detail View")) {
+            ForEach(sortedRecipes, id: \.id) { recipe in
+                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                     Text(recipe.name)
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
