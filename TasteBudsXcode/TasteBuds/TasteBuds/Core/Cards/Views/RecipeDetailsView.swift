@@ -58,7 +58,7 @@ struct RecipeDetailsView: View {
                 Text(recipe.instructions)
                     .padding(.horizontal)
                 
-                Spacer()
+                Spacer(minLength: 100)
             }
         }
         .navigationTitle("Recipe Details")

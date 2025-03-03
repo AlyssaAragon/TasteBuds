@@ -52,18 +52,21 @@ struct CalendarView: View {
                                     if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
                                         VStack(alignment: .leading) {
                                             ForEach(recipes, id: \.id) { recipe in
-                                                HStack {
-                                                    Text(recipe.name)
-                                                        .font(.subheadline)
-                                                    Spacer()
-                                                    Button(action: {
-                                                        calendarManager.removeRecipe(from: day, recipe: recipe)
-                                                    }) {
-                                                        Image(systemName: "trash")
-                                                            .foregroundColor(.red)
+                                                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                                                    HStack {
+                                                        Text(recipe.name)
+                                                            .font(.subheadline)
+                                                            .foregroundStyle(.black)
+                                                        Spacer()
+                                                        Button(action: {
+                                                            calendarManager.removeRecipe(from: day, recipe: recipe)
+                                                        }) {
+                                                            Image(systemName: "xmark")
+                                                                .foregroundColor(.red)
+                                                        }
                                                     }
+                                                    .padding(.vertical, 2)
                                                 }
-                                                .padding(.vertical, 2)
                                             }
                                         }
                                         .padding(.horizontal)
@@ -81,8 +84,8 @@ struct CalendarView: View {
                 .navigationBarItems(trailing: Button(action: {
                     calendarManager.clearCalendar()
                 }) {
-                    Image(systemName: "x.circle")
-                        .font(.system(size: 18, weight: .bold))
+                    Image(systemName: "trash")
+                        .font(.system(size: 18))
                         .foregroundColor(.red)
                 })
             }

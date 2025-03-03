@@ -97,6 +97,7 @@ struct FavoritesView: View {
                     galleryCard(recipe: recipe)
                 }
             }
+            .padding(.bottom, 50)
         }
     }
     
@@ -139,9 +140,9 @@ struct FavoritesView: View {
 //                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)))
-            .padding()
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)).frame(width: 170))
         }
+        .padding(.bottom, 50)
     }
     
     private func recipeTitle(_ name: String) -> some View {
@@ -177,6 +178,7 @@ struct FavoritesView: View {
             }
         }
         .listStyle(PlainListStyle())
+        .padding(.bottom, 50)
     }
 }
 
