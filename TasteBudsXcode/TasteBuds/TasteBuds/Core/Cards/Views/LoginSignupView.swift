@@ -135,48 +135,53 @@ struct LoginSignupView: View {
 //the server is not properly fetching the csrf token so im going to make it csrf exempt for now. but hoping to get it working after demo
     private func handleAuth() {
         let action = isLogin ? "login" : "signup"
-        CSRFHandler.checkCSRFToken(for: action) { token in
-            guard let csrfToken = token else {
-                DispatchQueue.main.async { self.showErrorMessage("Failed to fetch CSRF token.") }
+        
+        // Commenting out the CSRF token handling for now
+        // CSRFHandler.checkCSRFToken(for: action) { token in
+        //     guard let csrfToken = token else {
+        //         DispatchQueue.main.async { self.showErrorMessage("Failed to fetch CSRF token.") }
+        //         return
+        //     }
+
+        let url = URL(string: "https://tastebuds.unr.dev/accounts/\(action)/")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Commenting out the CSRF token header and cookie handling
+        // request.setValue(csrfToken, forHTTPHeaderField: "X-CSRF-Token")
+        // if let cookies = HTTPCookieStorage.shared.cookies(for: url), let csrfCookie = cookies.first(where: { $0.name == "csrftoken" }) {
+        //     request.setValue("\(csrfCookie.name)=\(csrfCookie.value)", forHTTPHeaderField: "Cookie")
+        // }
+        
+        let body: [String: String] = isLogin ?
+            ["emailOrUsername": emailOrUsername, "password": password] :
+            ["email": email, "username": username, "password": password]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.showErrorMessage("Network error: \(error.localizedDescription)")
+                }
                 return
             }
             
-            let url = URL(string: "https://tastebuds.unr.dev/accounts/\(action)/")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue(csrfToken, forHTTPHeaderField: "X-CSRF-Token")
-            if let cookies = HTTPCookieStorage.shared.cookies(for: url), let csrfCookie = cookies.first(where: { $0.name == "csrftoken" }) {
-                request.setValue("\(csrfCookie.name)=\(csrfCookie.value)", forHTTPHeaderField: "Cookie")
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                DispatchQueue.main.async {
+                    if isLogin {
+                        self.isLoggedIn = true
+                        self.navigationState.nextView = .cardView
+                    } else {
+                        self.isNewUser = true
+                        self.navigationState.nextView = .addPartner
+                    }
+                }
+            } else {
+                DispatchQueue.main.async { self.showErrorMessage("Error.") }
             }
-            let body: [String: String] = isLogin ?
-                ["emailOrUsername": emailOrUsername, "password": password] :
-                ["email": email, "username": username, "password": password]
-            request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.showErrorMessage("Network error: \(error.localizedDescription)")
-                    }
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                    DispatchQueue.main.async {
-                        if isLogin {
-                            self.isLoggedIn = true
-                            self.navigationState.nextView = .cardView
-                        } else {
-                            self.isNewUser = true
-                            self.navigationState.nextView = .addPartner
-                        }
-                    }
-                } else {
-                    DispatchQueue.main.async { self.showErrorMessage("Error.") }
-                }
-            }.resume()
-        }
+        }.resume()
+        // }
     }
     
     private func showErrorMessage(_ message: String) {

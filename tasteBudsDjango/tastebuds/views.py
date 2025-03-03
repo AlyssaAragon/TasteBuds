@@ -11,6 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import random
 import json
+from allauth.account.views import LoginView, SignupView
+from django.utils.decorators import method_decorator
+
 from django.views.decorators.csrf import csrf_exempt 
 from django.shortcuts import redirect
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, CustomUser, Category, RecipeCategory
@@ -243,7 +246,13 @@ class LinkPartnerAPIView(APIView):
             return Response({'message': 'Partner linked successfully!'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        
+@method_decorator(csrf_exempt, name='dispatch')
+class ExemptLoginView(LoginView):
+    pass
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ExemptSignupView(SignupView):
+    pass        
 
 
 
