@@ -54,7 +54,7 @@ struct TasteBudsApp: App {
     }
 }
 
-=
+
 class NavigationState: ObservableObject {
     @Published var nextView: NextView = .welcome
     @Published var previousView: NextView?
