@@ -9,6 +9,7 @@ struct MainTabView: View {
 
     enum Tab {
         case home
+        case matches
         case favorites
         case calendar
         case settings
@@ -30,6 +31,8 @@ struct MainTabView: View {
                     switch selectedTab {
                     case .home:
                         CardView()
+                    case .matches:
+                        MatchesView()
                     case .favorites:
                         FavoritesView()
                     case .calendar:
@@ -46,7 +49,9 @@ struct MainTabView: View {
                     Spacer()
                     tabBarItem(tab: .home, iconName: "house.fill")
                     Spacer()
-                    tabBarItem(tab: .favorites, iconName: "heart.fill")
+                    tabBarItem(tab: .matches, iconName: "heart.fill")
+                    Spacer()
+                    tabBarItem(tab: .favorites, iconName: "star.fill")
                     Spacer()
                     tabBarItem(tab: .calendar, iconName: "calendar")
                     Spacer()
