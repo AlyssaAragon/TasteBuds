@@ -8,13 +8,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Settings")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding()
-                }
-
+                Text("Settings")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+    
                 VStack(spacing: 8) {
                     if let user = userFetcher.currentUser {
                         Text("@\(user.username)")
@@ -54,7 +52,10 @@ struct SettingsView: View {
                         settingsRow(title: "Accessibility")
                     }
                     Divider()
-                    settingsRow(title: "Notifications")
+                    NavigationLink(destination: NotificationPreferencesView()) {
+                        settingsRow(title: "Notifications")
+                    }
+                    
                     Divider()
                     settingsRow(title: "Privacy and Security")
                     Divider()
