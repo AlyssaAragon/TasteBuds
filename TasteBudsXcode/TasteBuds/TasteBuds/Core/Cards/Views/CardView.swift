@@ -341,8 +341,8 @@ struct CardView: View {
             Spacer()
             
             Image(systemName: "ellipsis")
-                .font(.title) // ✅ Increases size for visibility
-                .foregroundColor(.gray) // ✅ Change color for contrast
+                .font(.title)
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
@@ -384,7 +384,24 @@ struct CardView: View {
 
                 Text(recipe.instructions)
                     .foregroundColor(themeManager.selectedTheme.textColor)
-                    .padding(.bottom, 70)
+                    .padding(.bottom, 30)
+                
+                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                    Text("View Full Recipe")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Spacer(minLength: 30)
+                
+                Image(systemName: "ellipsis")
+                    .font(.title)
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
             }
             .padding()
         }
@@ -392,9 +409,9 @@ struct CardView: View {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
-//                .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
+
 
     private func fetchFilteredRecipes() async {
         await recipeFetcher.fetchFilteredRecipes(tags: selectedFilters)
@@ -415,7 +432,7 @@ struct CardView: View {
     private func fetchNextRecipe() async {
         self.isSwiped = false
         self.dragAmount = .zero
-        self.isFlipped = false // ✅ Reset to front when fetching next recipe
+        self.isFlipped = false
         await fetchRecipe()
     }
 
