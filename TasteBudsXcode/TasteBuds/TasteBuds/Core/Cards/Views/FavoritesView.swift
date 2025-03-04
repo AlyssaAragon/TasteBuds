@@ -133,7 +133,21 @@ struct FavoritesView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
                 ForEach(sortedRecipes, id: \ .id) { recipe in
-                    galleryCard(recipe: recipe)
+                    VStack {
+                        if isEditing {
+                            Image(systemName: selectedRecipes.contains(recipe) ? "checkmark.circle.fill" : "circle")
+                                .onTapGesture {
+                                    toggleSelection(for: recipe)
+                                }
+                        }
+                        galleryCard(recipe: recipe)
+                    }
+                    .onLongPressGesture {
+                        if !isEditing {
+                            selectedRecipes = [recipe]
+                            showDeleteConfirmation = true
+                        }
+                    }
                 }
             }
             .padding(.bottom, 50)
