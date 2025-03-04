@@ -18,18 +18,21 @@ struct LoginSignupView: View {
     var body: some View {
         ZStack {
             Color.clear.customGradientBackground()
+            
             VStack(spacing: 0) {
                 ZStack {
+                    
+                    //MARK: - upper half
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: 414, height: 382)
                         .background(Color.white.opacity(0.25))
                         .cornerRadius(30)
                         .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.white, lineWidth: 0)
-                        )
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 30)
+//                                .stroke(Color.white, lineWidth: 0)
+//                        )
                         .offset(y: -100)
                     
                     VStack {
@@ -37,6 +40,7 @@ struct LoginSignupView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300)
+                            .padding()
                             .padding(.bottom, 20)
                             .shadow(radius: 50)
                             .offset(y: -70)
@@ -57,12 +61,13 @@ struct LoginSignupView: View {
                                     .foregroundColor(!isLogin ? .black : .gray)
                                     .offset(y: -15)
                             }
+                            
                         }
                         .padding(.horizontal, 50)
                     }
                 }
-                //.padding(.bottom, -50)
                 
+                //MARK: - lower half
                 VStack(spacing: 15) {
                     if isLogin {
                         VStack(alignment: .leading, spacing: 5) {
@@ -125,15 +130,16 @@ struct LoginSignupView: View {
                         .frame(width: 314, height: 70)
                         .background(Color.white)
                         .cornerRadius(30)
-                        .shadow(radius: 5)
+                        .shadow(radius: 10)
                         //.offset(y: isLogin ? 65 : -20)
                 }
-                .padding(.bottom, 55)
+                .padding(.bottom, 70)
+                
             }
             .frame(width: 414, height: 896)
         }
     }
-    
+    //MARK: - authentication
     private func handleAuth() {
         if isLogin {
             if emailOrUsername.isEmpty || password.isEmpty {
@@ -180,7 +186,7 @@ struct LoginSignupView: View {
 }
 }
 }
-    
+    //MARK: - error message
     private func showErrorMessage(_ message: String) {
         errorMessage = message
         showError = true
