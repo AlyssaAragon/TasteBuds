@@ -32,11 +32,23 @@ class FavoritesManager: ObservableObject {
         }
     }
     
-    private func saveFavoritesData() {
-        if let encoded = try? JSONEncoder().encode(favoriteRecipes) {
-            storedfavoriteRecipes = encoded
+    func removeMultipleFavorites(_ recipes: [FetchedRecipe]) {
+        favoriteRecipes.removeAll { recipe in
+            recipes.contains(where: { $0.id == recipe.id })
+        }
+        saveFavoritesData()
+        DispatchQueue.main.async {
+            self.objectWillChange.send() // ✅ Forces UI update
         }
     }
+
+    
+    private func saveFavoritesData() {
+        if let encoded = try? JSONEncoder().encode(favoriteRecipes) {
+            UserDefaults.standard.set(encoded, forKey: "favoriteRecipes") // ✅ Ensure it's stored persistently
+        }
+    }
+
     
     private func loadFavoritesData() {
         if let decoded = try? JSONDecoder().decode([FetchedRecipe].self, from: storedfavoriteRecipes) {

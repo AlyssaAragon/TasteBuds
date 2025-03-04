@@ -27,6 +27,7 @@
 		472464FF2D750DBA006041F1 /* MatchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464FE2D750DBA006041F1 /* MatchesView.swift */; };
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
+		477C435F2D765F2A0088A874 /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
 		DFE7E5A72D75109F00A1DE54 /* CSRFHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		472464FE2D750DBA006041F1 /* MatchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchesView.swift; sourceTree = "<group>"; };
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
+		477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 		DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSRFHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -227,6 +229,7 @@
 				472464FE2D750DBA006041F1 /* MatchesView.swift */,
 				472464242D71998A006041F1 /* CalendarView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
+				477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
 				4753C63E2D67FCF500402D22 /* Extensions.swift */,
@@ -442,6 +445,7 @@
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
 				472464252D71998A006041F1 /* CalendarView.swift in Sources */,
+				477C435F2D765F2A0088A874 /* RecipeDetailsView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
 				472464FD2D750D4A006041F1 /* SavedRecipesTabs.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
@@ -619,7 +623,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B5S25WUSM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -632,7 +636,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -648,7 +652,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B5S25WUSM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -661,7 +665,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

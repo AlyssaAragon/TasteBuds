@@ -60,7 +60,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0x5bc3eb))
                                 .shadow(radius: 10)
-                                .frame(width: 70, height: 70)
+                                .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "hand.thumbsdown.fill")
                                         .foregroundColor(Color.white)
@@ -77,7 +77,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0xda2c38))
                                 .shadow(radius: 10)
-                                .frame(width: 70, height: 70)
+                                .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.white)
@@ -86,7 +86,7 @@ struct CardView: View {
                         }
 
                     }
-                    .frame(width: geometry.size.width * 0.95)
+                    .frame(width: geometry.size.width * 0.75)
                     .padding(.top, geometry.size.height * 0.7)
                 }
                 .onAppear {
@@ -320,29 +320,29 @@ struct CardView: View {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 350, height: 280)
+                        .scaledToFit()
+//                        .frame(width: 350, height: 280)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 placeholder: {
                     Image("placeholder")
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 350, height: 250)
+                        .scaledToFit()
+//                        .frame(width: 350, height: 250)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             } else {
                 Image("placeholder")
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: 350, height: 250)
+                    .scaledToFit()
+//                    .frame(width: 350, height: 250)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             Spacer()
             
             Image(systemName: "ellipsis")
-                .font(.title) // ✅ Increases size for visibility
-                .foregroundColor(.gray) // ✅ Change color for contrast
+                .font(.title)
+                .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
@@ -384,7 +384,24 @@ struct CardView: View {
 
                 Text(recipe.instructions)
                     .foregroundColor(themeManager.selectedTheme.textColor)
-                    .padding(.bottom, 70)
+                    .padding(.bottom, 30)
+                
+                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                    Text("View Full Recipe")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Spacer(minLength: 30)
+                
+                Image(systemName: "ellipsis")
+                    .font(.title)
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
             }
             .padding()
         }
@@ -392,9 +409,9 @@ struct CardView: View {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
-//                .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
+
 
     private func fetchFilteredRecipes() async {
         await recipeFetcher.fetchFilteredRecipes(tags: selectedFilters)
@@ -415,7 +432,7 @@ struct CardView: View {
     private func fetchNextRecipe() async {
         self.isSwiped = false
         self.dragAmount = .zero
-        self.isFlipped = false // ✅ Reset to front when fetching next recipe
+        self.isFlipped = false
         await fetchRecipe()
     }
 
