@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-import SwiftUI
+extension String {
+    var titleCase: String {
+        self.lowercased().split(separator: " ").map { $0.capitalized }.joined(separator: " ")
+    }
+}
 
 struct CalendarView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
@@ -25,62 +29,54 @@ struct CalendarView: View {
                         .font(.title.bold())
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, -40)
-                    
-                    ScrollView {
-                        VStack(spacing: 10) {
-                            ForEach(daysOfWeek, id: \.self) { day in
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text(day)
-                                            .font(.headline)
-                                            .frame(width: 100, alignment: .leading)
-                                        Spacer()
-                                        
-                                        Menu {
-                                            ForEach(favoritesManager.favoriteRecipes) { recipe in
-                                                Button(recipe.name) {
-                                                    calendarManager.addRecipe(to: day, recipe: recipe)
-                                                }
-                                            }
-                                        } label: {
-                                            Image(systemName: "plus.circle")
-                                                .foregroundColor(.blue)
+
+                    List {
+                        ForEach(daysOfWeek, id: \.self) { day in
+                            Section(header: HStack {
+                                Text(day)
+                                    .font(.title3)
+                                    .foregroundStyle(.black)
+                                Spacer()
+                                // Add Button
+                                Menu {
+                                    ForEach(favoritesManager.favoriteRecipes) { recipe in
+                                        Button(recipe.name.titleCase) {
+                                            calendarManager.addRecipe(to: day, recipe: recipe)
                                         }
                                     }
-                                    .padding(.bottom, 5)
-                                    
-                                    if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
-                                        VStack(alignment: .leading) {
-                                            ForEach(recipes, id: \.id) { recipe in
-                                                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
-                                                    HStack {
-                                                        Text(recipe.name)
-                                                            .font(.subheadline)
-                                                            .foregroundStyle(.black)
-                                                        Spacer()
-                                                        Button(action: {
-                                                            calendarManager.removeRecipe(from: day, recipe: recipe)
-                                                        }) {
-                                                            Image(systemName: "xmark")
-                                                                .foregroundColor(.red)
-                                                        }
-                                                    }
-                                                    .padding(.vertical, 2)
-                                                }
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                    }
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 20))
                                 }
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)))
+                            }) {
+                                if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
+                                    ForEach(recipes, id: \.id) { recipe in
+                                        NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                                            Text(recipe.name)
+                                                .font(.subheadline)
+                                                .foregroundColor(.black)
+                                        }
+                                    }
+                                    .onDelete { indexSet in
+                                        indexSet.forEach { index in
+                                            let recipe = recipes[index]
+                                            calendarManager.removeRecipe(from: day, recipe: recipe)
+                                        }
+                                    }
+                                } else {
+                                    Text("No recipes planned")
+                                        .foregroundColor(.gray)
+                                        .italic()
+                                }
                             }
                         }
-                        .padding()
-                        .padding(.bottom, 50)
                     }
+                    .listStyle(GroupedListStyle()) // Better for sections
+                    .id(UUID()) // Force refresh
+                    .background(themeManager.selectedTheme.backgroundView)
+                    .padding(.bottom, 50)
                 }
-                .padding()
                 .navigationBarItems(trailing: Button(action: {
                     calendarManager.clearCalendar()
                 }) {
@@ -92,6 +88,7 @@ struct CalendarView: View {
         }
     }
 }
+
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {

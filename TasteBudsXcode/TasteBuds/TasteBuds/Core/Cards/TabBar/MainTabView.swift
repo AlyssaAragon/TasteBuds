@@ -62,7 +62,7 @@ struct MainTabView: View {
                 .frame(height: 100)
                 .background(Color.white) // ✅ Solid white background
                 .clipShape(Rectangle()) // ✅ Standard rectangular shape
-                .padding(.bottom, geometry.size.height - 825)
+                .padding(.bottom, -45)
             }
             .accentColor(.black)
         }
