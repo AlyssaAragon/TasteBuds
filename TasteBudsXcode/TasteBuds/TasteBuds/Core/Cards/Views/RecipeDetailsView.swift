@@ -23,7 +23,7 @@ struct RecipeDetailsView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(maxWidth: .infinity)
+//                            .frame(maxWidth: .infinity)
                             .cornerRadius(10)
                     } placeholder: {
 //                        Image("placeholder")

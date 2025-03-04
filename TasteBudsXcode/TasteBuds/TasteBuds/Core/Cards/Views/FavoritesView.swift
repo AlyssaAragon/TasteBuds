@@ -142,6 +142,7 @@ struct FavoritesView: View {
                         }
                         galleryCard(recipe: recipe)
                     }
+                    .padding(.bottom, -20)
                     .onLongPressGesture {
                         if !isEditing {
                             selectedRecipes = [recipe]

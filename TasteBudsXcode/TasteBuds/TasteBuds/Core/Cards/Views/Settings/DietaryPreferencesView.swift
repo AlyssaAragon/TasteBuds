@@ -102,7 +102,7 @@ struct DietaryPreferencesView: View {
                             .foregroundColor(.black)
                     }
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom, 80)
             }
             .padding(.top, -30)
             

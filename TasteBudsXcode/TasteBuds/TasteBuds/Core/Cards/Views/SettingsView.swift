@@ -39,22 +39,31 @@ struct SettingsView: View {
                     NavigationLink(destination: PartnerSetupView(isNewUser: false)) {
                         settingsRow(title: "Partner")
                     }
+                    
                     Divider()
+                    
                     NavigationLink(destination: DietaryPreferencesView()) {
                         settingsRow(title: "Dietary Preferences")
                     }
+                    
                     Divider()
+                    
                     NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
                         settingsRow(title: "Accessibility")
                     }
+                    
                     Divider()
+                    
                     NavigationLink(destination: NotificationPreferencesView()) {
                         settingsRow(title: "Notifications")
                     }
                     
                     Divider()
+                    
                     settingsRow(title: "Privacy and Security")
+                    
                     Divider()
+                    
                     Button {
                         showingLogoutAlert = true
                     } label: {
