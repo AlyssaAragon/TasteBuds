@@ -9,6 +9,8 @@ struct FavoritesView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
     
+    @State private var isEditing = false
+    @State private var selectedRecipes: Set<FetchedRecipe> = []
     @State private var isGalleryView: Bool = false
     @State private var sortOrder: SortOrder = .newest
     @State private var showDeleteConfirmation = false
@@ -49,6 +51,30 @@ struct FavoritesView: View {
                 }
             }
             .navigationTitle("Favorites")
+            
+            
+            
+            
+            //MARK: - delete multiple recipes
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(isEditing ? "Done" : "Select") {
+                        isEditing.toggle()
+                        if !isEditing { selectedRecipes.removeAll() }
+                    }
+                }
+            }
+            .alert("Delete Selected Recipes?", isPresented: $showDeleteConfirmation) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) {
+                    favoritesManager.removeMultipleFavorites(Array(selectedRecipes))
+                    selectedRecipes.removeAll()
+                }
+            } message: {
+                Text("Are you sure you want to remove these recipes from favorites?")
+            }
+            
+            // delete individual recipe
             .alert("Delete Recipe?", isPresented: $showDeleteConfirmation, actions: {
                 Button("Delete", role: .destructive) {
                     if let recipe = selectedRecipe {
@@ -79,6 +105,14 @@ struct FavoritesView: View {
                 Image(systemName: isGalleryView ? "list.bullet" : "square.grid.2x2")
                     .foregroundColor(.blue)
             }
+            
+            if isEditing {
+                Button("Delete") {
+                    showDeleteConfirmation = true
+                }
+                .disabled(selectedRecipes.isEmpty)
+                .foregroundColor(selectedRecipes.isEmpty ? .gray : .red)
+            }
         }
         .padding()
     }
@@ -89,6 +123,11 @@ struct FavoritesView: View {
             .foregroundColor(themeManager.selectedTheme.textColor)
             .padding()
     }
+    
+    
+    
+    
+    
     //MARK: - Gallery View
     private func galleryView() -> some View {
         ScrollView {
@@ -161,12 +200,24 @@ struct FavoritesView: View {
             .cornerRadius(10)
     }
     
+    
+    
+    
+    
     //MARK: - List View
     private func listView() -> some View {
         List {
             ForEach(sortedRecipes, id: \.id) { recipe in
-                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
-                    Text(recipe.name)
+                HStack {
+                    if isEditing {
+                        Image(systemName: selectedRecipes.contains(recipe) ? "checkmark.circle.fill" : "circle")
+                            .onTapGesture {
+                                toggleSelection(for: recipe)
+                            }
+                    }
+                    NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                        Text(recipe.name)
+                    }
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
@@ -180,7 +231,16 @@ struct FavoritesView: View {
         .listStyle(PlainListStyle())
         .padding(.bottom, 50)
     }
+    
+    private func toggleSelection(for recipe: FetchedRecipe) {
+        if selectedRecipes.contains(recipe) {
+            selectedRecipes.remove(recipe)
+        } else {
+            selectedRecipes.insert(recipe)
+        }
+    }
 }
+
 
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
@@ -189,3 +249,4 @@ struct FavoritesView_Previews: PreviewProvider {
             .environmentObject(ThemeManager())
     }
 }
+
