@@ -60,7 +60,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0x5bc3eb))
                                 .shadow(radius: 10)
-                                .frame(width: 70, height: 70)
+                                .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "hand.thumbsdown.fill")
                                         .foregroundColor(Color.white)
@@ -77,7 +77,7 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0xda2c38))
                                 .shadow(radius: 10)
-                                .frame(width: 70, height: 70)
+                                .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.white)
@@ -86,7 +86,7 @@ struct CardView: View {
                         }
 
                     }
-                    .frame(width: geometry.size.width * 0.95)
+                    .frame(width: geometry.size.width * 0.75)
                     .padding(.top, geometry.size.height * 0.7)
                 }
                 .onAppear {
