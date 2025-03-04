@@ -3,15 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>tastebuds</string> 
-            </array>
-        </dict>
-    </array>
-	
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tastebuds</string>
+			</array>
+		</dict>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>
