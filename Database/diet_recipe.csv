@@ -1,4 +1,4 @@
-recipeID,Vegetarian,Vegan,Gluten-Free,Dairy-Free,Nut-Free,Low-Carb,Keto,Paleo
+recipeid,vegetarian,vegan,gluten_free,dairy_free,nut_free,low_carb,keto,paleo
 0,0,0,0,0,1,0,0,0
 1,1,0,1,1,1,0,0,1
 2,1,0,0,0,1,0,0,0

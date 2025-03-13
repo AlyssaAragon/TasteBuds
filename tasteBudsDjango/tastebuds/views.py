@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 import random
 import json
@@ -79,6 +81,28 @@ def user_profile(request):
             'email': user.partner.email,
         }
     return Response(user_data)
+
+class SavedRecipeViewSet(viewsets.ModelViewSet):
+    queryset = SavedRecipe.objects.all()
+    serializer_class = SavedRecipeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        #filters to return the user's saved recipes
+        return SavedRecipe.objects.filter(user=self.request.user)
+
+    @action(detail=False, methods=['GET'])
+    def shared_favorites(self, request):
+        #returns recipes liked by both the user and their partner
+        if not request.user.partnerid:
+            return Response({"error": "No partner found"}, status=400)
+
+        user_favorites = SavedRecipe.objects.filter(user=request.user).values_list('recipe_id', flat=True)
+        shared_favorites = SavedRecipe.objects.filter(user_id=request.user.partnerid, recipe_id__in=user_favorites)
+
+        return Response(SavedRecipeSerializer(shared_favorites, many=True).data)
+
+
 
 
 @api_view(['GET'])
@@ -220,11 +244,6 @@ class DietViewSet(viewsets.ModelViewSet):
 class RecipeDietViewSet(viewsets.ModelViewSet):
     queryset = RecipeDiet.objects.all()
     serializer_class = RecipeDietSerializer
-
-
-class SavedRecipeViewSet(viewsets.ModelViewSet):
-    queryset = SavedRecipe.objects.all()
-    serializer_class = SavedRecipeSerializer
 
 
 class UserDietViewSet(viewsets.ModelViewSet):

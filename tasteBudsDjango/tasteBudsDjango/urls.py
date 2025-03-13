@@ -31,7 +31,7 @@ router = DefaultRouter()
 router.register(r'profiles', views.UserProfileViewSet)
 router.register(r'recipes', views.RecipeViewSet)
 router.register(r'diets', views.DietViewSet)
-# router.register(r'savedrecipe', views.SavedRecipeViewSet)
+router.register(r'savedrecipe', views.SavedRecipeViewSet)
 # router.register(r'userdiet', views.UserDietViewSet)
 # router.register(r'recipediet', views.RecipeDietViewSet)
 
