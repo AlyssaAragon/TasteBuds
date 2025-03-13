@@ -1,35 +1,30 @@
-// Hannah Haggerty
 import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject private var userFetcher = UserFetcher()
+    @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var userFetcher: UserFetcher
     
+    @State private var showingLogoutAlert = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("isNewUser") private var isNewUser = false
+
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Settings")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding()
-                }
-
+                Text("Settings")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+    
                 VStack(spacing: 8) {
                     if let user = userFetcher.currentUser {
-                        Text("@\(user.username)")
+                        
+                        Text("@\(user.username)") 
                             .font(Font.custom("Inter", size: 16).weight(.black))
                             .kerning(0.08)
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color(red: 0.12, green: 0.13, blue: 0.14))
-
-                        if let dietPreference = user.dietPreference {
-                            Text("Diet: \(dietPreference)")
-                                .font(Font.custom("Inter", size: 12))
-                                .kerning(0.12)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(Color(red: 0.44, green: 0.45, blue: 0.48))
-                        }
                     } else {
                         Text("Loading...")
                             .foregroundColor(.gray)
@@ -39,27 +34,54 @@ struct SettingsView: View {
 
                 Spacer(minLength: 22)
 
-                //Settings List
+                // Settings List
                 VStack(spacing: 0) {
-
                     NavigationLink(destination: PartnerSetupView(isNewUser: false)) {
                         settingsRow(title: "Partner")
                     }
+                    
                     Divider()
+                    
                     NavigationLink(destination: DietaryPreferencesView()) {
-                        settingsRow(title: "Dietary Preferences") // There's a back button on the upper left corner but its blending with the background since they're both white 
+                        settingsRow(title: "Dietary Preferences")
                     }
+                    
                     Divider()
+                    
                     NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
                         settingsRow(title: "Accessibility")
                     }
+                    
                     Divider()
-                    settingsRow(title: "Notifications")
+                    
+                    NavigationLink(destination: NotificationPreferencesView()) {
+                        settingsRow(title: "Notifications")
+                    }
+                    
                     Divider()
+                    
                     settingsRow(title: "Privacy and Security")
+                    
                     Divider()
-                    settingsRow(title: "Sign Out")
-
+                    
+                    Button {
+                        showingLogoutAlert = true
+                    } label: {
+                        settingsRow(title: "Sign Out")
+                    }
+                    .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
+                        Button("Sign out", role: .destructive) {
+                            // Remove tokens properly
+                            AuthService.shared.logout()
+                            UserDefaults.standard.removeObject(forKey: "accessToken") // Ensure token removal for logout
+                            
+                            // Reset login state
+                            isLoggedIn = false
+                            isNewUser = false
+                            navigationState.nextView = .welcome
+                        }
+                        Button("Cancel", role: .cancel) { }
+                    }
                 }
                 .background(Color.white)
                 .cornerRadius(8)
@@ -70,7 +92,9 @@ struct SettingsView: View {
             .navigationBarHidden(true)
             .onAppear {
                 Task {
-                    await userFetcher.fetchUser()
+                    if userFetcher.currentUser == nil { // Prevents unnecessary re-fetching
+                        await userFetcher.fetchUser()
+                    }
                 }
             }
         }
@@ -94,4 +118,6 @@ struct SettingsView: View {
 #Preview {
     SettingsView()
         .environmentObject(ThemeManager())
+        .environmentObject(NavigationState())
+        .environmentObject(UserFetcher())
 }

@@ -18,18 +18,21 @@ struct LoginSignupView: View {
     var body: some View {
         ZStack {
             Color.clear.customGradientBackground()
-                    VStack(spacing: 0) {
+            
+            VStack(spacing: 0) {
                 ZStack {
+                    
+                    //MARK: - upper half
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: 414, height: 382)
-                        .background(.white.opacity(0.25))
+                        .background(Color.white.opacity(0.25))
                         .cornerRadius(30)
-                        .shadow(color: .black.opacity(0.06), radius: 15, x: 0, y: 4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(.white, lineWidth: 0)
-                        )
+                        .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 30)
+//                                .stroke(Color.white, lineWidth: 0)
+//                        )
                         .offset(y: -100)
                     
                     VStack {
@@ -37,6 +40,7 @@ struct LoginSignupView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300)
+                            .padding()
                             .padding(.bottom, 20)
                             .shadow(radius: 50)
                             .offset(y: -70)
@@ -57,19 +61,20 @@ struct LoginSignupView: View {
                                     .foregroundColor(!isLogin ? .black : .gray)
                                     .offset(y: -15)
                             }
+                            
                         }
                         .padding(.horizontal, 50)
                     }
                 }
-                .padding(.bottom, 30)
                 
+                //MARK: - lower half
                 VStack(spacing: 15) {
                     if isLogin {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("Email or Username")
+                            Text("Email")
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
-                            TextField("Enter email or username", text: $emailOrUsername)
+                            TextField("Enter email", text: $emailOrUsername)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
                     } else {
@@ -87,6 +92,7 @@ struct LoginSignupView: View {
                             TextField("Enter username", text: $username)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
+            
                     }
                     
                     VStack(alignment: .leading, spacing: 5) {
@@ -108,88 +114,87 @@ struct LoginSignupView: View {
                     }
                 }
                 .padding(30)
+                .offset(y: -55)
                 
                 if showError {
                     Text(errorMessage)
                         .foregroundColor(.red)
                         .font(.system(size: 16, weight: .medium))
-                        .padding(.top, 5)
+                        .padding(.bottom, 30) // Move error message up
                 }
                 
-                Button(action: {
-                    handleAuth()
-                }) {
+                Button(action: { handleAuth() }) {
                     Text(isLogin ? "Login" : "Sign-up")
-                        .font(Font.custom("Abyssinica SIL", size: 26))
-                        .foregroundColor(.black.opacity(0.8))
+                        .font(.system(size: 26))
+                        .foregroundColor(.black)
                         .frame(width: 314, height: 70)
                         .background(Color.white)
-                        .shadow(radius: 75)
                         .cornerRadius(30)
+                        .shadow(radius: 10)
+                        //.offset(y: isLogin ? 65 : -20)
                 }
-                .padding(.bottom, 50)
+                .padding(.bottom, 70)
+                
             }
             .frame(width: 414, height: 896)
         }
     }
-//the server is not properly fetching the csrf token so im going to make it csrf exempt for now. but hoping to get it working after demo
+    //MARK: - authentication
     private func handleAuth() {
-        let action = isLogin ? "login" : "signup"
-        
-        // Commenting out the CSRF token handling for now
-        // CSRFHandler.checkCSRFToken(for: action) { token in
-        //     guard let csrfToken = token else {
-        //         DispatchQueue.main.async { self.showErrorMessage("Failed to fetch CSRF token.") }
-        //         return
-        //     }
-
-        let url = URL(string: "https://tastebuds.unr.dev/accounts/\(action)/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Commenting out the CSRF token header and cookie handling
-        // request.setValue(csrfToken, forHTTPHeaderField: "X-CSRF-Token")
-        // if let cookies = HTTPCookieStorage.shared.cookies(for: url), let csrfCookie = cookies.first(where: { $0.name == "csrftoken" }) {
-        //     request.setValue("\(csrfCookie.name)=\(csrfCookie.value)", forHTTPHeaderField: "Cookie")
-        // }
-        
-        let body: [String: String] = isLogin ?
-            ["emailOrUsername": emailOrUsername, "password": password] :
-            ["email": email, "username": username, "password": password]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.showErrorMessage("Network error: \(error.localizedDescription)")
-                }
+        if isLogin {
+            if emailOrUsername.isEmpty || password.isEmpty {
+                showErrorMessage("Please fill in all fields.")
                 return
             }
-            
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+            AuthService.shared.login(email: emailOrUsername, password: password) { result in
                 DispatchQueue.main.async {
-                    if isLogin {
+                    switch result {
+                    case .success(_):
                         self.isLoggedIn = true
                         self.navigationState.nextView = .cardView
-                    } else {
-                        self.isNewUser = true
-                        self.navigationState.nextView = .addPartner
+                    case .failure:
+                        self.showErrorMessage("Invalid username or password.")
                     }
                 }
-            } else {
-                DispatchQueue.main.async { self.showErrorMessage("Error.") }
             }
-        }.resume()
-        // }
+        } else {
+            if email.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+                showErrorMessage("All fields are required.")
+                return
+            }
+            if password != confirmPassword {
+                showErrorMessage("Passwords do not match.")
+                return
+            }
+            AuthService.shared.signup(email: email, username: username, password: password) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        self.isLogin = true
+                        self.emailOrUsername = self.email
+                        self.handleAuth()
+    case .failure(let error):
+        if error.localizedDescription.contains("users_username_key") {
+            showErrorMessage("Username is already taken.")
+        } else if error.localizedDescription.contains("users_email_key") {
+            showErrorMessage("Email is already registered.")
+        } else {
+            showErrorMessage("Signup failed. Please try again.")
+        }
     }
-    
+}
+}
+}
+}
+    //MARK: - error message
     private func showErrorMessage(_ message: String) {
         errorMessage = message
         showError = true
     }
 }
 
-#Preview {
-    LoginSignupView(navigationState: NavigationState())
+struct LoginSignupView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginSignupView(navigationState: NavigationState())
+    }
 }

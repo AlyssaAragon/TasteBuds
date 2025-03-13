@@ -20,11 +20,14 @@
 		2570DE372D07BE9F006CD76B /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2570DE362D07BE9D006CD76B /* FavoritesView.swift */; };
 		257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64422CF155ED0039FB32 /* WelcomeView.swift */; };
 		257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257B64442CF15B7D0039FB32 /* LoginSignupView.swift */; };
-		419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F96482D04CCB4006CC8FA /* SwipeAction.swift */; };
+		472464252D71998A006041F1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464242D71998A006041F1 /* CalendarView.swift */; };
+		4724649F2D71B534006041F1 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724649E2D71B534006041F1 /* CalendarManager.swift */; };
+		472464FB2D750CAF006041F1 /* SavedRecipesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464FA2D750CAF006041F1 /* SavedRecipesTabView.swift */; };
+		472464FD2D750D4A006041F1 /* SavedRecipesTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464FC2D750D4A006041F1 /* SavedRecipesTabs.swift */; };
+		472464FF2D750DBA006041F1 /* MatchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472464FE2D750DBA006041F1 /* MatchesView.swift */; };
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
-		DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */; };
-		DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */; };
+		477C435F2D765F2A0088A874 /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
 		DFE7E5A72D75109F00A1DE54 /* CSRFHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */; };
 /* End PBXBuildFile section */
@@ -65,11 +68,14 @@
 		257B64442CF15B7D0039FB32 /* LoginSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupView.swift; sourceTree = "<group>"; };
 		25F698F92D077C06006D91A8 /* TasteBudsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasteBudsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		419E24B42D08E84700172A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		419F96482D04CCB4006CC8FA /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
+		472464242D71998A006041F1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		4724649E2D71B534006041F1 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		472464FA2D750CAF006041F1 /* SavedRecipesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesTabView.swift; sourceTree = "<group>"; };
+		472464FC2D750D4A006041F1 /* SavedRecipesTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesTabs.swift; sourceTree = "<group>"; };
+		472464FE2D750DBA006041F1 /* MatchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchesView.swift; sourceTree = "<group>"; };
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
-		DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
-		DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferencesView.swift; sourceTree = "<group>"; };
+		477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 		DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSRFHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,8 +207,8 @@
 			children = (
 				DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */,
 				DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */,
+				4724649E2D71B534006041F1 /* CalendarManager.swift */,
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
-				419F96482D04CCB4006CC8FA /* SwipeAction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -220,9 +226,10 @@
 			children = (
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
+				472464FE2D750DBA006041F1 /* MatchesView.swift */,
+				472464242D71998A006041F1 /* CalendarView.swift */,
 				2570DE332D07BE75006CD76B /* SettingsView.swift */,
-				DF601FE12D0CEC650047116F /* NotificationPreferencesView.swift */,
-				DFACAE7B2D0CF8A6008F3648 /* NotificationPreferencesView.swift */,
+				477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */,
 				257B64422CF155ED0039FB32 /* WelcomeView.swift */,
 				257B64442CF15B7D0039FB32 /* LoginSignupView.swift */,
 				4753C63E2D67FCF500402D22 /* Extensions.swift */,
@@ -238,6 +245,7 @@
 			children = (
 				2503BEEC2CED5734008BCD0B /* Model */,
 				2503BEF02CED5734008BCD0B /* ViewModel */,
+				2503BEF82CED5734008BCD0B /* TabBar */,
 				2503BEF52CED5734008BCD0B /* Views */,
 			);
 			path = Cards;
@@ -247,6 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				2503BEF72CED5734008BCD0B /* MainTabView.swift */,
+				472464FA2D750CAF006041F1 /* SavedRecipesTabView.swift */,
+				472464FC2D750D4A006041F1 /* SavedRecipesTabs.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -255,7 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				2503BEF62CED5734008BCD0B /* Cards */,
-				2503BEF82CED5734008BCD0B /* TabBar */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -349,7 +358,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					2503BEAB2CED546C008BCD0B = {
 						CreatedOnToolsVersion = 15.4;
@@ -430,20 +439,23 @@
 				4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */,
 				2570DE342D07BE83006CD76B /* SettingsView.swift in Sources */,
 				2503BF062CED5734008BCD0B /* CardView.swift in Sources */,
-				419F96492D04CCB4006CC8FA /* SwipeAction.swift in Sources */,
-				DF601FE22D0CEC700047116F /* NotificationPreferencesView.swift in Sources */,
+				472464FB2D750CAF006041F1 /* SavedRecipesTabView.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
-				DFACAE7C2D0CF8B0008F3648 /* NotificationPreferencesView.swift in Sources */,
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
+				472464252D71998A006041F1 /* CalendarView.swift in Sources */,
+				477C435F2D765F2A0088A874 /* RecipeDetailsView.swift in Sources */,
 				257B64452CF15B7D0039FB32 /* LoginSignupView.swift in Sources */,
+				472464FD2D750D4A006041F1 /* SavedRecipesTabs.swift in Sources */,
 				257B64432CF155ED0039FB32 /* WelcomeView.swift in Sources */,
 				DFE7E5A72D75109F00A1DE54 /* CSRFHandler.swift in Sources */,
 				2503BF042CED5734008BCD0B /* CardsViewModel.swift in Sources */,
 				DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */,
 				2503BF012CED5734008BCD0B /* APIService.swift in Sources */,
+				472464FF2D750DBA006041F1 /* MatchesView.swift in Sources */,
 				2503BF022CED5734008BCD0B /* CardModel.swift in Sources */,
+				4724649F2D71B534006041F1 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,7 +623,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				DEVELOPMENT_TEAM = B5S25WUSM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -624,7 +636,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -640,7 +652,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
+				DEVELOPMENT_TEAM = B5S25WUSM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -653,7 +665,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -738,6 +750,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.1;
@@ -755,6 +768,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.1;

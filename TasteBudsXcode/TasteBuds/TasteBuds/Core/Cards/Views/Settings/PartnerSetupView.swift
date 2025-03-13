@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PartnerSetupView: View {
-    @State private var partnerUsername: String = ""
+    @State private var partnerE: String = ""
     @State private var showAlert: Bool = false
     @State private var isFirstUse: Bool = UserDefaults.standard.bool(forKey: "isFirstUse")
     
@@ -17,7 +17,6 @@ struct PartnerSetupView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            // Handle skip action
                         }) {
                             Text("Skip")
                                 .foregroundColor(.gray)
@@ -41,7 +40,7 @@ struct PartnerSetupView: View {
                     .multilineTextAlignment(.center)
                 
                 VStack(spacing: 20) {
-                    TextField("Partner's Username", text: $partnerUsername)
+                    TextField("Partner's Email", text: $partnerE)
                         .padding()
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(12)
@@ -51,8 +50,16 @@ struct PartnerSetupView: View {
                 }
                 .padding(.bottom, 30)
                 
-                Button(action: {
-                    sendInvitation()
+                Button(action: {sendInvitation(partnerEmail: partnerE) { success, message in
+                    if success {
+                        // Handling success, show the alert
+                        self.showAlert = true
+
+                    } else {
+                        // Handling failure, show the error message
+                        print("Error: \(message)")
+                    }
+                }
                 }) {
                     Text("Add Partner")
                         .font(.headline)
@@ -85,8 +92,81 @@ struct PartnerSetupView: View {
         }
     }
     
-    private func sendInvitation() {
-        showAlert = true
+    func sendInvitation(partnerEmail: String, completion: @escaping (Bool, String) -> Void) {
+    
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/link-partner/") else {
+            completion(false, "Invalid URL")
+            return
+        }
+        
+        let requestBody: [String: Any] = ["partner_email": partnerEmail]
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: []) else {
+            completion(false, "Error creating JSON data")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = UserDefaults.standard.string(forKey: "accessToken") {  print("Token found: \(token)")
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }else {
+            print("No token found")
+        }
+        print("Request Headers: \(request.allHTTPHeaderFields ?? [:])")
+
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                // Handle the error
+                DispatchQueue.main.async {
+                    completion(false, "Request failed: \(error.localizedDescription)")
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(false, "No data received")
+                }
+                return
+            }
+
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Raw Response: \(responseString)")
+            }
+
+            do {
+                if let responseJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    if let message = responseJSON["message"] as? String {
+                        DispatchQueue.main.async {
+                            completion(true, message)
+                        }
+                    } else if let error = responseJSON["error"] as? String {
+                        DispatchQueue.main.async {
+                            completion(false, error)
+                        }
+                    } else {
+                        // Unexpected response format
+                        DispatchQueue.main.async {
+                            completion(false, "Unexpected response format: \(responseJSON)")
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(false, "Error parsing response as JSON: \(data)")
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(false, "Error parsing response: \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
 
