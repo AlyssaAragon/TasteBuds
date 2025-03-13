@@ -11,7 +11,7 @@ struct FavoritesView: View {
     
     @State private var isEditing = false
     @State private var selectedRecipes: Set<FetchedRecipe> = []
-    @State private var isGalleryView: Bool = false
+    @State private var isGalleryView: Bool = true
     @State private var sortOrder: SortOrder = .newest
     @State private var showDeleteConfirmation = false
     @State private var selectedRecipe: FetchedRecipe?
@@ -166,8 +166,8 @@ struct FavoritesView: View {
                     AsyncImage(url: url) { image in
                         image
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: 170)
+                            .scaledToFill()
+                            .frame(width: 170, height: 170)
                             .clipShape(
                                 .rect(
                                     topLeadingRadius: 0,

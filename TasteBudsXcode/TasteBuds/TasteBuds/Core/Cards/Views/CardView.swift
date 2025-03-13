@@ -307,7 +307,7 @@ struct CardView: View {
                     if let iconData = dietaryIcons[filter] {
                         Image(systemName: iconData.icon)
                             .resizable()         // Allows resizing
-                            .scaledToFit()       // Maintains aspect ratio
+                            .scaledToFill()       // Maintains aspect ratio
                             .frame(width: 50, height: 50) // Adjust size as needed
                             .foregroundColor(iconData.color) // Apply custom color
                     }
@@ -320,8 +320,8 @@ struct CardView: View {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
-                        .scaledToFit()
-//                        .frame(width: 350, height: 280)
+                        .scaledToFill()
+                        .frame(width: geometry.size.width * 0.85, height: geometry.size.height * 0.45)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 placeholder: {
