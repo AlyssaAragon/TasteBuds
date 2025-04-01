@@ -290,25 +290,3 @@ class ExemptSignupView(SignupView):
     pass
 
 
-def get_craving_recommendation(request):
-    craving = request.GET.get('category', None)
-    if not craving:
-        return JsonResponse({'error': 'Category is required'}, status=400)
-    try:
-        category = Category.objects.get(category_name__iexact=craving)
-        recipe_ids = RecipeCategory.objects.filter(category=category).values_list('recipe_id', flat=True)
-        recipes = list(Recipe.objects.filter(recipeid__in=recipe_ids))
-        if recipes:
-            selected_recipe = random.choice(recipes)
-            return JsonResponse({
-                'title': selected_recipe.title,
-                'ingredients': selected_recipe.ingredients,
-                'instructions': selected_recipe.instructions,
-                'image': selected_recipe.image_name
-            })
-        else:
-            return JsonResponse({'error': 'No recipes found for this category'}, status=404)
-
-    except Category.DoesNotExist:
-        return JsonResponse({'error': 'Invalid category'}, status=400)
-
