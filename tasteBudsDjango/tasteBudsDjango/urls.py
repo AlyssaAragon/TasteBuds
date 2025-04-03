@@ -34,6 +34,14 @@ router.register(r'diets', views.DietViewSet)
 router.register(r'savedrecipe', views.SavedRecipeViewSet)
 # router.register(r'userdiet', views.UserDietViewSet)
 # router.register(r'recipediet', views.RecipeDietViewSet)
+from tastebuds.views import PrivateRecipeListCreateView, PrivateRecipeDetailView
+from tastebuds.views import get_partner_requests, respond_to_partner_request
+from tastebuds.views import remove_partner
+
+
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,6 +60,14 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/signup/', api_signup, name='api_signup'),
+    path('private-recipes/', PrivateRecipeListCreateView.as_view(), name='private-recipe-list-create'),
+    path('private-recipes/<int:pk>/', PrivateRecipeDetailView.as_view(), name='private-recipe-detail'),
+    path('api/partner-requests/', get_partner_requests, name='get_partner_requests'),
+    path('api/respond-partner-request/', respond_to_partner_request, name='respond_partner_request'),
+    path('api/remove-partner/', views.remove_partner, name='remove_partner'),
+
+
+
 ]
 
 if settings.DEBUG:

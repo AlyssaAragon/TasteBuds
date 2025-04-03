@@ -14,7 +14,7 @@ class Diet(models.Model):
 
     class Meta:
         db_table = 'diet'
-        managed = False  # Set to False if you don't want Django managing this table
+        managed = False 
 
 
 class Recipe(models.Model):
@@ -70,8 +70,8 @@ class RecipeCategory(models.Model):
 
 class SavedRecipe(models.Model):
     savedid = models.AutoField(primary_key=True, db_column='savedid')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='userid')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='userid',null=False)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, db_column='recipeid',null=False)
 
     class Meta:
         db_table = 'saved_recipe'
@@ -111,7 +111,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
- 
+        
 
 class UserDiet(models.Model):
     userdietid = models.AutoField(primary_key=True, db_column='userdietid')
@@ -123,4 +123,37 @@ class UserDiet(models.Model):
         managed = False
         
         
+class PrivateRecipe(models.Model):
+    privateRecipeID = models.AutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.TextField()
+    ingredients = models.TextField(blank=True, null=True)
+    instructions = models.TextField(blank=True, null=True)
+    imageName = models.TextField(blank=True, null=True)
+    cleaned_ingredients = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+        
+class PartnerRequest(models.Model):
+    from_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='sent_partner_requests',
+        on_delete=models.CASCADE
+    )
+    to_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='received_partner_requests',
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    accepted = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+        db_table = 'partner_request'
+
+
+
+
 
