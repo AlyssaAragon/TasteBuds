@@ -50,8 +50,12 @@ struct FavoritesView: View {
                     Spacer()
                 }
             }
-            .navigationTitle("Favorites")
-            
+            .navigationTitle("My Favorites")
+            .onAppear {
+                favoritesManager.fetchUserFavorites()
+            }
+
+
             
             
             

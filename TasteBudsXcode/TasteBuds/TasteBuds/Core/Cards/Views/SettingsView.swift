@@ -36,7 +36,7 @@ struct SettingsView: View {
 
                 // Settings List
                 VStack(spacing: 0) {
-                    NavigationLink(destination: PartnerSetupView(isNewUser: false)) {
+                    NavigationLink(destination: AddPartnerView()) {
                         settingsRow(title: "Partner")
                     }
                     
@@ -72,8 +72,14 @@ struct SettingsView: View {
                     .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
                         Button("Sign out", role: .destructive) {
                             // Remove tokens properly
+                            AuthService.shared.printUserDefaults()  // using this for debugging access token issue
                             AuthService.shared.logout()
+                            //AuthService.shared.printUserDefaults()   // using this for debugging access token issue
+
                             UserDefaults.standard.removeObject(forKey: "accessToken") // Ensure token removal for logout
+                            
+                            userFetcher.reset()
+
                             
                             // Reset login state
                             isLoggedIn = false
