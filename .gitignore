@@ -5,3 +5,5 @@ db.sqlite3
 __pycache__/
 *.pyc
 dump.rdb
+tasteBudsDjango/media/
+tasteBudsDjango/media/
