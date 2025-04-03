@@ -28,13 +28,13 @@ SECRET_KEY = 'django-insecure-=7fv-gpuqkie&x0x1*gyqb92#spc^2r(uwko=f879_9@^$5)rm
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '3.134.252.214',  # public aws IPv4 address
+    '3.134.252.214',
     'localhost',
-    #'127.0.0.1',  zach said not to use this one '127.0.0.1',
-    '0.0.0.0',
-    'tastebuds-db.unr.dev', #server address
+    'tastebuds-db.unr.dev',
     'tastebuds.unr.dev',
+    '134.197.34.135', 
 ]
+
 
 SITE_ID = 1
 
@@ -202,3 +202,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "tastebudsbackend@gmail.com"  
 EMAIL_HOST_PASSWORD = "qfvz ifta sytj ymio"  
 DEFAULT_FROM_EMAIL = "tastebudsbackend@gmail.com"
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Refresh token duration
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+}
+
+
+

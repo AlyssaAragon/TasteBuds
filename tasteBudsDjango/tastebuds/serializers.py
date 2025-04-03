@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser, Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, Category, RecipeCategory
+from .models import CustomUser, Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, Category, RecipeCategory, PrivateRecipe
+
 from django.conf import settings 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,8 +60,25 @@ class RecipeCategorySerializer(serializers.ModelSerializer):
 
 
 class SavedRecipeSerializer(serializers.ModelSerializer):
+    recipe = RecipeSerializer(read_only=True)
+    recipe_id = serializers.PrimaryKeyRelatedField(
+        queryset=Recipe.objects.all(), source='recipe', write_only=True
+    )
+
     class Meta:
         model = SavedRecipe
+        fields = ['savedid', 'user', 'recipe', 'recipe_id']
+        extra_kwargs = {
+            'user': {'read_only': True},
+        }
+
+
+
+
+
+class PrivateRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrivateRecipe
         fields = '__all__'
 
 class UserDietSerializer(serializers.ModelSerializer):

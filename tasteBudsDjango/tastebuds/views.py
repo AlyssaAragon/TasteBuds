@@ -6,9 +6,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 import random
 import json
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .models import PartnerRequest, CustomUser
+from .serializers import PartnerLinkSerializer
+from rest_framework import generics, permissions
+from .models import PrivateRecipe
+from .serializers import PrivateRecipeSerializer
 from django.core.mail import send_mail
 from django.conf import settings
 from allauth.account.views import LoginView, SignupView
@@ -20,7 +31,7 @@ from .serializers import (
     UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer,
     SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer
 )
-
+from rest_framework import serializers
 User = get_user_model()
 
 # --- API SIGNUP ENDPOINT (CSRF-EXEMPT) ---
@@ -81,6 +92,39 @@ def user_profile(request):
             'email': user.partner.email,
         }
     return Response(user_data)
+
+class SavedRecipeViewSet(viewsets.ModelViewSet):
+    queryset = SavedRecipe.objects.all()
+    serializer_class = SavedRecipeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return SavedRecipe.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        print("DEBUG — incoming data:", self.request.data)
+        if 'recipe_id' not in self.request.data:
+            raise serializers.ValidationError({'recipe_id': 'This field is required.'})
+        serializer.save(user=self.request.user)
+
+
+    def create(self, request, *args, **kwargs):
+        print("DEBUG POST body:", request.data)
+        return super().create(request, *args, **kwargs)
+
+    @action(detail=False, methods=['GET'])
+    def shared_favorites(self, request):
+        if not request.user.partner:
+            return Response({"error": "No partner found"}, status=400)
+
+        user_favorites = SavedRecipe.objects.filter(user=request.user).values_list('recipe_id', flat=True)
+        shared_favorites = SavedRecipe.objects.filter(user=request.user.partner, recipe_id__in=user_favorites)
+
+        return Response(SavedRecipeSerializer(shared_favorites, many=True).data)
+
+
+
+
 
 
 @api_view(['GET'])
@@ -151,6 +195,18 @@ def get_random_recipe_by_category(request):
         "cleaned_ingredients": random_recipe_obj.cleaned_ingredients
     })
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def remove_partner(request):
+    user = request.user
+    if user.partner:
+        partner = user.partner
+        partner.partner = None
+        partner.save()
+        user.partner = None
+        user.save()
+        return Response({'message': 'Partner disconnected successfully'})
+    return Response({'message': 'No partner to disconnect'}, status=400)
 
 @api_view(['GET'])
 def filter_recipes_combined(request):
@@ -224,11 +280,6 @@ class RecipeDietViewSet(viewsets.ModelViewSet):
     serializer_class = RecipeDietSerializer
 
 
-class SavedRecipeViewSet(viewsets.ModelViewSet):
-    queryset = SavedRecipe.objects.all()
-    serializer_class = SavedRecipeSerializer
-
-
 class UserDietViewSet(viewsets.ModelViewSet):
     queryset = UserDiet.objects.all()
     serializer_class = UserDietSerializer
@@ -247,38 +298,119 @@ class LinkPartnerAPIView(APIView):
         serializer = PartnerLinkSerializer(data=request.data)
         if serializer.is_valid():
             partner_email = serializer.validated_data['partner_email']
+
+            # Check if user exists
             try:
-                partner = CustomUser.objects.get(email=partner_email)
+                to_user = CustomUser.objects.get(email__iexact=partner_email)
             except CustomUser.DoesNotExist:
-                return Response({'error': 'No user found with that email.'},
-                                status=status.HTTP_404_NOT_FOUND)
+                return Response({'error': 'No user found with that email.'}, status=status.HTTP_404_NOT_FOUND)
 
-            if partner == request.user:
-                return Response({'error': 'You cannot link with your own account.'},
-                                status=status.HTTP_400_BAD_REQUEST)
+            if to_user == request.user:
+                return Response({'error': 'You cannot partner with yourself.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            if partner.partner is not None and partner.partner != request.user:
-                return Response({'error': 'This user is already linked with another account.'},
-                                status=status.HTTP_400_BAD_REQUEST)
+            if request.user.partner or to_user.partner:
+                return Response({'error': 'One of you is already linked with another account.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            request.user.partner = partner
-            partner.partner = request.user
-            request.user.save()
-            partner.save()
-            
-            self.send_partner_invitation_email(partner_email)
+            if PartnerRequest.objects.filter(from_user=request.user, to_user=to_user, accepted=False).exists():
+                return Response({'error': 'Partner request already sent.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({'message': 'Partner linked successfully!'}, status=status.HTTP_200_OK)
+            PartnerRequest.objects.create(from_user=request.user, to_user=to_user)
+            return Response({'message': 'Partner request sent successfully.'}, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def send_partner_invitation_email(self, partner_email):
-        subject = 'You have been invited to link with a partner on TasteBuds'
-        message = 'Click the link below to accept the invitation and link your accounts.'
-        from_email = settings.DEFAULT_FROM_EMAIL
-        
-        invitation_link = 'https://tastebuds.unr.dev/invite/accept?email=' + partner_email
 
-        send_mail(subject, message + '\n' + invitation_link, from_email, [partner_email])
+
+
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_partner_request(request):
+    partner_email = request.data.get('partner_email')
+    if not partner_email:
+        return Response({'error': 'Partner email is required.'}, status=400)
+
+    try:
+        to_user = CustomUser.objects.get(email__iexact=partner_email)
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'No user found with that email.'}, status=404)
+
+    if to_user == request.user:
+        return Response({'error': 'You cannot send a partner request to yourself.'}, status=400)
+
+    if request.user.partner or to_user.partner:
+        return Response({'error': 'One of you is already linked to a partner.'}, status=400)
+
+    from .models import PartnerRequest
+    if PartnerRequest.objects.filter(from_user=request.user, to_user=to_user).exists():
+        return Response({'error': 'Partner request already sent.'}, status=400)
+
+    PartnerRequest.objects.create(from_user=request.user, to_user=to_user)
+    return Response({'message': 'Partner request sent.'}, status=201)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_partner_requests(request):
+    from .models import PartnerRequest
+    pending_requests = PartnerRequest.objects.filter(to_user=request.user, accepted=False)
+
+    data = [
+        {
+            "id": pr.id,
+            "from_user": {
+                "email": pr.from_user.email,
+                "username": pr.from_user.username,
+                "user_id": pr.from_user.id,
+            },
+            "created_at": pr.created_at
+        }
+        for pr in pending_requests
+    ]
+
+    return Response(data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def respond_to_partner_request(request):
+    from .models import PartnerRequest
+
+    request_id = request.data.get('request_id')
+    action = request.data.get('action')  # should be "accept" or "decline"
+
+    if not request_id or action not in ['accept', 'decline']:
+        return Response({'error': 'Invalid data.'}, status=400)
+
+    try:
+        partner_request = PartnerRequest.objects.get(id=request_id, to_user=request.user, accepted=False)
+    except PartnerRequest.DoesNotExist:
+        return Response({'error': 'Request not found or already handled.'}, status=404)
+
+    if action == 'accept':
+        from_user = partner_request.from_user
+        to_user = partner_request.to_user
+
+        if from_user.partner or to_user.partner:
+            return Response({'error': 'One of you is already linked to a partner.'}, status=400)
+
+        from_user.partner = to_user
+        to_user.partner = from_user
+        from_user.save()
+        to_user.save()
+
+        partner_request.accepted = True
+        partner_request.save()
+
+        return Response({'message': 'Partner request accepted.'}, status=200)
+
+    elif action == 'decline':
+        partner_request.delete()
+        return Response({'message': 'Partner request declined.'}, status=200)
+
+
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptLoginView(LoginView):
@@ -290,5 +422,29 @@ class ExemptSignupView(SignupView):
     pass
 
 
+class PrivateRecipeListCreateView(generics.ListCreateAPIView):
+    serializer_class = PrivateRecipeSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+        partner = user.partnerid
+        return PrivateRecipe.objects.filter(models.Q(user=user) | models.Q(user=partner))
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+from rest_framework.permissions import BasePermission
+
+class IsOwnerOrPartner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user or obj.user == request.user.partnerid
+
+class PrivateRecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PrivateRecipeSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrPartner]
+
+    def get_queryset(self):
+        user = self.request.user
+        partner = user.partnerid
+        return PrivateRecipe.objects.filter(models.Q(user=user) | models.Q(user=partner))
