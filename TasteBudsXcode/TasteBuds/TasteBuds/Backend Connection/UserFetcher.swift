@@ -9,6 +9,7 @@ import SwiftUI
 @MainActor
 class UserFetcher: ObservableObject {
     @Published var currentUser: FetchedUser?
+    @Published var sessionExpired: Bool = false
 
     func fetchUser() async {
         print("Starting user fetch...")
@@ -21,7 +22,7 @@ class UserFetcher: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        // Retrieve the access token from storage and set it 
+        // Retrieve the access token from storage and set it
         if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         } else {
@@ -34,15 +35,26 @@ class UserFetcher: ObservableObject {
             
             if let httpResponse = response as? HTTPURLResponse {
                 print("Response status code: \(httpResponse.statusCode)")
+                
+                if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
+                    print("Token expired or unauthorized.")
+                    sessionExpired = true
+                    return
+                }
             }
             
             // Decode JSON into your FetchedUser model
             let decodedUser = try JSONDecoder().decode(FetchedUser.self, from: data)
             self.currentUser = decodedUser
+            UserDefaults.standard.set(decodedUser.userid, forKey: "userID")
             print("Fetched user: \(decodedUser.username) with ID: \(decodedUser.userid)")
         } catch {
             print("Error decoding user: \(error)")
         }
+    }
+
+    func reset() {
+        currentUser = nil
     }
 
     func testFetchUser() async {

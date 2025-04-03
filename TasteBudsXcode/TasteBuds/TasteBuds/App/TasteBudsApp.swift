@@ -11,6 +11,8 @@ struct TasteBudsApp: App {
     @StateObject private var calendarManager = CalendarManager()
     @StateObject private var userFetcher = UserFetcher()
 
+    @State private var showSessionExpiredAlert = false
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -45,15 +47,58 @@ struct TasteBudsApp: App {
                                 .environmentObject(themeManager)
                                 .environmentObject(calendarManager)
                                 .environmentObject(userFetcher)
+                        case .settings:
+                            SettingsView()
+                                .environmentObject(navigationState)
+                                .environmentObject(userFetcher)
+
                         }
                     }
                     .id(isLoggedIn) // Force reset when login state changes
                 }
             }
+            .alert("Session expired", isPresented: $showSessionExpiredAlert) {
+                Button("Log Out", role: .destructive) {
+                    AuthService.shared.logout()
+                    userFetcher.currentUser = nil
+                    userFetcher.sessionExpired = false
+                    isLoggedIn = false
+                    isNewUser = false
+                    navigationState.nextView = .loginSignup
+                }
+            } message: {
+                Text("Your login session has expired. Please sign in again.")
+            }
+
+
+            .onReceive(userFetcher.$sessionExpired) { expired in
+                if expired {
+                    showSessionExpiredAlert = true
+                }
+            }
+
+            // checks the token when app starts
+            .onAppear {
+                Task {
+                    if isLoggedIn {
+                        await AuthService.shared.refreshTokenIfNeeded { _ in }
+                        await userFetcher.fetchUser()
+                    }
+                }
+            }
+
+
+            //Always re-check token when app resumes
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                Task {
+                    if isLoggedIn {
+                        await userFetcher.fetchUser()
+                    }
+                }
+            }
         }
     }
 }
-
 
 class NavigationState: ObservableObject {
     @Published var nextView: NextView = .welcome
@@ -66,11 +111,11 @@ class NavigationState: ObservableObject {
     }
 }
 
-// Enum for views we can navigate to
 enum NextView {
-    case welcome  // Welcome screen
-    case loginSignup  // Login/signup screen
-    case addPartner  // Partner setup screen
-    case dietaryPreferences  // Dietary preferences screen
-    case cardView  // Main card view screen
+    case welcome              // Welcome screen
+    case loginSignup          // Login/signup screen
+    case addPartner           // Partner setup screen
+    case dietaryPreferences   // Dietary preferences screen
+    case cardView             // Main card view screen
+    case settings
 }
