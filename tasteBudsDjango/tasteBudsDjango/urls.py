@@ -19,7 +19,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from tastebuds import views
 from tastebuds.views import home
-from tastebuds.views import random_recipe, user_profile, filter_recipes_by_diet, LinkPartnerAPIView, get_random_recipe_by_category, filter_recipes_combined, ExemptLoginView, ExemptSignupView, api_signup
+from tastebuds.views import random_recipe, user_profile, filter_recipes_by_diet, LinkPartnerAPIView, get_random_recipe_by_category, filter_recipes_combined, ExemptLoginView, ExemptSignupView, api_signup, get_craving_recommendation
+
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,

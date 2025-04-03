@@ -7,7 +7,7 @@ struct MainTabView: View {
     @EnvironmentObject private var userFetcher: UserFetcher
     
     @State private var selectedTab: Tab = .home // Track the selected tab
-
+    @State private var showCravingPopup = false
     enum Tab {
         case home
         case matches
@@ -44,7 +44,11 @@ struct MainTabView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
-                
+                .onAppear {
+                    if CravingManager.shared.allowCravingPopup() {
+                        showCravingPopup = true
+                    }
+                }
                 // Custom Tab Bar (solid background, standard look)
                 HStack {
                     Spacer()
@@ -65,6 +69,9 @@ struct MainTabView: View {
                 .padding(.bottom, -45)
             }
             .accentColor(.black)
+            .sheet(isPresented: $showCravingPopup) {
+                CravingPopupView()
+            }
         }
     }
 

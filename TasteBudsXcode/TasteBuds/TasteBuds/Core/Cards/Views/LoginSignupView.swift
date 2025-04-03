@@ -100,6 +100,9 @@ struct LoginSignupView: View {
                             .font(Font.custom("Abyssinica SIL", size: 20))
                             .foregroundColor(.black)
                         SecureField("Enter password", text: $password)
+                            .textContentType(.none)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
                         Rectangle().frame(height: 0.5).foregroundColor(.black)
                     }
                     
@@ -109,6 +112,9 @@ struct LoginSignupView: View {
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
                             SecureField("Re-enter password", text: $confirmPassword)
+                                .textContentType(.none) 
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
                     }
