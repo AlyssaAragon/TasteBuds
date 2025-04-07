@@ -9,80 +9,85 @@ import SwiftUI
 struct IngredientSubView: View {
     @State private var flippedIndex: Int? = nil
     @State private var selectedCard: String?
+    @Namespace var scrollSpace
     let ingredients = [
-        ("Milk", ["Almond Milk: A good non-dairy substitute. Use in smoothies, baking, or cooking.",
-                  "Soy Milk: A protein-rich substitute, great for cooking and baking.",
-                  "Oat Milk: A mild flavor substitute, great for coffee or cereal."]),
-        ("Eggs", ["Chia Seeds: Use 1 tbsp chia seeds + 3 tbsp water as an egg substitute in baking.",
-                  "Applesauce: 1/4 cup applesauce can replace 1 egg in baking.",
-                  "Yogurt: 1/4 cup yogurt can replace 1 egg in baking."]),
-        ("Cheese", ["Nutritional Yeast: A cheesy flavor, great for vegans. Use in pasta or on popcorn.",
-                    "Cashew Cheese: A creamy, vegan cheese. Great for spreads and dips.",
-                    "Tofu Cheese: A firm tofu alternative. Can be used in sandwiches or salads."]),
-        ("Meat", ["Tofu: A great protein-packed substitute, use in stir-fries or grilled dishes.",
-                  "Tempeh: A fermented soy product, great for tacos, sandwiches, or salads.",
-                  "Mushrooms: A meaty texture, great for burgers, stir-fries, or as a main dish."])
+        ("Milk", ["Almond Milk: A good non-dairy substitute. Use in smoothies, baking, or cooking.", "Soy Milk: A protein-rich substitute, great for cooking and baking.", "Oat Milk: A mild flavor substitute, great for coffee or cereal."]),
+        ("Eggs", ["Chia Seeds: Use 1 tbsp chia seeds + 3 tbsp water as an egg substitute in baking.", "Applesauce: 1/4 cup applesauce can replace 1 egg in baking.", "Yogurt: 1/4 cup yogurt can replace 1 egg in baking."]),
+        ("Cheese", ["Nutritional Yeast: A cheesy flavor, great for vegans. Use in pasta or on popcorn.", "Cashew Cheese: A creamy, vegan cheese. Great for spreads and dips.", "Tofu Cheese: A firm tofu alternative. Can be used in sandwiches or salads."]),
+        ("Meat", ["Tofu: A great protein-packed substitute, use in stir-fries or grilled dishes.", "Tempeh: A fermented soy product, great for tacos, sandwiches, or salads.", "Mushrooms: A meaty texture, great for burgers, stir-fries, or as a main dish."]),
+        ("Salt", ["Soy Sauce / Tamari: Use for savory depth in cooked dishes.", "Miso Paste: Adds saltiness plus umami, especially in soups or marinades.", "Herbs & Spices: Add flavor with no sodium — try garlic powder, smoked paprika, etc." ]),
+        ("Butter", [ "Coconut Oil: Use in baking 1:1. Adds slight coconut flavor.", "Applesauce: Use 1/2 cup for 1 cup butter in baking for a lower-fat option.", "Olive Oil: Use 3/4 cup olive oil for every 1 cup of butter in cooking or baking." ]),
+        ("Flour", [ "Almond Flour: Great for gluten-free baking. May need adjustments in moisture.", "Oat Flour: Can sub 1:1 but works best in muffins, pancakes, etc.", "Coconut Flour: Very absorbent, use 1/4 cup for every 1 cup flour and add extra eggs." ]),
     ]
     
     private func flippableIngredientCard(ingredient: String, substitutes: [String]) -> some View {
-        GeometryReader { geometry in
-            VStack {
-                ZStack {
-                    frontOfIngredientCard(ingredient: ingredient, geometry: geometry)
-                        .opacity(selectedCard == ingredient ? 0.0 : 1.0)
-                        
-                    backOfIngredientCard(substitutes: substitutes, geometry: geometry)
-                        .opacity(selectedCard == ingredient ? 1.0 : 0.0)
+        let isSelected = selectedCard == ingredient
+        let screenWidth = UIScreen.main.bounds.width
+        let cardWidth:CGFloat = isSelected ? screenWidth - 40 : (screenWidth / 2) - 24
+        let cardHeight:CGFloat = isSelected ? 360 : 130
+
+        return VStack {
+            ZStack {
+                if isSelected {
+                    backOfIngredientCard(substitutes: substitutes)
+                        .transition(.opacity)
+                } else {
+                    frontOfIngredientCard(ingredient: ingredient)
+                        .transition(.opacity)
                 }
-                .frame(width: geometry.size.width - 20, height: selectedCard == ingredient ? 350 : 120)
-                .background(Color.white)
-                .cornerRadius(12)
-                .shadow(radius: 5)
-                .onTapGesture {
-                    withAnimation {
-                        selectedCard = (selectedCard == ingredient) ? nil : ingredient
-                    }
+            }
+            .frame(width: cardWidth, height: cardHeight)
+            .background(Color.white)
+            .cornerRadius(12)
+            .shadow(radius: 5)
+            .onTapGesture {
+                withAnimation(.spring()) {
+                    selectedCard = isSelected ? nil : ingredient
                 }
             }
         }
-        .frame(height: selectedCard == ingredient ? 360 : 130)
-        .zIndex(selectedCard == ingredient ? 1 : 0)
+        .frame(width: cardWidth, height: cardHeight)
+        .zIndex(isSelected ? 1 : 0)
     }
-        
     
-    private func frontOfIngredientCard(ingredient: String, geometry: GeometryProxy) -> some View {
+    private func frontOfIngredientCard(ingredient: String) -> some View {
         Text(ingredient)
             .font(.headline)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .frame(height: 120)
+            .frame(maxWidth: .infinity, minHeight: 120)
             .background(Color.customYellow)
             .foregroundColor(.black)
             .cornerRadius(12)
             .padding(.vertical)
     }
     
-    private func backOfIngredientCard(substitutes: [String], geometry: GeometryProxy) -> some View {
-        VStack(alignment: .leading) {
-            Text("Substitutes:")
-                .font(.subheadline)
-                .bold()
-                .padding(.bottom, 5)
-            ForEach(substitutes, id: \.self) { substitute in
-                HStack {
-                    Image(systemName: "circle.fill")
-                        .font(.system(size: 6))
-                        .foregroundColor(.black)
-                    Text(substitute)
-                        .font(.body)
-                        .padding(.horizontal, 10)
+    private func backOfIngredientCard(substitutes: [String]) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Substitutes:")
+                    .font(.subheadline)
+                    .bold()
+                    .padding(.bottom, 5)
+
+                ForEach(substitutes, id: \.self) { substitute in
+                    HStack(alignment: .top) {
+                        Image(systemName: "circle.fill")
+                            .font(.system(size: 6))
+                            .foregroundColor(.black)
+                            .padding(.top, 5)
+
+                        Text(substitute)
+                            .font(.body)
+                            .padding(.horizontal, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(width: geometry.size.width - 40, height: 320)
         .background(Color.customPink)
         .foregroundColor(.black)
         .cornerRadius(12)
-        .padding()
     }
     
     var body: some View {
@@ -111,14 +116,7 @@ struct IngredientSubView: View {
         .padding()
     }
 }
-extension Color {
-     static let customPink1 = Color(red: 250/255, green: 178/255, blue: 200/255)
-     static let customBlue1 = Color(red: 121/255, green: 173/255, blue: 220/255)
-     static let customOrange1 = Color(red: 244/255, green: 185/255, blue: 102/255)
-     static let customGreen1 = Color(red: 204/255, green: 226/255, blue: 163/255)
-     static let customPurple1 = Color(red: 194/255, green: 132/255, blue: 190/255)
-     static let customYellow1 = Color(red: 250/255, green: 242/255, blue: 161/255)
- }
+
 struct IngredientSubView_Previews: PreviewProvider {
     static var previews: some View {
         IngredientSubView()
