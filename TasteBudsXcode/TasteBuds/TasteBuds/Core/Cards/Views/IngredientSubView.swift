@@ -112,12 +112,12 @@ struct IngredientSubView: View {
     }
 }
 extension Color {
-     static let customPink = Color(red: 250/255, green: 178/255, blue: 200/255)
-     static let customBlue = Color(red: 121/255, green: 173/255, blue: 220/255)
-     static let customOrange = Color(red: 244/255, green: 185/255, blue: 102/255)
-     static let customGreen = Color(red: 204/255, green: 226/255, blue: 163/255)
-     static let customPurple = Color(red: 194/255, green: 132/255, blue: 190/255)
-     static let customYellow = Color(red: 250/255, green: 242/255, blue: 161/255)
+     static let customPink1 = Color(red: 250/255, green: 178/255, blue: 200/255)
+     static let customBlue1 = Color(red: 121/255, green: 173/255, blue: 220/255)
+     static let customOrange1 = Color(red: 244/255, green: 185/255, blue: 102/255)
+     static let customGreen1 = Color(red: 204/255, green: 226/255, blue: 163/255)
+     static let customPurple1 = Color(red: 194/255, green: 132/255, blue: 190/255)
+     static let customYellow1 = Color(red: 250/255, green: 242/255, blue: 161/255)
  }
 struct IngredientSubView_Previews: PreviewProvider {
     static var previews: some View {
