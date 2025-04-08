@@ -28,6 +28,7 @@
 		4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C63E2D67FCF500402D22 /* Extensions.swift */; };
 		4753C6DB2D6ED6AD00402D22 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */; };
 		477C435F2D765F2A0088A874 /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */; };
+		DF808FDB2DA5A286006946BE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF808FDA2DA5A27A006946BE /* NotificationManager.swift */; };
 		DF818F482D9F109A0086C597 /* IngredientSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF818F472D9F10830086C597 /* IngredientSubView.swift */; };
 		DF88E2FC2D949CDF002E27F4 /* CravingPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF88E2FB2D949CC2002E27F4 /* CravingPopupView.swift */; };
 		DF8C9BB62D84C49300E12D92 /* CravingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */; };
@@ -78,6 +79,7 @@
 		4753C63E2D67FCF500402D22 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4753C6DA2D6ED6AD00402D22 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		477C435E2D765F2A0088A874 /* RecipeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
+		DF808FDA2DA5A27A006946BE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		DF818F472D9F10830086C597 /* IngredientSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientSubView.swift; sourceTree = "<group>"; };
 		DF88E2FB2D949CC2002E27F4 /* CravingPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CravingPopupView.swift; sourceTree = "<group>"; };
 		DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CravingManager.swift; sourceTree = "<group>"; };
@@ -209,8 +211,8 @@
 		2503BEEC2CED5734008BCD0B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DF808FDA2DA5A27A006946BE /* NotificationManager.swift */,
 				DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */,
-				DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */,
 				DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */,
 				4724649E2D71B534006041F1 /* CalendarManager.swift */,
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,
@@ -451,6 +453,7 @@
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
 				DF8C9BB62D84C49300E12D92 /* CravingManager.swift in Sources */,
+				DF808FDB2DA5A286006946BE /* NotificationManager.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
 				472464252D71998A006041F1 /* CalendarView.swift in Sources */,
