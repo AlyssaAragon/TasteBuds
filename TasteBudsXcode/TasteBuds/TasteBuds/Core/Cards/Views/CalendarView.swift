@@ -18,6 +18,10 @@ struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var calendarManager: CalendarManager
 
+    // You would pass in or observe the current user data here
+    @State private var currentUserId: Int = 1 // Example current user ID
+    @State private var partnerUser: FetchedUser.PartnerUser? = nil // Assign your partner data here
+    
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     var body: some View {
@@ -37,7 +41,6 @@ struct CalendarView: View {
                                     .font(.title3)
                                     .foregroundStyle(.black)
                                 Spacer()
-                                // Add Button
                                 Menu {
                                     ForEach(favoritesManager.favoriteRecipes) { recipe in
                                         Button(recipe.name.titleCase) {
@@ -52,10 +55,37 @@ struct CalendarView: View {
                             }) {
                                 if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
                                     ForEach(recipes, id: \.id) { recipe in
-                                        NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
-                                            Text(recipe.name)
-                                                .font(.subheadline)
-                                                .foregroundColor(.black)
+                                        HStack {
+                                            NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                                                Text(recipe.name)
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.black)
+                                            }
+
+                                            Spacer()
+
+                                            if let assigned = recipe.assignedTo, !assigned.isEmpty {
+                                                Image(systemName: "person.crop.circle.fill.badge.checkmark")
+                                                    .foregroundColor(.green)
+                                            }
+
+                                            // Assignment menu
+                                            Menu {
+                                                Button("Assign to You") {
+                                                    calendarManager.assignRecipe(recipe, to: [currentUserId], on: day)
+                                                }
+                                                if let partner = partnerUser {
+                                                    Button("Assign to \(partner.username)") {
+                                                        calendarManager.assignRecipe(recipe, to: [partner.userid], on: day)
+                                                    }
+                                                    Button("Assign to Both") {
+                                                        calendarManager.assignRecipe(recipe, to: [currentUserId, partner.userid], on: day)
+                                                    }
+                                                }
+                                            } label: {
+                                                Image(systemName: "person.crop.circle.badge.plus")
+                                                    .foregroundColor(.blue)
+                                            }
                                         }
                                     }
                                     .onDelete { indexSet in
@@ -84,6 +114,14 @@ struct CalendarView: View {
                         .font(.system(size: 18))
                         .foregroundColor(.red)
                 })
+            }
+        }
+        .onAppear {
+            // Normally you’d load user data from a service or environment
+            if let userData = UserDefaults.standard.data(forKey: "currentUser"),
+               let user = try? JSONDecoder().decode(FetchedUser.self, from: userData) {
+                self.currentUserId = user.userid
+                self.partnerUser = user.partner
             }
         }
     }
