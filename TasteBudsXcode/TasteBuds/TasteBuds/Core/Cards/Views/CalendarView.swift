@@ -39,7 +39,7 @@ struct CalendarView: View {
                             Section(header: HStack {
                                 Text(day)
                                     .font(.title3)
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(Color.primary)
                                 Spacer()
                                 Menu {
                                     ForEach(favoritesManager.favoriteRecipes) { recipe in
@@ -49,7 +49,7 @@ struct CalendarView: View {
                                     }
                                 } label: {
                                     Image(systemName: "plus.circle")
-                                        .foregroundColor(.black)
+                                        .foregroundStyle(.primary)
                                         .font(.system(size: 20))
                                 }
                             }) {
@@ -59,14 +59,14 @@ struct CalendarView: View {
                                             NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                                                 Text(recipe.name)
                                                     .font(.subheadline)
-                                                    .foregroundColor(.black)
+                                                    .foregroundStyle(.primary)
                                             }
 
                                             Spacer()
 
                                             if let assigned = recipe.assignedTo, !assigned.isEmpty {
                                                 Image(systemName: "person.crop.circle.fill.badge.checkmark")
-                                                    .foregroundColor(.green)
+                                                    .foregroundStyle(.green)
                                             }
 
                                             // Assignment menu
@@ -84,7 +84,7 @@ struct CalendarView: View {
                                                 }
                                             } label: {
                                                 Image(systemName: "person.crop.circle.badge.plus")
-                                                    .foregroundColor(.blue)
+                                                    .foregroundStyle(.blue)
                                             }
                                         }
                                     }
@@ -96,7 +96,7 @@ struct CalendarView: View {
                                     }
                                 } else {
                                     Text("No recipes planned")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(.secondary)
                                         .italic()
                                 }
                             }
@@ -112,7 +112,7 @@ struct CalendarView: View {
                 }) {
                     Image(systemName: "trash")
                         .font(.system(size: 18))
-                        .foregroundColor(.red)
+                        .foregroundStyle(.red)
                 })
             }
         }

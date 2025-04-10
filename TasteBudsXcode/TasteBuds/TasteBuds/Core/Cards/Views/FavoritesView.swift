@@ -107,7 +107,7 @@ struct FavoritesView: View {
                 isGalleryView.toggle()
             }) {
                 Image(systemName: isGalleryView ? "list.bullet" : "square.grid.2x2")
-                    .foregroundColor(.blue)
+                    .foregroundStyle(Color.accentColor)
             }
             
             if isEditing {
@@ -115,7 +115,7 @@ struct FavoritesView: View {
                     showDeleteConfirmation = true
                 }
                 .disabled(selectedRecipes.isEmpty)
-                .foregroundColor(selectedRecipes.isEmpty ? .gray : .red)
+                .foregroundStyle(selectedRecipes.isEmpty ? .primary : Color.accentColor)
             }
         }
         .padding()
@@ -124,7 +124,7 @@ struct FavoritesView: View {
     private func emptyStateView() -> some View {
         Text("No favorite recipes yet.")
             .font(.headline)
-            .foregroundColor(themeManager.selectedTheme.textColor)
+            .foregroundStyle(.primary)
             .padding()
     }
     
@@ -198,7 +198,7 @@ struct FavoritesView: View {
 //                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)).frame(width: 170))
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemBackground).opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)).frame(width: 170))
         }
         .padding(.bottom, 50)
     }
@@ -206,8 +206,7 @@ struct FavoritesView: View {
     private func recipeTitle(_ name: String) -> some View {
         Text(name)
             .font(.headline)
-            .foregroundStyle(.black)
-//            .background(Color.white.opacity(0.7))
+            .foregroundStyle(Color.primary)
     }
     
     //for placeholder image
@@ -236,6 +235,7 @@ struct FavoritesView: View {
                     }
                     NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                         Text(recipe.name)
+                        foregroundStyle(Color(UIColor.systemBackground))
                     }
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
