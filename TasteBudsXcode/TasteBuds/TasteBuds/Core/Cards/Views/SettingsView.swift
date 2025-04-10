@@ -24,10 +24,10 @@ struct SettingsView: View {
                             .font(Font.custom("Inter", size: 16).weight(.black))
                             .kerning(0.08)
                             .multilineTextAlignment(.center)
-                            .foregroundColor(Color(red: 0.12, green: 0.13, blue: 0.14))
+                            .foregroundStyle(.primary)
                     } else {
                         Text("Loading...")
-                            .foregroundColor(.gray)
+                            .foregroundStyle(.primary)
                     }
                 }
                 .padding(.top, 200)
@@ -66,7 +66,9 @@ struct SettingsView: View {
                     
                     Divider() 
                     
-                    settingsRow(title: "Privacy and Security")
+                    NavigationLink(destination: PrivacySecurityView()){
+                        settingsRow(title: "Privacy & Security")
+                    }
                     
                     Divider()
                     
@@ -95,12 +97,12 @@ struct SettingsView: View {
                         Button("Cancel", role: .cancel) { }
                     }
                 }
-                .background(Color.white)
+                .background(.secondary)
                 .cornerRadius(8)
 
                 Spacer()
             }
-            .background(Color(UIColor.systemGroupedBackground))
+            .background(Color(UIColor.systemBackground))
             .navigationBarHidden(true)
             .onAppear {
                 Task {
@@ -117,10 +119,10 @@ struct SettingsView: View {
         HStack(alignment: .center, spacing: 16) {
             Text(title)
                 .font(.body)
-                .foregroundColor(.black)
+                .foregroundStyle(.primary)
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
+                .foregroundStyle(Color.accentColor)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
