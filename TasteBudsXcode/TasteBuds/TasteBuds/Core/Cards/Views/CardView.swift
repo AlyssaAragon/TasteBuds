@@ -45,7 +45,8 @@ struct CardView: View {
                         } else {
                             Text("Fetching recipes...")
                                 .font(.headline)
-                                .foregroundColor(themeManager.selectedTheme.textColor)
+//                                .foregroundStyle(themeManager.selectedTheme.textColor)
+                                .foregroundStyle(.primary)
                                 .multilineTextAlignment(.center)
                                 .padding()
                         }
@@ -63,7 +64,7 @@ struct CardView: View {
                                 .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "hand.thumbsdown.fill")
-                                        .foregroundColor(Color.white)
+                                        .foregroundStyle(.white)
                                         .font(.title)
                                 )
                         }
@@ -80,7 +81,7 @@ struct CardView: View {
                                 .frame(width: 80, height: 80)
                                 .overlay(
                                     Image(systemName: "heart.fill")
-                                        .foregroundColor(Color.white)
+                                        .foregroundStyle(.white)
                                         .font(.title)
                                 )
                         }
@@ -106,7 +107,7 @@ struct CardView: View {
                 }) {
                     Image(systemName: "line.3.horizontal.decrease")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color.white)
+                        .foregroundStyle(Color.primary)
                 })
                 .sheet(isPresented: $showFilterMenu) {
                     ZStack {
@@ -217,8 +218,8 @@ struct CardView: View {
                             }
                             .padding()
                             .font(.title3)
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color(UIColor.systemBackground))
+                            .foregroundStyle(.primary)
                             .cornerRadius(10)
                         }
                         .padding()
@@ -292,7 +293,8 @@ struct CardView: View {
                 .padding()
                 .lineLimit(3)
                 .minimumScaleFactor(0.1)
-                .foregroundColor(themeManager.selectedTheme.textColor)
+//                .foregroundColor(themeManager.selectedTheme.textColor)
+                .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
             
             //dietary icons
@@ -342,14 +344,14 @@ struct CardView: View {
             
             Image(systemName: "ellipsis")
                 .font(.title)
-                .foregroundColor(.gray)
+                .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.85)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(Color(UIColor.systemBackground))
                 .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
@@ -371,7 +373,8 @@ struct CardView: View {
 
                 ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
-                        .foregroundColor(themeManager.selectedTheme.textColor)
+//                        .foregroundStyle(themeManager.selectedTheme.textColor)
+                        .foregroundStyle(.primary)
                 }
                 
                 Spacer()
@@ -383,23 +386,25 @@ struct CardView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
 
                 Text(recipe.instructions)
-                    .foregroundColor(themeManager.selectedTheme.textColor)
+                    .foregroundStyle(.primary)
                     .padding(.bottom, 30)
+                
+                Spacer(minLength: 30)
                 
                 NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                     Text("View Full Recipe")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
+                        .background(Color.primary)
+                        .foregroundStyle(Color(UIColor.systemBackground))
                         .cornerRadius(10)
                 }
                 Spacer(minLength: 30)
                 
                 Image(systemName: "ellipsis")
                     .font(.title)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.primary)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
             }
@@ -408,7 +413,7 @@ struct CardView: View {
         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.85)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(Color(UIColor.systemBackground))
         )
     }
 

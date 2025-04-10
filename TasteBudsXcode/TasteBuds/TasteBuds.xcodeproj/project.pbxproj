@@ -210,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */,
-				DFE7E5A62D75109500A1DE54 /* CSRFHandler.swift */,
 				DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */,
 				4724649E2D71B534006041F1 /* CalendarManager.swift */,
 				2503BEEB2CED5734008BCD0B /* CardModel.swift */,

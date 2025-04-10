@@ -49,7 +49,7 @@ struct CalendarView: View {
                                     }
                                 } label: {
                                     Image(systemName: "plus.circle")
-                                        .foregroundStyle(.primary)
+                                        .foregroundStyle(Color.primary)
                                         .font(.system(size: 20))
                                 }
                             }) {
