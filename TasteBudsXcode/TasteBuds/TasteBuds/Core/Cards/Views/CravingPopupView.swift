@@ -7,10 +7,22 @@
 import SwiftUI
 import Foundation
 
+extension FetchedRecipe {
+    init(from cravingRecipe: CravingRecipe) {
+        self.id = cravingRecipe.recipeid
+        self.name = cravingRecipe.title
+        self.ingredients = cravingRecipe.ingredients
+        self.instructions = cravingRecipe.instructions
+        self.imageName = cravingRecipe.image_name
+        self.cleanedIngredients = cravingRecipe.cleaned_ingredients
+    }
+}
+
 struct CravingPopupView: View {
     @State private var showPopup = false
     @State private var selectedRecipe: CravingRecipe? = nil
     @State private var selectedCategory: String? = nil
+    @State private var showSaveBanner = false
     @EnvironmentObject private var favoritesManager: FavoritesManager
     let categories = ["Meal", "Drink", "Dessert"]
 
@@ -64,7 +76,16 @@ struct CravingPopupView: View {
                     }
                 }
             }
-
+            if showSaveBanner {
+                Text("Recipe Saved!")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .transition(.opacity)
+            }
             if showPopup, let selectedRecipe = selectedRecipe {
                 ScrollView {
                     VStack {
@@ -98,6 +119,8 @@ struct CravingPopupView: View {
 
                         HStack {
                             Button("Save") {
+                                let fetchedRecipe = FetchedRecipe(from: selectedRecipe)
+                                favoritesManager.addFavorite(fetchedRecipe)
                                 withAnimation {
                                     showSaveConfirmation()
                                 }
@@ -119,7 +142,8 @@ struct CravingPopupView: View {
                         }
                         .padding(.bottom)
                     }
-                    .frame(width: 320, height: 700)
+                    .padding()
+                    .frame(maxWidth: 350, maxHeight: 600)
                     .background(Color.customYellow)
                     .cornerRadius(20)
                     .shadow(radius: 5)
@@ -146,8 +170,12 @@ struct CravingPopupView: View {
             }.resume()
     }
     func showSaveConfirmation() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        withAnimation {
+            showSaveBanner = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             withAnimation {
+                showSaveBanner = false
                 showPopup = false
             }
         }
