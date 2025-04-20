@@ -105,7 +105,7 @@ struct DietaryPreferencesView: View {
 
             DispatchQueue.main.async {
                 selectedDiets = Set(dietStrings.compactMap { Diet(rawValue: $0) })
-                print("✅ Loaded user diets: \(selectedDiets)")
+                print("Loaded user diets: \(selectedDiets)")
             }
         }.resume()
     }

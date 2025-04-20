@@ -83,7 +83,7 @@ class RecipeFetcher: ObservableObject {
             let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
                 self.currentRecipe = decodedRecipe
-                print("✅ Fetched combined recipe: \(decodedRecipe.name)")
+                print("Fetched combined recipe: \(decodedRecipe.name)")
             }
         } catch {
             print("ERROR: Failed to decode combined recipe: \(error)")
@@ -110,7 +110,7 @@ class RecipeFetcher: ObservableObject {
             if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                let dietsArray = json["diets"] as? [[String: Any]] {
                 let names = dietsArray.compactMap { $0["dietname"] as? String }
-                print("✅ Extracted diets from user profile: \(names)")
+                print("Extracted diets from user profile: \(names)")
                 return names
             }
 
@@ -134,9 +134,9 @@ class RecipeFetcher: ObservableObject {
             if let httpResponse = response as? HTTPURLResponse {
                 print("DEBUG: Image fetch status: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200, !data.isEmpty {
-                    print("✅ Image successfully fetched. Size: \(data.count) bytes")
+                    print("Image successfully fetched. Size: \(data.count) bytes")
                 } else {
-                    print("❌ Image fetch failed or empty.")
+                    print("Image fetch failed or empty.")
                 }
             }
         } catch {
