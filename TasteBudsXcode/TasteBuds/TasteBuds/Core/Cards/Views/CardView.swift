@@ -1,28 +1,34 @@
-// Hannah, Alyssa, Alicia
+// Hannah Haggerty and Alyssa
 import SwiftUI
+enum Category: String, CaseIterable, Identifiable {
+    case meal, drink, dessert
+
+    var id: String { self.rawValue }
+
+    var label: String {
+        switch self {
+        case .meal: return "Food"
+        case .drink: return "Drink"
+        case .dessert: return "Dessert"
+        }
+    }
+}
 
 struct CardView: View {
-    //favorites
     @EnvironmentObject var favoritesManager: FavoritesManager
-    //theme
     @EnvironmentObject var themeManager: ThemeManager
-    
-    //recipe fetchers
+
     @State private var currentRecipe: FetchedRecipe? = nil
-    @State private var nextRecipe: FetchedRecipe? = nil
     private let recipeFetcher = RecipeFetcher()
 
-    //card swipe animations
     @State private var offset = CGSize.zero
     @State private var dragAmount = CGSize.zero
     @State private var isSwiped = false
     @State private var isFlipped = false
-    
-    //dietary filter
+
     @State private var selectedFilters: [String] = []
+    @State private var selectedCategory: String = ""
     @State private var showFilterMenu = false
-    
-    //prevents infinite refresh glitch when editing
     @State private var isFirstLoad = true
 
     var body: some View {
@@ -32,59 +38,43 @@ struct CardView: View {
                     themeManager.selectedTheme.backgroundView
 
                     VStack {
-                        // Logo with dynamic height
                         Image("white_logo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: geometry.size.width * 0.45)
                             .padding(.top, geometry.size.height * -0.06)
                             .padding(.bottom, geometry.size.height * 0.06)
-                                
+
                         if let recipe = currentRecipe {
                             flippableRecipeCard(recipe: recipe, geometry: geometry)
                         } else {
                             Text("Fetching recipes...")
                                 .font(.headline)
                                 .foregroundColor(themeManager.selectedTheme.textColor)
-                                .multilineTextAlignment(.center)
                                 .padding()
                         }
+
                         Spacer()
                     }
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    // MARK: - Swipe Buttons
+
                     HStack {
-                        Button(action: {
-                            self.swipeLeft()
-                        }) {
+                        Button(action: { swipeLeft() }) {
                             Circle()
                                 .fill(Color(hex: 0x5bc3eb))
                                 .shadow(radius: 10)
                                 .frame(width: 80, height: 80)
-                                .overlay(
-                                    Image(systemName: "hand.thumbsdown.fill")
-                                        .foregroundColor(Color.white)
-                                        .font(.title)
-                                )
+                                .overlay(Image(systemName: "hand.thumbsdown.fill").foregroundColor(.white).font(.title))
                         }
-
 
                         Spacer()
 
-                        Button(action: {
-                            self.swipeRight()
-                        }) {
+                        Button(action: { swipeRight() }) {
                             Circle()
                                 .fill(Color(hex: 0xda2c38))
                                 .shadow(radius: 10)
                                 .frame(width: 80, height: 80)
-                                .overlay(
-                                    Image(systemName: "heart.fill")
-                                        .foregroundColor(Color.white)
-                                        .font(.title)
-                                )
+                                .overlay(Image(systemName: "heart.fill").foregroundColor(.white).font(.title))
                         }
-
                     }
                     .frame(width: geometry.size.width * 0.75)
                     .padding(.top, geometry.size.height * 0.7)
@@ -92,126 +82,70 @@ struct CardView: View {
                 .onAppear {
                     if isFirstLoad {
                         isFirstLoad = false
-                        Task {
-                            await fetchRecipe()
-                            await recipeFetcher.testImageFetching()
-
+                        if let token = AuthService.shared.getAccessToken() {
+                            Task {
+                                let savedDiets = await recipeFetcher.fetchUserDietPreferences(token: token)
+                                self.selectedFilters = savedDiets
+                                await fetchRecipe()
+                            }
+                        } else {
+                            Task { await fetchRecipe() }
                         }
                     }
                 }
-
-                //MARK: - Dietary Filter
-                .navigationBarItems(trailing: Button(action: {
-                    showFilterMenu.toggle()
-                }) {
+                .navigationBarItems(trailing: Button(action: { showFilterMenu.toggle() }) {
                     Image(systemName: "line.3.horizontal.decrease")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(.white)
                 })
                 .sheet(isPresented: $showFilterMenu) {
                     ZStack {
                         themeManager.selectedTheme.backgroundView
                         VStack {
-                            Button("Close") {
-                                showFilterMenu.toggle()
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
+                            Button("Close") { showFilterMenu.toggle() }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+
                             Spacer()
-                            
-                            Text("Filter")
+
+                            Text("Category")
                                 .font(.title)
                                 .bold()
-                            Spacer()
-                            
-                            Toggle("Drinks", isOn: Binding(
-                                get: { selectedFilters.contains("drink") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("drink")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "drink" }
+
+                            ForEach(Category.allCases) { category in
+                                Toggle(category.label, isOn: Binding(
+                                    get: { selectedCategory == category.rawValue },
+                                    set: { isSelected in
+                                        selectedCategory = isSelected ? category.rawValue : ""
                                     }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
+                                ))
+                                .padding(.horizontal)
+                            }
+
+
                             Text("Dietary Preferences")
                                 .font(.title)
                                 .bold()
+
+                            ForEach(Diet.allCases, id: \.rawValue) { diet in
+                                Toggle(diet.label, isOn: Binding(
+                                    get: { selectedFilters.contains(diet.rawValue) },
+                                    set: { isSelected in
+                                        if isSelected {
+                                            selectedFilters.append(diet.rawValue)
+                                        } else {
+                                            selectedFilters.removeAll { $0 == diet.rawValue }
+                                        }
+                                    }
+                                ))
+                                .padding()
+                            }
+
                             Spacer()
-                            
-                            Toggle("Vegetarian", isOn: Binding(
-                                get: { selectedFilters.contains("vegetarian") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("vegetarian")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "vegetarian" }
-                                    }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
-                            Toggle("Gluten-Free", isOn: Binding(
-                                get: { selectedFilters.contains("gluten-free") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("gluten-free")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "gluten-free" }
-                                    }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
-                            Toggle("Low-Carb", isOn: Binding(
-                                get: { selectedFilters.contains("low-carb") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("low-carb")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "low-carb" }
-                                    }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
-                            Toggle("Low-Calorie", isOn: Binding(
-                                get: { selectedFilters.contains("low-calorie") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("low-calorie")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "low-calorie" }
-                                    }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
-                            Toggle("Low-Sodium", isOn: Binding(
-                                get: { selectedFilters.contains("low-sodium") },
-                                set: { isSelected in
-                                    if isSelected {
-                                        selectedFilters.append("low-sodium")
-                                    } else {
-                                        selectedFilters.removeAll { $0 == "low-sodium" }
-                                    }
-                                })
-                            )
-                            .font(.title3)
-                            .padding()
-                            
-                            Spacer()
-                            
+
                             Button("See filtered recipes") {
                                 Task {
-                                    await fetchFilteredRecipes()
+                                    await fetchRecipe()
                                     showFilterMenu.toggle()
                                 }
                             }
@@ -228,63 +162,68 @@ struct CardView: View {
         }
     }
 
-    // MARK: - Flippable Recipe Card
-        private func flippableRecipeCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
-            ZStack(alignment: .bottom) {
-                ZStack {
-                    frontOfCard(recipe: recipe, geometry: geometry)
-                        .opacity(isFlipped ? 0.0 : 1.0)
-                    backOfCard(recipe: recipe, geometry: geometry)
-                        .opacity(isFlipped ? 1.0 : 0.0)
-                }
-                .animation(.easeInOut, value: isFlipped)
-                .onTapGesture {
-                    withAnimation {
-                        isFlipped.toggle()
-                    }
-                }
-                .offset(x: dragAmount.width, y: dragAmount.height - 40)
-                .rotationEffect(.degrees(Double(dragAmount.width / 20)))
-                .scaleEffect(dragAmount.width == 0 ? 1.0 : 0.95)
-                .animation(.interactiveSpring(), value: dragAmount)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            withAnimation(.spring()) {
-                                self.dragAmount = value.translation
-                            }
-                        }
-                        .onEnded { value in
-                            let horizontalSwipe = value.predictedEndTranslation.width
-                            let swipeVelocity = horizontalSwipe / value.time.timeIntervalSinceNow.magnitude
+    private func fetchRecipe() async {
+        await recipeFetcher.fetchCombinedRecipe(
+            category: selectedCategory.isEmpty ? nil : selectedCategory,
+            diets: selectedFilters
+        )
+        self.currentRecipe = recipeFetcher.currentRecipe
+    }
 
-                            if abs(horizontalSwipe) > 150 || abs(swipeVelocity) > 500 {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                                    self.dragAmount = CGSize(width: horizontalSwipe > 0 ? 1000 : -1000, height: 0)
-                                }
-                                Task {
-                                    if horizontalSwipe > 0 {
-                                        swipeRight()
-                                    } else {
-                                        swipeLeft()
-                                    }
-                                    // ✅ Reset to front after swipe
-                                    withAnimation {
-                                        self.isFlipped = false
-                                        self.dragAmount = .zero
-                                    }
-                                }
-                            } else {
-                                withAnimation(.spring()) {
-                                    self.dragAmount = .zero
-                                }
-                            }
-                        }
-                )
-            }
+    private func swipeLeft() {
+        Task {
+            await fetchRecipe()
+            isSwiped = false
+            dragAmount = .zero
+            isFlipped = false
         }
+    }
 
-    // MARK: - Front of Card
+    private func swipeRight() {
+        if let recipe = currentRecipe {
+            favoritesManager.addFavorite(recipe)
+        }
+        swipeLeft()
+    }
+
+    private func flippableRecipeCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
+        ZStack(alignment: .bottom) {
+            ZStack {
+                frontOfCard(recipe: recipe, geometry: geometry).opacity(isFlipped ? 0.0 : 1.0)
+                backOfCard(recipe: recipe, geometry: geometry).opacity(isFlipped ? 1.0 : 0.0)
+            }
+            .animation(.easeInOut, value: isFlipped)
+            .onTapGesture {
+                withAnimation { isFlipped.toggle() }
+            }
+            .offset(x: dragAmount.width, y: dragAmount.height - 40)
+            .rotationEffect(.degrees(Double(dragAmount.width / 20)))
+            .scaleEffect(dragAmount.width == 0 ? 1.0 : 0.95)
+            .animation(.interactiveSpring(), value: dragAmount)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        withAnimation(.spring()) {
+                            self.dragAmount = value.translation
+                        }
+                    }
+                    .onEnded { value in
+                        let horizontalSwipe = value.predictedEndTranslation.width
+                        if abs(horizontalSwipe) > 150 {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                self.dragAmount = CGSize(width: horizontalSwipe > 0 ? 1000 : -1000, height: 0)
+                            }
+                            swipeLeft()
+                        } else {
+                            withAnimation(.spring()) {
+                                self.dragAmount = .zero
+                            }
+                        }
+                    }
+            )
+        }
+    }
+
     private func frontOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
         VStack(alignment: .center, spacing: 10) {
             Text(recipe.name)
@@ -294,27 +233,25 @@ struct CardView: View {
                 .minimumScaleFactor(0.1)
                 .foregroundColor(themeManager.selectedTheme.textColor)
                 .multilineTextAlignment(.center)
-            
-            //dietary icons
+
             let dietaryIcons: [String: (icon: String, color: Color)] = [
                 "vegetarian": ("leaf.circle.fill", .green),
                 "gluten-free": ("tortoise.circle.fill", .orange),
                 "low-sodium": ("heart.circle.fill", .red)
             ]
-            
-            HStack(spacing: 10) { // Adjust spacing as needed
+
+            HStack(spacing: 10) {
                 ForEach(selectedFilters, id: \.self) { filter in
                     if let iconData = dietaryIcons[filter] {
                         Image(systemName: iconData.icon)
-                            .resizable()         // Allows resizing
-                            .scaledToFill()       // Maintains aspect ratio
-                            .frame(width: 50, height: 50) // Adjust size as needed
-                            .foregroundColor(iconData.color) // Apply custom color
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(iconData.color)
                     }
                 }
             }
             .padding()
-
 
             if let url = recipe.imageUrl {
                 AsyncImage(url: url) { image in
@@ -323,23 +260,21 @@ struct CardView: View {
                         .scaledToFill()
                         .frame(width: geometry.size.width * 0.85, height: geometry.size.height * 0.45)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
-                placeholder: {
+                } placeholder: {
                     Image("placeholder")
                         .resizable()
                         .scaledToFit()
-//                        .frame(width: 350, height: 250)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             } else {
                 Image("placeholder")
                     .resizable()
                     .scaledToFit()
-//                    .frame(width: 350, height: 250)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
+
             Spacer()
-            
+
             Image(systemName: "ellipsis")
                 .font(.title)
                 .foregroundColor(.gray)
@@ -354,7 +289,6 @@ struct CardView: View {
         )
     }
 
-    // MARK: - Back of Card
     private func backOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
@@ -363,7 +297,7 @@ struct CardView: View {
                     .fontWeight(.bold)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
-                
+
                 let cleanedIngredients = recipe.ingredients
                     .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
                     .components(separatedBy: "', '")
@@ -373,9 +307,9 @@ struct CardView: View {
                     Text("• \(ingredient)")
                         .foregroundColor(themeManager.selectedTheme.textColor)
                 }
-                
+
                 Spacer()
-                
+
                 Text("Instructions")
                     .font(.title3)
                     .fontWeight(.bold)
@@ -385,7 +319,7 @@ struct CardView: View {
                 Text(recipe.instructions)
                     .foregroundColor(themeManager.selectedTheme.textColor)
                     .padding(.bottom, 30)
-                
+
                 NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                     Text("View Full Recipe")
                         .bold()
@@ -395,13 +329,13 @@ struct CardView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+
                 Spacer(minLength: 30)
-                
+
                 Image(systemName: "ellipsis")
                     .font(.title)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .center)
-                
             }
             .padding()
         }
@@ -410,47 +344,6 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
         )
-    }
-
-
-    private func fetchFilteredRecipes() async {
-        await recipeFetcher.fetchFilteredRecipes(tags: selectedFilters)
-        if let fetchedRecipe = recipeFetcher.currentRecipe {
-            self.currentRecipe = fetchedRecipe
-        }
-    }
-
-    private func fetchRecipe() async {
-        await recipeFetcher.fetchRecipe()
-        if let fetchedRecipe = recipeFetcher.currentRecipe {
-            self.currentRecipe = fetchedRecipe
-        } else {
-            self.currentRecipe = nil
-        }
-    }
-
-    private func fetchNextRecipe() async {
-        self.isSwiped = false
-        self.dragAmount = .zero
-        self.isFlipped = false
-        await fetchRecipe()
-    }
-
-    private func swipeLeft() {
-        print("Swiped left")
-        Task {
-            await fetchNextRecipe()
-        }
-    }
-
-    private func swipeRight() {
-        print("Swiped right")
-        if let currentRecipe = currentRecipe {
-            favoritesManager.addFavorite(currentRecipe)
-        }
-        Task {
-            await fetchNextRecipe()
-        }
     }
 }
 

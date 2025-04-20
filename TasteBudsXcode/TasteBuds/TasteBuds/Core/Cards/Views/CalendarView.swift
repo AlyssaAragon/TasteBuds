@@ -32,24 +32,7 @@ struct CalendarView: View {
 
                     List {
                         ForEach(daysOfWeek, id: \.self) { day in
-                            Section(header: HStack {
-                                Text(day)
-                                    .font(.title3)
-                                    .foregroundStyle(.black)
-                                Spacer()
-                                // Add Button
-                                Menu {
-                                    ForEach(favoritesManager.favoriteRecipes) { recipe in
-                                        Button(recipe.name.titleCase) {
-                                            calendarManager.addRecipe(to: day, recipe: recipe)
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "plus.circle")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 20))
-                                }
-                            }) {
+                            Section(header: sectionHeader(for: day)) {
                                 if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
                                     ForEach(recipes, id: \.id) { recipe in
                                         NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
@@ -72,8 +55,8 @@ struct CalendarView: View {
                             }
                         }
                     }
-                    .listStyle(GroupedListStyle()) // Better for sections
-                    .id(UUID()) // Force refresh
+                    .listStyle(GroupedListStyle())
+                    .id(UUID())
                     .background(themeManager.selectedTheme.backgroundView)
                     .padding(.bottom, 50)
                 }
@@ -87,18 +70,30 @@ struct CalendarView: View {
             }
         }
     }
-}
 
+    // ✅ MOVE THIS INSIDE CalendarView
+    @ViewBuilder
+    private func sectionHeader(for day: String) -> some View {
+        HStack {
+            Text(day)
+                .font(.title3)
+                .foregroundStyle(.black)
+            Spacer()
+            Menu {
+                ForEach(favoritesManager.favoriteRecipes) { wrapper in
+                    Button(wrapper.recipe.name.titleCase) {
+                        calendarManager.addRecipe(to: day, recipe: wrapper.recipe)
+                    }
+                }
 
-struct CalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarView()
-            .environmentObject(FavoritesManager())
-            .environmentObject(ThemeManager())
-            .environmentObject(CalendarManager())
+            } label: {
+                Image(systemName: "plus.circle")
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
+            }
+        }
     }
 }
-
 
 #Preview {
     CalendarView()

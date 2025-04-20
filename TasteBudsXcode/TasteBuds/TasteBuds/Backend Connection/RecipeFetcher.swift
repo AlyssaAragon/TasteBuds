@@ -8,6 +8,7 @@ struct FetchedRecipe: Identifiable, Hashable, Codable {
     let instructions: String
     let imageName: String?
     let cleanedIngredients: String
+    var assignedTo: [Int]?
 
     enum CodingKeys: String, CodingKey {
         case id, name, ingredients, instructions
@@ -29,9 +30,8 @@ struct FetchedDiet: Decodable {
 class RecipeFetcher: ObservableObject {
     @Published var currentRecipe: FetchedRecipe?
 
-    // Fetch a random recipe from the API
     func fetchRecipe() async {
-        print("Fetching recipe...")
+        print("Fetching random recipe...")
 
         guard let url = URL(string: "https://tastebuds.unr.dev/api/random_recipe/") else {
             print("Invalid URL")
@@ -40,11 +40,9 @@ class RecipeFetcher: ObservableObject {
 
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
-
             if let httpResponse = response as? HTTPURLResponse {
                 print("Response status: \(httpResponse.statusCode)")
             }
-
             let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
                 self.currentRecipe = decodedRecipe
@@ -54,75 +52,95 @@ class RecipeFetcher: ObservableObject {
             print("Error decoding recipe: \(error)")
         }
     }
-    
-    // Fetch filtered recipes based on tags
-    func fetchFilteredRecipes(tags: [String]) async {
-        print("Fetching filtered recipes...")
 
-        let tagsQuery = tags.map { "tags=\($0)" }.joined(separator: "&")
-        let urlString = "https://tastebuds.unr.dev/api/filter_recipes/?" + tagsQuery
+    func fetchCombinedRecipe(category: String?, diets: [String]) async {
+        var components = URLComponents(string: "https://tastebuds.unr.dev")!
 
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
+        if let category = category, !diets.isEmpty {
+            components.path = "/api/filter_recipes_combined/"
+            components.queryItems = [URLQueryItem(name: "category", value: category)]
+            components.queryItems?.append(contentsOf: diets.map { URLQueryItem(name: "diet", value: $0) })
+        } else if let category = category {
+            components.path = "/api/get_random_recipe_by_category/"
+            components.queryItems = [URLQueryItem(name: "category", value: category)]
+        } else if !diets.isEmpty {
+            components.path = "/api/filter_recipes_by_diet/"
+            components.queryItems = diets.map { URLQueryItem(name: "diet", value: $0) }
+        } else {
+            components.path = "/api/random_recipe/"
+        }
+
+        guard let url = components.url else {
+            print("ERROR: Invalid URL built from category and diet filters")
             return
         }
 
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
-
             if let httpResponse = response as? HTTPURLResponse {
-                print("Response status: \(httpResponse.statusCode)")
+                print("DEBUG: Combined recipe fetch status: \(httpResponse.statusCode)")
             }
-
             let decodedRecipe = try JSONDecoder().decode(FetchedRecipe.self, from: data)
             DispatchQueue.main.async {
                 self.currentRecipe = decodedRecipe
-                print("Fetched filtered recipe: \(decodedRecipe.name)")
+                print("✅ Fetched combined recipe: \(decodedRecipe.name)")
             }
         } catch {
-            print("Error decoding filtered recipes: \(error)")
+            print("ERROR: Failed to decode combined recipe: \(error)")
         }
     }
 
-    // Test function to verify recipe fetching
-    func testFetchRecipe() async {
-        print("Testing recipe fetch...")
-        await fetchRecipe()
-
-        if let recipe = currentRecipe {
-            print("Test successful. Fetched recipe: \(recipe.name)")
-        } else {
-            print("Test failed. No recipe fetched.")
+    func fetchUserDietPreferences(token: String) async -> [String] {
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/user_profile/") else {
+            print("ERROR: Invalid user profile URL")
+            return []
         }
-    }
 
-    // Test function to verify image fetching
-    func testImageFetching() async {
-        print("Testing image fetching...")
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
 
-        await fetchRecipe()
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
 
-        if let recipe = currentRecipe, let imageUrlString = recipe.imageName,
-           let imageUrl = URL(string: imageUrlString) {
-            print("Constructed image URL: \(imageUrl.absoluteString)")
-
-            do {
-                let (data, response) = try await URLSession.shared.data(from: imageUrl)
-
-                if let httpResponse = response as? HTTPURLResponse {
-                    print("Image response status: \(httpResponse.statusCode)")
-
-                    if httpResponse.statusCode == 200, !data.isEmpty {
-                        print("Image successfully fetched. Size: \(data.count) bytes")
-                    } else {
-                        print("Image URL returned status \(httpResponse.statusCode) or empty data.")
-                    }
-                }
-            } catch {
-                print("Error fetching image: \(error.localizedDescription)")
+            if let httpResponse = response as? HTTPURLResponse {
+                print("DEBUG: User profile response status = \(httpResponse.statusCode)")
             }
-        } else {
-            print("No valid image_name found in the fetched recipe.")
+
+            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let dietsArray = json["diets"] as? [[String: Any]] {
+                let names = dietsArray.compactMap { $0["dietname"] as? String }
+                print("✅ Extracted diets from user profile: \(names)")
+                return names
+            }
+
+            print("DEBUG: No diets found in user profile.")
+            return []
+        } catch {
+            print("ERROR: Failed fetching user diets: \(error)")
+            return []
+        }
+    }
+
+    func testImageFetching() async {
+        guard let recipe = currentRecipe, let imageUrlString = recipe.imageName,
+              let imageUrl = URL(string: imageUrlString) else {
+            print("DEBUG: No valid image name found in currentRecipe.")
+            return
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: imageUrl)
+            if let httpResponse = response as? HTTPURLResponse {
+                print("DEBUG: Image fetch status: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200, !data.isEmpty {
+                    print("✅ Image successfully fetched. Size: \(data.count) bytes")
+                } else {
+                    print("❌ Image fetch failed or empty.")
+                }
+            }
+        } catch {
+            print("ERROR: Failed fetching image: \(error.localizedDescription)")
         }
     }
 }

@@ -1,6 +1,3 @@
-// MatchesView.swift
-// TasteBuds
-
 import SwiftUI
 
 struct MatchesView: View {
@@ -10,14 +7,14 @@ struct MatchesView: View {
     @State private var isGalleryView: Bool = true
     @State private var sortOrder: FavoritesView.SortOrder = .newest
 
-    var sortedSharedFavorites: [FetchedRecipe] {
+    var sortedSharedFavorites: [FavoritesManager.SavedRecipeWrapper] {
         switch sortOrder {
         case .newest:
             return favoritesManager.sharedFavorites.sorted(by: { $0.id > $1.id })
         case .oldest:
             return favoritesManager.sharedFavorites.sorted(by: { $0.id < $1.id })
         case .alphabetical:
-            return favoritesManager.sharedFavorites.sorted(by: { $0.name < $1.name })
+            return favoritesManager.sharedFavorites.sorted(by: { $0.recipe.name < $1.recipe.name })
         }
     }
 
@@ -78,7 +75,9 @@ struct MatchesView: View {
     private func galleryView() -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-                ForEach(sortedSharedFavorites, id: \.id) { recipe in
+                ForEach(sortedSharedFavorites, id: \.id) { wrapper in
+                    let recipe = wrapper.recipe
+
                     NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                         VStack {
                             Text(recipe.name)
@@ -116,9 +115,9 @@ struct MatchesView: View {
 
     private func listView() -> some View {
         List {
-            ForEach(sortedSharedFavorites, id: \.id) { recipe in
-                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
-                    Text(recipe.name)
+            ForEach(sortedSharedFavorites, id: \.id) { wrapper in
+                NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe)) {
+                    Text(wrapper.recipe.name)
                 }
             }
         }

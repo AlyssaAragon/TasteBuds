@@ -78,7 +78,7 @@ struct SettingsView: View {
                     .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
                         Button("Sign out", role: .destructive) {
                             // Remove tokens properly
-                            AuthService.shared.printUserDefaults()  // using this for debugging access token issue
+                            //AuthService.shared.printUserDefaults()  // using this for debugging access token issue
                             AuthService.shared.logout()
                             //AuthService.shared.printUserDefaults()   // using this for debugging access token issue
 

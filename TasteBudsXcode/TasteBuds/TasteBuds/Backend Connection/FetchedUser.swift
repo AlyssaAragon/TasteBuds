@@ -12,7 +12,14 @@ struct FetchedUser: Codable {
     let email: String
     let firstlastname: String
     let partner: PartnerUser?
+    let diets: [DietEntry]?
 
+    
+    struct DietEntry: Codable {
+            let id: Int
+            let dietname: String
+        }
+    
     struct PartnerUser: Codable {
         let userid: Int
         let username: String
