@@ -167,7 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True  # Email is required for registration
 ACCOUNT_USERNAME_REQUIRED = True  # Username is required for login
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either email or username
+ACCOUNT_LOGIN_METHODS = {'email'}  # Allow login with either email or username
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
 
 CACHES = {

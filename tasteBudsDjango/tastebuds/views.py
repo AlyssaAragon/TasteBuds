@@ -26,40 +26,23 @@ from allauth.account.views import LoginView, SignupView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from .serializers import UserDietUpdateSerializer
 from .models import Recipe, Diet, RecipeDiet, SavedRecipe, UserDiet, CustomUser, Category, RecipeCategory
 from .serializers import (
     UserSerializer, RecipeSerializer, DietSerializer, RecipeDietSerializer,
-    SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer
+    SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer, RegisterUserSerializer
 )
 from rest_framework import serializers
 User = get_user_model()
 
-# --- API SIGNUP ENDPOINT (CSRF-EXEMPT) ---
 @api_view(['POST'])
 @csrf_exempt
 def api_signup(request):
-    # Extract required fields from the request data
-    email = request.data.get('email')
-    username = request.data.get('username')
-    password = request.data.get('password')
-    
-    # Validate required fields
-    if not email or not username or not password:
-        return Response(
-            {"error": "Email, username, and password are required."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    try:
-        # Create the user using your custom manager
-        user = CustomUser.objects.create_user(email=email, password=password, username=username)
-    except Exception as e:
-        return Response(
-            {"error": str(e)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    return Response({"message": "User created successfully."}, status=status.HTTP_200_OK)
+    serializer = RegisterUserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "User created successfully."}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # --- RECIPE & USER ENDPOINTS ---
@@ -78,38 +61,62 @@ def random_recipe(request):
 @permission_classes([IsAuthenticated])
 def user_profile(request):
     user = request.user
+
     user_data = {
-        'userid': user.id,  # Use user.id for consistency
+        'userid': user.id,
         'username': user.username,
         'email': user.email,
         'firstlastname': user.firstlastname,
+        'diets': []
     }
-    # Include partner details if available
+
+    try:
+        user_diets = UserDiet.objects.filter(user=user).select_related('diet')
+        print(f"[DEBUG] Query returned {user_diets.count()} UserDiet entries for user {user.id}")
+
+
+        for ud in user_diets:
+            try:
+                diet_name = ud.diet.dietname.strip().lower()
+                user_data['diets'].append({
+                    "id": ud.diet.dietid,
+                    "dietname": diet_name
+                })
+            except Exception as e:
+                print(f"[WARNING] Skipped UserDiet {ud.userdietid} — {e}")
+    except Exception as e:
+        print(f"[ERROR] Failed to load user diets: {e}")
+
     if user.partner:
         user_data['partner'] = {
             'userid': user.partner.id,
             'username': user.partner.username,
             'email': user.partner.email,
         }
+
     return Response(user_data)
+
+
+
 
 class SavedRecipeViewSet(viewsets.ModelViewSet):
     queryset = SavedRecipe.objects.all()
     serializer_class = SavedRecipeSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = 'savedid'  # Critical for DELETE to work with /api/savedrecipe/<savedid>/
 
     def get_queryset(self):
-        return SavedRecipe.objects.filter(user=self.request.user)
+        qs = SavedRecipe.objects.filter(user=self.request.user)
+        print(f"[DEBUG] Allowed savedids for {self.request.user.email}: {[s.savedid for s in qs]}")
+        return qs
+
 
     def perform_create(self, serializer):
-        print("DEBUG — incoming data:", self.request.data)
         if 'recipe_id' not in self.request.data:
             raise serializers.ValidationError({'recipe_id': 'This field is required.'})
         serializer.save(user=self.request.user)
 
-
     def create(self, request, *args, **kwargs):
-        print("DEBUG POST body:", request.data)
         return super().create(request, *args, **kwargs)
 
     @action(detail=False, methods=['GET'])
@@ -121,7 +128,6 @@ class SavedRecipeViewSet(viewsets.ModelViewSet):
         shared_favorites = SavedRecipe.objects.filter(user=request.user.partner, recipe_id__in=user_favorites)
 
         return Response(SavedRecipeSerializer(shared_favorites, many=True).data)
-
 
 
 
@@ -158,8 +164,8 @@ def filter_recipes_by_diet(request):
 
     random_recipe_obj = random.choice(list(recipes))
     data = {
-        "recipeid": random_recipe_obj.recipeid,
-        "title": random_recipe_obj.title,
+        "id": random_recipe_obj.recipeid,
+        "name": random_recipe_obj.title,
         "ingredients": random_recipe_obj.ingredients,
         "instructions": random_recipe_obj.instructions,
         "image_name": random_recipe_obj.image_name,
@@ -187,8 +193,8 @@ def get_random_recipe_by_category(request):
 
     random_recipe_obj = random.choice(list(recipes))
     return Response({
-        "recipeid": random_recipe_obj.recipeid,
-        "title": random_recipe_obj.title,
+        "id": random_recipe_obj.recipeid,
+        "name": random_recipe_obj.title,
         "ingredients": random_recipe_obj.ingredients,
         "instructions": random_recipe_obj.instructions,
         "image_name": random_recipe_obj.image_name,
@@ -249,8 +255,8 @@ def filter_recipes_combined(request):
 
     random_recipe_obj = random.choice(list(recipes))
     data = {
-        "recipeid": random_recipe_obj.recipeid,
-        "title": random_recipe_obj.title,
+        "id": random_recipe_obj.recipeid,
+        "name": random_recipe_obj.title,
         "ingredients": random_recipe_obj.ingredients,
         "instructions": random_recipe_obj.instructions,
         "image_name": random_recipe_obj.image_name,
@@ -295,29 +301,40 @@ class LinkPartnerAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
+        print("DEBUG request.data:", request.data)
+
         serializer = PartnerLinkSerializer(data=request.data)
+
         if serializer.is_valid():
             partner_email = serializer.validated_data['partner_email']
+            print("Partner email validated:", partner_email)
 
             # Check if user exists
             try:
                 to_user = CustomUser.objects.get(email__iexact=partner_email)
             except CustomUser.DoesNotExist:
+                print("No user found with email:", partner_email)
                 return Response({'error': 'No user found with that email.'}, status=status.HTTP_404_NOT_FOUND)
 
             if to_user == request.user:
+                print("Tried to partner with self")
                 return Response({'error': 'You cannot partner with yourself.'}, status=status.HTTP_400_BAD_REQUEST)
 
             if request.user.partner or to_user.partner:
+                print("One of the users is already partnered")
                 return Response({'error': 'One of you is already linked with another account.'}, status=status.HTTP_400_BAD_REQUEST)
 
             if PartnerRequest.objects.filter(from_user=request.user, to_user=to_user, accepted=False).exists():
+                print("Partner request already exists")
                 return Response({'error': 'Partner request already sent.'}, status=status.HTTP_400_BAD_REQUEST)
 
             PartnerRequest.objects.create(from_user=request.user, to_user=to_user)
+            print("Partner request created successfully")
             return Response({'message': 'Partner request sent successfully.'}, status=status.HTTP_201_CREATED)
 
+        print("Serializer failed:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -448,4 +465,32 @@ class PrivateRecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         partner = user.partnerid
         return PrivateRecipe.objects.filter(models.Q(user=user) | models.Q(user=partner))
+
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_user_diets(request):
+    serializer = UserDietUpdateSerializer(data=request.data)
+    if serializer.is_valid():
+        user = request.user
+        new_diets = serializer.validated_data['diets']
+
+        # Clear existing
+        UserDiet.objects.filter(user=user).delete()
+
+        # Add new
+        for diet_name in new_diets:
+            try:
+                diet = Diet.objects.get(dietname__iexact=diet_name)
+                UserDiet.objects.create(user=user, diet=diet)
+            except Diet.DoesNotExist:
+                continue  # Ignore unrecognized diets
+
+        return Response({"message": "Diet preferences updated successfully."})
+    return Response(serializer.errors, status=400)
+
+
+
 

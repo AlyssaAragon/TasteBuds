@@ -20,6 +20,7 @@ from rest_framework.routers import DefaultRouter
 from tastebuds import views
 from tastebuds.views import home
 from tastebuds.views import random_recipe, user_profile, filter_recipes_by_diet, LinkPartnerAPIView, get_random_recipe_by_category, filter_recipes_combined, ExemptLoginView, ExemptSignupView, api_signup
+
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -37,6 +38,7 @@ router.register(r'savedrecipe', views.SavedRecipeViewSet)
 from tastebuds.views import PrivateRecipeListCreateView, PrivateRecipeDetailView
 from tastebuds.views import get_partner_requests, respond_to_partner_request
 from tastebuds.views import remove_partner
+from tastebuds.views import update_user_diets
 
 
 
@@ -65,10 +67,12 @@ urlpatterns = [
     path('api/partner-requests/', get_partner_requests, name='get_partner_requests'),
     path('api/respond-partner-request/', respond_to_partner_request, name='respond_partner_request'),
     path('api/remove-partner/', views.remove_partner, name='remove_partner'),
-
-
+    path('api/user_diets/', update_user_diets, name='update_user_diets'),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
