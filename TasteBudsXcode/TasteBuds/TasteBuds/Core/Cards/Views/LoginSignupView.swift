@@ -25,11 +25,11 @@ struct LoginSignupView: View {
                         ZStack {
                             Rectangle()
                                 .foregroundColor(.clear)
-                                .frame(width: geometry.size.width * 0.95, height: geometry.size.height * 0.4)
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.44)
                                 .background(Color.white.opacity(0.25))
                                 .cornerRadius(30)
                                 .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-                                .offset(y: -geometry.size.height * 0.1)
+                                .offset(y: -geometry.size.height * 0.12)
                             
                             VStack {
                                 Image("white_logo")
@@ -37,9 +37,9 @@ struct LoginSignupView: View {
                                     .scaledToFit()
                                     .frame(width: geometry.size.width * 0.7)
                                     .padding()
-                                    .padding(.bottom, 20)
+                                    .padding(.bottom, 15)
                                     .shadow(radius: 50)
-                                    .offset(y: -geometry.size.height * 0.08)
+                                    .offset(y: -geometry.size.height * 0.05)
                                 
                                 HStack {
                                     Button(action: { isLogin = true }) {
