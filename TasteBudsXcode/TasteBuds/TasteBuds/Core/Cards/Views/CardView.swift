@@ -17,6 +17,8 @@ struct CardView: View {
     @State private var dragAmount = CGSize.zero
     @State private var isSwiped = false
     @State private var isFlipped = false
+    @State private var canSwipe = true
+
     
     //dietary filter
     @State private var selectedFilters: [String] = []
@@ -440,23 +442,38 @@ struct CardView: View {
         self.isFlipped = false
         await fetchRecipe()
     }
+    
+    private func delaySwipeCooldown() async {
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        canSwipe = true
+    }
 
     private func swipeLeft() {
+        guard canSwipe else { return }
+        canSwipe = false
         print("Swiped left")
+
         Task {
             await fetchNextRecipe()
+            await delaySwipeCooldown()
         }
     }
 
     private func swipeRight() {
+        guard canSwipe else { return }
+        canSwipe = false
         print("Swiped right")
+
         if let currentRecipe = currentRecipe {
             favoritesManager.addFavorite(currentRecipe)
         }
+
         Task {
             await fetchNextRecipe()
+            await delaySwipeCooldown()
         }
     }
+
 }
 
 struct CardView_Previews: PreviewProvider {
