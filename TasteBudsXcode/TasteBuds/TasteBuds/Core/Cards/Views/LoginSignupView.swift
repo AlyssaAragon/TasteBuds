@@ -16,135 +16,130 @@ struct LoginSignupView: View {
     @State private var errorMessage = ""
     
     var body: some View {
-        ZStack {
-            Color.clear.customGradientBackground()
-            
-            VStack(spacing: 0) {
-                ZStack {
-                    
-                    //MARK: - upper half
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 414, height: 382)
-                        .background(Color.white.opacity(0.25))
-                        .cornerRadius(30)
-                        .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 30)
-//                                .stroke(Color.white, lineWidth: 0)
-//                        )
-                        .offset(y: -100)
-                    
-                    VStack {
-                        Image("white_logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 300)
-                            .padding()
-                            .padding(.bottom, 20)
-                            .shadow(radius: 50)
-                            .offset(y: -70)
+        GeometryReader { geometry in
+            ZStack {
+                Color.clear.customGradientBackground()
+                
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.44)
+                                .background(Color.white.opacity(0.25))
+                                .cornerRadius(30)
+                                .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
+                                .offset(y: -geometry.size.height * 0.12)
+                            
+                            VStack {
+                                Image("white_logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.7)
+                                    .padding()
+                                    .padding(.bottom, 15)
+                                    .shadow(radius: 50)
+                                    .offset(y: -geometry.size.height * 0.05)
+                                
+                                HStack {
+                                    Button(action: { isLogin = true }) {
+                                        Text("Login")
+                                            .font(Font.custom("Abyssinica SIL", size: 25))
+                                            .foregroundColor(isLogin ? .black : .gray)
+                                            .offset(y: -10)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: { isLogin = false }) {
+                                        Text("Sign-up")
+                                            .font(Font.custom("Abyssinica SIL", size: 25))
+                                            .foregroundColor(!isLogin ? .black : .gray)
+                                            .offset(y: -10)
+                                    }
+                                }
+                                .padding(.horizontal, geometry.size.width * 0.15)
+                            }
+                        }
                         
-                        HStack {
-                            Button(action: { isLogin = true }) {
-                                Text("Login")
-                                    .font(Font.custom("Abyssinica SIL", size: 25))
-                                    .foregroundColor(isLogin ? .black : .gray)
-                                    .offset(y: -15)
+                        VStack(spacing: 15) {
+                            if isLogin {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Email")
+                                        .font(Font.custom("Abyssinica SIL", size: 20))
+                                        .foregroundColor(.black)
+                                    TextField("Enter email", text: $emailOrUsername)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                }
+                            } else {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Email Address")
+                                        .font(Font.custom("Abyssinica SIL", size: 20))
+                                        .foregroundColor(.black)
+                                    TextField("Enter email address", text: $email)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                }
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Username")
+                                        .font(Font.custom("Abyssinica SIL", size: 20))
+                                        .foregroundColor(.black)
+                                    TextField("Enter username", text: $username)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                }
                             }
                             
-                            Spacer()
-                            
-                            Button(action: { isLogin = false }) {
-                                Text("Sign-up")
-                                    .font(Font.custom("Abyssinica SIL", size: 25))
-                                    .foregroundColor(!isLogin ? .black : .gray)
-                                    .offset(y: -15)
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Password")
+                                    .font(Font.custom("Abyssinica SIL", size: 20))
+                                    .foregroundColor(.black)
+                                SecureField("Enter password", text: $password)
+                                    .textContentType(.none)
+                                    .autocapitalization(.none)
+                                    .disableAutocorrection(true)
+                                Rectangle().frame(height: 0.5).foregroundColor(.black)
                             }
                             
+                            if !isLogin {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Confirm Password")
+                                        .font(Font.custom("Abyssinica SIL", size: 20))
+                                        .foregroundColor(.black)
+                                    SecureField("Re-enter password", text: $confirmPassword)
+                                        .textContentType(.none)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                }
+                            }
                         }
-                        .padding(.horizontal, 50)
-                    }
-                }
-                
-                //MARK: - lower half
-                VStack(spacing: 15) {
-                    if isLogin {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Email")
-                                .font(Font.custom("Abyssinica SIL", size: 20))
+                        .padding(30)
+                        .offset(y: -20)
+                        
+                        if showError {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .font(.system(size: 16, weight: .medium))
+                                .padding(.bottom, 20)
+                        }
+                        
+                        Button(action: { handleAuth() }) {
+                            Text(isLogin ? "Login" : "Sign-up")
+                                .font(.system(size: 26))
                                 .foregroundColor(.black)
-                            TextField("Enter email", text: $emailOrUsername)
-                            Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                .frame(width: geometry.size.width * 0.75, height: 70)
+                                .background(Color.white)
+                                .cornerRadius(30)
+                                .shadow(radius: 10)
                         }
-                    } else {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Email Address")
-                                .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.black)
-                            TextField("Enter email address", text: $email)
-                            Rectangle().frame(height: 0.5).foregroundColor(.black)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Username")
-                                .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.black)
-                            TextField("Enter username", text: $username)
-                            Rectangle().frame(height: 0.5).foregroundColor(.black)
-                        }
-            
+                        .padding(.bottom, 30)
                     }
-                    
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Password")
-                            .font(Font.custom("Abyssinica SIL", size: 20))
-                            .foregroundColor(.black)
-                        SecureField("Enter password", text: $password)
-                            .textContentType(.none)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                        Rectangle().frame(height: 0.5).foregroundColor(.black)
-                    }
-                    
-                    if !isLogin {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Confirm Password")
-                                .font(Font.custom("Abyssinica SIL", size: 20))
-                                .foregroundColor(.black)
-                            SecureField("Re-enter password", text: $confirmPassword)
-                                .textContentType(.none) 
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
-                            Rectangle().frame(height: 0.5).foregroundColor(.black)
-                        }
-                    }
+                    .frame(minHeight: geometry.size.height)
                 }
-                .padding(30)
-                .offset(y: -55)
-                
-                if showError {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .font(.system(size: 16, weight: .medium))
-                        .padding(.bottom, 30) // Move error message up
-                }
-                
-                Button(action: { handleAuth() }) {
-                    Text(isLogin ? "Login" : "Sign-up")
-                        .font(.system(size: 26))
-                        .foregroundColor(.black)
-                        .frame(width: 314, height: 70)
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .shadow(radius: 10)
-                        //.offset(y: isLogin ? 65 : -20)
-                }
-                .padding(.bottom, 70)
-                
             }
-            .frame(width: 414, height: 896)
+            .edgesIgnoringSafeArea(.all)
         }
     }
+
     //MARK: - authentication
     private func handleAuth() {
         if isLogin {

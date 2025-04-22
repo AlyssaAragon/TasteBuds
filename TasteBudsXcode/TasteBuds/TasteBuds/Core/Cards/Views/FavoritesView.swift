@@ -226,18 +226,23 @@ struct FavoritesView: View {
     private func listView() -> some View {
         List {
             ForEach(sortedRecipes, id: \.id) { recipe in
-                HStack {
+                HStack(spacing: 10) {
                     if isEditing {
                         Image(systemName: selectedRecipes.contains(recipe) ? "checkmark.circle.fill" : "circle")
                             .onTapGesture {
                                 toggleSelection(for: recipe)
                             }
                     }
+                    
                     NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
                         Text(recipe.name)
-                        foregroundStyle(Color(UIColor.systemBackground))
+                            .font(.body)
+                            .foregroundStyle(.primary)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.8)
                     }
                 }
+                .padding(.vertical, 8)
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
                         favoritesManager.removeFavorite(recipe)
@@ -248,8 +253,8 @@ struct FavoritesView: View {
             }
         }
         .listStyle(PlainListStyle())
-        .padding(.bottom, 50)
     }
+
     
     private func toggleSelection(for recipe: FetchedRecipe) {
         if selectedRecipes.contains(recipe) {
