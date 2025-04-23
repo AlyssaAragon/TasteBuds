@@ -409,19 +409,6 @@ def respond_to_partner_request(request):
         return Response({'message': 'Partner request declined.'}, status=200)
 
 
-
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class ExemptLoginView(LoginView):
-    pass
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class ExemptSignupView(SignupView):
-    pass
-
-
 class PrivateRecipeListCreateView(generics.ListCreateAPIView):
     serializer_class = PrivateRecipeSerializer
     permission_classes = [permissions.IsAuthenticated]

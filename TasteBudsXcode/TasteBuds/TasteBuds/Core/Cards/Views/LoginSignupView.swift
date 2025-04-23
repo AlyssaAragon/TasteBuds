@@ -9,7 +9,8 @@ struct LoginSignupView: View {
     @State private var confirmPassword = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
-    
+    @State private var resetEmail = ""
+    @State private var showPasswordResetSheet = false
     @ObservedObject var navigationState: NavigationState
     @State private var isWaitingForNextView = false
     @State private var showError = false
@@ -29,10 +30,10 @@ struct LoginSignupView: View {
                         .background(Color.white.opacity(0.25))
                         .cornerRadius(30)
                         .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 30)
-//                                .stroke(Color.white, lineWidth: 0)
-//                        )
+                    //                        .overlay(
+                    //                            RoundedRectangle(cornerRadius: 30)
+                    //                                .stroke(Color.white, lineWidth: 0)
+                    //                        )
                         .offset(y: -100)
                     
                     VStack {
@@ -92,7 +93,7 @@ struct LoginSignupView: View {
                             TextField("Enter username", text: $username)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
-            
+                        
                     }
                     
                     VStack(alignment: .leading, spacing: 5) {
@@ -112,10 +113,21 @@ struct LoginSignupView: View {
                                 .font(Font.custom("Abyssinica SIL", size: 20))
                                 .foregroundColor(.black)
                             SecureField("Re-enter password", text: $confirmPassword)
-                                .textContentType(.none) 
+                                .textContentType(.none)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
+                        }
+                    }
+                    if isLogin {
+                        Button(action: {
+                            resetEmail = ""
+                            showPasswordResetSheet = true
+                        }) {
+                            Text("Forgot Password?")
+                                .font(.system(size: 16))
+                                .foregroundColor(.blue)
+                                .padding(.top, 10)
                         }
                     }
                 }
@@ -137,12 +149,41 @@ struct LoginSignupView: View {
                         .background(Color.white)
                         .cornerRadius(30)
                         .shadow(radius: 10)
-                        //.offset(y: isLogin ? 65 : -20)
+                    //.offset(y: isLogin ? 65 : -20)
                 }
                 .padding(.bottom, 70)
                 
             }
             .frame(width: 414, height: 896)
+        }
+        .sheet(isPresented: $showPasswordResetSheet) {
+            VStack(spacing: 20) {
+                Text("Reset Password")
+                    .font(.title2)
+                    .bold()
+                
+                TextField("Enter your email", text: $resetEmail)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                
+                HStack {
+                    Button("Cancel") {
+                        showPasswordResetSheet = false
+                        resetEmail = ""
+                    }
+                    .foregroundColor(.red)
+                    
+                    Spacer()
+                    
+                    Button("Send") {
+                        showPasswordResetSheet = false
+                        requestPasswordReset()
+                    }
+                    .foregroundColor(.blue)
+                }
+                .padding(.horizontal)
+            }
+            .padding()
         }
     }
     //MARK: - authentication
@@ -192,6 +233,17 @@ struct LoginSignupView: View {
 }
 }
 }
+    private func requestPasswordReset() {
+        AuthService.shared.requestPasswordReset(email: resetEmail) { result in
+            switch result {
+            case .success:
+                showErrorMessage("Password reset email sent.")
+            case .failure(let error):
+                showErrorMessage("Error sending password reset email: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     //MARK: - error message
     private func showErrorMessage(_ message: String) {
         errorMessage = message

@@ -42,6 +42,12 @@ struct SettingsView: View {
                     
                     Divider()
                     
+                    NavigationLink(destination: ChangePasswordView()) {
+                        settingsRow(title: "Change Password")
+                    }
+                    
+                    Divider()
+                    
                     NavigationLink(destination: DietaryPreferencesView()) {
                         settingsRow(title: "Dietary Preferences")
                     }
