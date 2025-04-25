@@ -48,8 +48,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tastebuds/', include('tastebuds.urls')),
     path('accounts/', include('allauth.urls')),
-    path('accounts/signup/', ExemptSignupView.as_view(), name='account_signup'),
-    path('accounts/login/', ExemptLoginView.as_view(), name='account_login'),
+    path('accounts/signup/', include ('allauth.urls')),
+    path('accounts/login/', include ('allauth.urls')),
     path('api/', include(router.urls)),
     path('api/random_recipe/', random_recipe, name='random_recipe'),
     path('api/user_profile/', user_profile, name='user_profile'),
@@ -66,6 +66,7 @@ urlpatterns = [
     path('api/partner-requests/', get_partner_requests, name='get_partner_requests'),
     path('api/respond-partner-request/', respond_to_partner_request, name='respond_partner_request'),
     path('api/remove-partner/', views.remove_partner, name='remove_partner'),
+    path('change-password/', views.change_password, name='change_password'),
 
 
 

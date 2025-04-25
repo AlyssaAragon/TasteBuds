@@ -40,6 +40,12 @@ struct SettingsView: View {
                             NavigationLink(destination: AddPartnerView()) {
                                 settingsRow(title: "Partner")
                             }
+                    
+                    Divider()
+                    
+                    NavigationLink(destination: ChangePasswordView()) {
+                        settingsRow(title: "Change Password")
+                    }
                             Divider()
 
                             NavigationLink(destination: DietaryPreferencesView()) {

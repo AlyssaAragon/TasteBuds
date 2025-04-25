@@ -109,7 +109,94 @@ class AuthService {
             }
         }.resume()
     }
+    func requestPasswordReset(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "https://tastebuds.unr.dev/accounts/password/reset/") else {
+            completion(.failure(NSError(domain: "InvalidURL", code: -1, userInfo: nil)))
+            return
+        }
 
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body = ["email": email]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NSError(domain: "InvalidResponse", code: -1, userInfo: nil)))
+                return
+            }
+
+            if (200...299).contains(httpResponse.statusCode) {
+                completion(.success(()))
+            } else {
+                let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown error"
+                completion(.failure(NSError(domain: "HTTPError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+            }
+        }.resume()
+    }
+    
+    func changePassword(oldPassword: String, newPassword: String, confirmNewPassword: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/change-password/") else{
+            completion(.failure(NSError(domain: "InvalidURL", code: -1, userInfo: nil)))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        guard let accessToken = UserDefaults.standard.string(forKey: "accessToken") else {
+            completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No access token available."])))
+            return
+        }
+
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        let body = [
+            "old_password": oldPassword,
+            "new_password": newPassword,
+            "confirm_password": confirmNewPassword
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NSError(domain: "InvalidResponse", code: -1, userInfo: nil)))
+                return
+            }
+
+            if (200...299).contains(httpResponse.statusCode) {
+                completion(.success(()))
+            } else {
+                let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown error"
+                completion(.failure(NSError(domain: "HTTPError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+            }
+        }.resume()
+    }
     // Logout function that clears stored tokens
     func logout() {
         let defaults = UserDefaults.standard
@@ -143,6 +230,15 @@ class AuthService {
         for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
             print("\(key): \(value)")
         }
+    }
+    func getCSRFToken() -> String? {
+        let cookieStorage = HTTPCookieStorage.shared
+        for cookie in cookieStorage.cookies ?? [] {
+            if cookie.name == "csrftoken" {
+                return cookie.value
+            }
+        }
+        return nil
     }
     
 }

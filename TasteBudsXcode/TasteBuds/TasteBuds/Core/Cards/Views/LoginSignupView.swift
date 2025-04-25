@@ -9,7 +9,8 @@ struct LoginSignupView: View {
     @State private var confirmPassword = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
-    
+    @State private var resetEmail = ""
+    @State private var showPasswordResetSheet = false
     @ObservedObject var navigationState: NavigationState
     @State private var isWaitingForNextView = false
     @State private var showError = false
@@ -138,8 +139,37 @@ struct LoginSignupView: View {
             }
             .edgesIgnoringSafeArea(.all)
         }
-    }
-
+        /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
+        .sheet(isPresented: $showPasswordResetSheet) {
+            VStack(spacing: 20) {
+                Text("Reset Password")
+                    .font(.title2)
+                    .bold()
+                
+                TextField("Enter your email", text: $resetEmail)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                
+                HStack {
+                    Button("Cancel") {
+                        showPasswordResetSheet = false
+                        resetEmail = ""
+                    }
+                    .foregroundColor(.red)
+                    
+                    Spacer()
+                    
+                    Button("Send") {
+                        showPasswordResetSheet = false
+                        requestPasswordReset()
+                    }
+                    .foregroundColor(.blue)
+                }
+                .padding(.horizontal)
+            }
+            .padding()*/
+        }
+    
     //MARK: - authentication
     private func handleAuth() {
         if isLogin {
@@ -187,6 +217,18 @@ struct LoginSignupView: View {
 }
 }
 }
+    /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
+    private func requestPasswordReset() {
+        AuthService.shared.requestPasswordReset(email: resetEmail) { result in
+            switch result {
+            case .success:
+                showErrorMessage("Password reset email sent.")
+            case .failure(let error):
+                showErrorMessage("Error sending password reset email: \(error.localizedDescription)")
+            }
+        }
+    }*/
+    
     //MARK: - error message
     private func showErrorMessage(_ message: String) {
         errorMessage = message
