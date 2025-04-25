@@ -118,7 +118,10 @@ struct LoginSignupView: View {
                                 .disableAutocorrection(true)
                             Rectangle().frame(height: 0.5).foregroundColor(.black)
                         }
+                        }
+                        
                     }
+                    /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
                     if isLogin {
                         Button(action: {
                             resetEmail = ""
@@ -130,7 +133,7 @@ struct LoginSignupView: View {
                                 .padding(.top, 10)
                         }
                     }
-                }
+                }*/
                 .padding(30)
                 .offset(y: -55)
                 
@@ -156,6 +159,7 @@ struct LoginSignupView: View {
             }
             .frame(width: 414, height: 896)
         }
+        /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
         .sheet(isPresented: $showPasswordResetSheet) {
             VStack(spacing: 20) {
                 Text("Reset Password")
@@ -183,9 +187,9 @@ struct LoginSignupView: View {
                 }
                 .padding(.horizontal)
             }
-            .padding()
+            .padding()*/
         }
-    }
+    
     //MARK: - authentication
     private func handleAuth() {
         if isLogin {
@@ -233,6 +237,7 @@ struct LoginSignupView: View {
 }
 }
 }
+    /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
     private func requestPasswordReset() {
         AuthService.shared.requestPasswordReset(email: resetEmail) { result in
             switch result {
@@ -242,7 +247,7 @@ struct LoginSignupView: View {
                 showErrorMessage("Error sending password reset email: \(error.localizedDescription)")
             }
         }
-    }
+    }*/
     
     //MARK: - error message
     private func showErrorMessage(_ message: String) {

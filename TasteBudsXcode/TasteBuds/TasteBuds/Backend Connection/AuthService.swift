@@ -149,7 +149,7 @@ class AuthService {
     }
     
     func changePassword(oldPassword: String, newPassword: String, confirmNewPassword: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let url = URL(string: "https://tastebuds.unr.dev/accounts/password/change/") else{
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/change-password/") else{
             completion(.failure(NSError(domain: "InvalidURL", code: -1, userInfo: nil)))
             return
         }
@@ -164,19 +164,11 @@ class AuthService {
         }
 
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        
-        guard let csrfToken = getCSRFToken() else {
-                completion(.failure(NSError(domain: "CSRFError", code: -1, userInfo: [NSLocalizedDescriptionKey: "CSRF token not found."])))
-                return
-            }
-
-        request.setValue(csrfToken, forHTTPHeaderField: "X-CSRFToken")
-
 
         let body = [
-            "oldpassword": oldPassword,
-            "newpassword1": newPassword,
-            "newpassword2": confirmNewPassword
+            "old_password": oldPassword,
+            "new_password": newPassword,
+            "confirm_password": confirmNewPassword
         ]
 
         do {
@@ -242,7 +234,7 @@ class AuthService {
     func getCSRFToken() -> String? {
         let cookieStorage = HTTPCookieStorage.shared
         for cookie in cookieStorage.cookies ?? [] {
-            if cookie.name == "csrftoken" { 
+            if cookie.name == "csrftoken" {
                 return cookie.value
             }
         }

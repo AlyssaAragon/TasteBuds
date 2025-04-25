@@ -66,6 +66,7 @@ urlpatterns = [
     path('api/partner-requests/', get_partner_requests, name='get_partner_requests'),
     path('api/respond-partner-request/', respond_to_partner_request, name='respond_partner_request'),
     path('api/remove-partner/', views.remove_partner, name='remove_partner'),
+    path('change-password/', views.change_password, name='change_password'),
 
 
 
