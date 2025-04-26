@@ -8,7 +8,8 @@ struct FetchedRecipe: Identifiable, Hashable, Codable {
     let instructions: String
     let imageName: String?
     let cleanedIngredients: String
-    var assignedTo: [Int]?
+    var assignedTo: [Int]? // User IDs assigned to this recipe
+
 
     enum CodingKeys: String, CodingKey {
         case id, name, ingredients, instructions

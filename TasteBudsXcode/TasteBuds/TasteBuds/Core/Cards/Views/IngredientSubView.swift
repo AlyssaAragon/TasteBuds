@@ -23,13 +23,13 @@ struct IngredientSubView: View {
     private func flippableIngredientCard(ingredient: String, substitutes: [String]) -> some View {
         let isSelected = selectedCard == ingredient
         let screenWidth = UIScreen.main.bounds.width
-        let cardWidth:CGFloat = isSelected ? screenWidth - 40 : (screenWidth / 2) - 24
+        let cardWidth:CGFloat = isSelected ? screenWidth - 32 : (screenWidth / 2) - 40
         let cardHeight:CGFloat = isSelected ? 360 : 130
 
         return VStack {
             ZStack {
                 if isSelected {
-                    backOfIngredientCard(substitutes: substitutes)
+                    backOfIngredientCard(ingredient: ingredient, substitutes: substitutes)
                         .transition(.opacity)
                 } else {
                     frontOfIngredientCard(ingredient: ingredient)
@@ -48,6 +48,7 @@ struct IngredientSubView: View {
         }
         .frame(width: cardWidth, height: cardHeight)
         .zIndex(isSelected ? 1 : 0)
+        
     }
     
     private func frontOfIngredientCard(ingredient: String) -> some View {
@@ -60,10 +61,10 @@ struct IngredientSubView: View {
             .padding(.vertical)
     }
     
-    private func backOfIngredientCard(substitutes: [String]) -> some View {
+    private func backOfIngredientCard(ingredient: String, substitutes: [String]) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Substitutes:")
+                Text("\(ingredient) Substitutes:")
                     .font(.subheadline)
                     .bold()
                     .padding(.bottom, 5)
@@ -80,9 +81,10 @@ struct IngredientSubView: View {
                             .padding(.horizontal, 10)
                             .fixedSize(horizontal: false, vertical: true)
                     }
+                    .padding(.leading, 4)
                 }
             }
-            .padding()
+            .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .background(Color.customPink)
@@ -97,20 +99,48 @@ struct IngredientSubView: View {
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.top)
-            
+                .multilineTextAlignment(.center)
+
             Text("Tap on an ingredient to see common substitutes and how to use them in your cooking. Find new alternatives to fit your dietary needs!")
                 .font(.body)
                 .padding(.horizontal)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
-            
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                    ForEach(ingredients, id: \.0) { ingredientData in
-                        flippableIngredientCard(ingredient: ingredientData.0, substitutes: ingredientData.1)
+
+            ZStack {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        ForEach(ingredients.filter { $0.0 != selectedCard }, id: \.0) { ingredientData in
+                            flippableIngredientCard(ingredient: ingredientData.0, substitutes: ingredientData.1)
+                                .zIndex(selectedCard == ingredientData.0 ? 1 : 0)
+                        }
                     }
+                    .padding(.horizontal)
+                    .padding(.top)
                 }
-                .padding(.top)
+                if let selected = selectedCard,
+                   let data = ingredients.first(where: { $0.0 == selected }) {
+                    GeometryReader { geo in
+                        flippableIngredientCard(ingredient: data.0, substitutes: data.1)
+                            .frame(width: geo.size.width - 32, height: 360)
+                            .background(Color.white)
+                            .cornerRadius(12)
+                            .shadow(radius: 10)
+                            .onTapGesture {
+                                withAnimation(.spring()) {
+                                    selectedCard = nil
+                                }
+                            }
+                            .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                            .zIndex(10)
+                    }
+                    .background(Color.black.opacity(0.2).ignoresSafeArea().onTapGesture {
+                        withAnimation {
+                            selectedCard = nil
+                        }
+                    })
+                    .transition(.opacity)
+                }
             }
         }
         .padding()

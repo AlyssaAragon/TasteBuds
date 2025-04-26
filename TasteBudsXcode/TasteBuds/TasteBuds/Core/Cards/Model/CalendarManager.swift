@@ -56,4 +56,13 @@ class CalendarManager: ObservableObject {
             calendarRecipes = decoded
         }
     }
+    
+    func assignRecipe(_ recipe: FetchedRecipe, to userIds: [Int], on day: String) {
+        if var recipes = calendarRecipes[day] {
+            if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
+                recipes[index].assignedTo = userIds
+                calendarRecipes[day] = recipes
+            }
+        }
+    }
 }

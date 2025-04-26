@@ -18,6 +18,9 @@ struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var calendarManager: CalendarManager
 
+    @State private var currentUserId: Int = 1 // Example current user ID
+    @State private var partnerUser: FetchedUser.PartnerUser? = nil // Partner data
+
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     var body: some View {
@@ -35,10 +38,37 @@ struct CalendarView: View {
                             Section(header: sectionHeader(for: day)) {
                                 if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
                                     ForEach(recipes, id: \.id) { recipe in
-                                        NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
-                                            Text(recipe.name)
-                                                .font(.subheadline)
-                                                .foregroundColor(.black)
+                                        HStack {
+                                            NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                                                Text(recipe.name)
+                                                    .font(.subheadline)
+                                                    .foregroundStyle(.primary)
+                                            }
+
+                                            Spacer()
+
+                                            if let assigned = recipe.assignedTo, !assigned.isEmpty {
+                                                Image(systemName: "person.crop.circle.fill.badge.checkmark")
+                                                    .foregroundStyle(.green)
+                                            }
+
+                                            // Assignment menu
+                                            Menu {
+                                                Button("Assign to You") {
+                                                    calendarManager.assignRecipe(recipe, to: [currentUserId], on: day)
+                                                }
+                                                if let partner = partnerUser {
+                                                    Button("Assign to \(partner.username)") {
+                                                        calendarManager.assignRecipe(recipe, to: [partner.userid], on: day)
+                                                    }
+                                                    Button("Assign to Both") {
+                                                        calendarManager.assignRecipe(recipe, to: [currentUserId, partner.userid], on: day)
+                                                    }
+                                                }
+                                            } label: {
+                                                Image(systemName: "person.crop.circle.badge.plus")
+                                                    .foregroundStyle(.blue)
+                                            }
                                         }
                                     }
                                     .onDelete { indexSet in
@@ -49,7 +79,7 @@ struct CalendarView: View {
                                     }
                                 } else {
                                     Text("No recipes planned")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(.secondary)
                                         .italic()
                                 }
                             }
@@ -65,13 +95,19 @@ struct CalendarView: View {
                 }) {
                     Image(systemName: "trash")
                         .font(.system(size: 18))
-                        .foregroundColor(.red)
+                        .foregroundStyle(.red)
                 })
+            }
+        }
+        .onAppear {
+            if let userData = UserDefaults.standard.data(forKey: "currentUser"),
+               let user = try? JSONDecoder().decode(FetchedUser.self, from: userData) {
+                self.currentUserId = user.userid
+                self.partnerUser = user.partner
             }
         }
     }
 
-    // ✅ MOVE THIS INSIDE CalendarView
     @ViewBuilder
     private func sectionHeader(for day: String) -> some View {
         HStack {
@@ -85,7 +121,6 @@ struct CalendarView: View {
                         calendarManager.addRecipe(to: day, recipe: wrapper.recipe)
                     }
                 }
-
             } label: {
                 Image(systemName: "plus.circle")
                     .foregroundColor(.black)

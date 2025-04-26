@@ -22,8 +22,6 @@ enum Diet: String, CaseIterable, Identifiable {
     }
 }
 
-
-
 struct DietaryPreferencesView: View {
     @EnvironmentObject var navigationState: NavigationState
     @Environment(\.dismiss) private var dismiss
@@ -197,7 +195,7 @@ struct DietaryPreferencesView: View {
         let dietStrings = selectedDiets.map { $0.rawValue }
 
         guard let url = URL(string: "https://tastebuds.unr.dev/api/user_diets/") else { return }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -214,8 +212,7 @@ struct DietaryPreferencesView: View {
                 DispatchQueue.main.async {
                     showAlert = true
                 }
-            }
-            else {
+            } else {
                 print("Failed to update diets:", error ?? "Unknown error")
             }
         }.resume()

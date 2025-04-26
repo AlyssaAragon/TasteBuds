@@ -3,7 +3,7 @@ import SwiftUI
 struct FavoritesView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     @State private var isEditing = false
     @State private var selectedRecipes: Set<FavoritesManager.SavedRecipeWrapper> = []
     @State private var selectedWrapper: FavoritesManager.SavedRecipeWrapper?
@@ -11,11 +11,11 @@ struct FavoritesView: View {
     @State private var isGalleryView: Bool = true
     @State private var sortOrder: SortOrder = .newest
     @State private var showDeleteConfirmation = false
-    
+
     enum SortOrder {
         case newest, oldest, alphabetical
     }
-    
+
     var sortedRecipes: [FavoritesManager.SavedRecipeWrapper] {
         switch sortOrder {
         case .newest:
@@ -31,9 +31,10 @@ struct FavoritesView: View {
         NavigationView {
             ZStack {
                 themeManager.selectedTheme.backgroundView
+
                 VStack {
                     headerView()
-                    
+
                     if favoritesManager.favoriteRecipes.isEmpty {
                         emptyStateView()
                     } else {
@@ -43,6 +44,7 @@ struct FavoritesView: View {
                             listView()
                         }
                     }
+
                     Spacer()
                 }
             }
@@ -83,22 +85,22 @@ struct FavoritesView: View {
                 Text("A-Z").tag(SortOrder.alphabetical)
             }
             .pickerStyle(MenuPickerStyle())
-            
+
             Spacer()
-            
+
             Button(action: {
                 isGalleryView.toggle()
             }) {
                 Image(systemName: isGalleryView ? "list.bullet" : "square.grid.2x2")
-                    .foregroundColor(.blue)
+                    .foregroundStyle(Color.accentColor)
             }
-            
+
             if isEditing {
                 Button("Delete") {
                     showDeleteConfirmation = true
                 }
                 .disabled(selectedRecipes.isEmpty)
-                .foregroundColor(selectedRecipes.isEmpty ? .gray : .red)
+                .foregroundStyle(selectedRecipes.isEmpty ? .primary : Color.accentColor)
             }
         }
         .padding()
@@ -107,7 +109,7 @@ struct FavoritesView: View {
     private func emptyStateView() -> some View {
         Text("No favorite recipes yet.")
             .font(.headline)
-            .foregroundColor(themeManager.selectedTheme.textColor)
+            .foregroundStyle(.primary)
             .padding()
     }
 
@@ -145,6 +147,7 @@ struct FavoritesView: View {
                     .padding()
                     .lineLimit(3)
                     .minimumScaleFactor(0.1)
+
                 if let url = recipe.imageUrl {
                     AsyncImage(url: url) { image in
                         image
@@ -164,9 +167,11 @@ struct FavoritesView: View {
                     }
                 }
             }
-            .background(RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white.opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5))
-                .frame(width: 170))
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(UIColor.systemBackground).opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5))
+                    .frame(width: 170)
+            )
         }
         .padding(.bottom, 50)
     }
@@ -174,17 +179,23 @@ struct FavoritesView: View {
     private func listView() -> some View {
         List {
             ForEach(sortedRecipes, id: \.id) { wrapper in
-                HStack {
+                HStack(spacing: 10) {
                     if isEditing {
                         Image(systemName: selectedRecipes.contains(wrapper) ? "checkmark.circle.fill" : "circle")
                             .onTapGesture {
                                 toggleSelection(for: wrapper)
                             }
                     }
+
                     NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe)) {
                         Text(wrapper.recipe.name)
+                            .font(.body)
+                            .foregroundStyle(.primary)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.8)
                     }
                 }
+                .padding(.vertical, 8)
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
                         favoritesManager.removeFavorite(wrapper)
@@ -195,21 +206,12 @@ struct FavoritesView: View {
             }
         }
         .listStyle(PlainListStyle())
-        .padding(.bottom, 50)
     }
 
     private func recipeTitle(_ name: String) -> some View {
         Text(name)
             .font(.headline)
-            .foregroundStyle(.black)
-    }
-
-    private func recipeImage(_ imageName: String?) -> some View {
-        Image(imageName ?? "placeholder")
-            .resizable()
-            .scaledToFit()
-            .frame(height: 150)
-            .cornerRadius(10)
+            .foregroundStyle(.primary)
     }
 
     private func toggleSelection(for wrapper: FavoritesManager.SavedRecipeWrapper) {

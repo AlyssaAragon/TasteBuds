@@ -1,5 +1,6 @@
 // Hannah Haggerty and Alyssa
 import SwiftUI
+
 enum Category: String, CaseIterable, Identifiable {
     case meal, drink, dessert
 
@@ -25,6 +26,7 @@ struct CardView: View {
     @State private var dragAmount = CGSize.zero
     @State private var isSwiped = false
     @State private var isFlipped = false
+    @State private var canSwipe = true
 
     @State private var selectedFilters: [String] = []
     @State private var selectedCategory: String = ""
@@ -50,7 +52,8 @@ struct CardView: View {
                         } else {
                             Text("Fetching recipes...")
                                 .font(.headline)
-                                .foregroundColor(themeManager.selectedTheme.textColor)
+                                .foregroundStyle(.primary)
+                                .multilineTextAlignment(.center)
                                 .padding()
                         }
 
@@ -62,8 +65,12 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0x5bc3eb))
                                 .shadow(radius: 10)
-                                .frame(width: 80, height: 80)
-                                .overlay(Image(systemName: "hand.thumbsdown.fill").foregroundColor(.white).font(.title))
+                                .frame(width: geometry.size.width * 0.2, height: geometry.size.width * 0.2)
+                                .overlay(
+                                    Image(systemName: "hand.thumbsdown.fill")
+                                        .foregroundStyle(.white)
+                                        .font(.title)
+                                )
                         }
 
                         Spacer()
@@ -72,12 +79,16 @@ struct CardView: View {
                             Circle()
                                 .fill(Color(hex: 0xda2c38))
                                 .shadow(radius: 10)
-                                .frame(width: 80, height: 80)
-                                .overlay(Image(systemName: "heart.fill").foregroundColor(.white).font(.title))
+                                .frame(width: geometry.size.width * 0.2, height: geometry.size.width * 0.2)
+                                .overlay(
+                                    Image(systemName: "heart.fill")
+                                        .foregroundStyle(.white)
+                                        .font(.title)
+                                )
                         }
                     }
                     .frame(width: geometry.size.width * 0.75)
-                    .padding(.top, geometry.size.height * 0.7)
+                    .padding(.top, geometry.size.height * 0.68)
                 }
                 .onAppear {
                     if isFirstLoad {
@@ -86,17 +97,17 @@ struct CardView: View {
                             Task {
                                 let savedDiets = await recipeFetcher.fetchUserDietPreferences(token: token)
                                 self.selectedFilters = savedDiets
-                                await fetchRecipe()
+                                await fetchCombinedRecipe()
                             }
                         } else {
-                            Task { await fetchRecipe() }
+                            Task { await fetchCombinedRecipe() }
                         }
                     }
                 }
                 .navigationBarItems(trailing: Button(action: { showFilterMenu.toggle() }) {
                     Image(systemName: "line.3.horizontal.decrease")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundStyle(Color.primary)
                 })
                 .sheet(isPresented: $showFilterMenu) {
                     ZStack {
@@ -122,7 +133,6 @@ struct CardView: View {
                                 .padding(.horizontal)
                             }
 
-
                             Text("Dietary Preferences")
                                 .font(.title)
                                 .bold()
@@ -145,14 +155,14 @@ struct CardView: View {
 
                             Button("See filtered recipes") {
                                 Task {
-                                    await fetchRecipe()
+                                    await fetchCombinedRecipe()
                                     showFilterMenu.toggle()
                                 }
                             }
                             .padding()
                             .font(.title3)
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color(UIColor.systemBackground))
+                            .foregroundStyle(.primary)
                             .cornerRadius(10)
                         }
                         .padding()
@@ -162,7 +172,7 @@ struct CardView: View {
         }
     }
 
-    private func fetchRecipe() async {
+    private func fetchCombinedRecipe() async {
         await recipeFetcher.fetchCombinedRecipe(
             category: selectedCategory.isEmpty ? nil : selectedCategory,
             diets: selectedFilters
@@ -171,19 +181,34 @@ struct CardView: View {
     }
 
     private func swipeLeft() {
+        guard canSwipe else { return }
+        canSwipe = false
+        print("Swiped left")
+
         Task {
-            await fetchRecipe()
-            isSwiped = false
-            dragAmount = .zero
-            isFlipped = false
+            await fetchCombinedRecipe()
+            await delaySwipeCooldown()
         }
     }
 
     private func swipeRight() {
+        guard canSwipe else { return }
+        canSwipe = false
+        print("Swiped right")
+
         if let recipe = currentRecipe {
             favoritesManager.addFavorite(recipe)
         }
-        swipeLeft()
+
+        Task {
+            await fetchCombinedRecipe()
+            await delaySwipeCooldown()
+        }
+    }
+
+    private func delaySwipeCooldown() async {
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        canSwipe = true
     }
 
     private func flippableRecipeCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
@@ -231,27 +256,8 @@ struct CardView: View {
                 .padding()
                 .lineLimit(3)
                 .minimumScaleFactor(0.1)
-                .foregroundColor(themeManager.selectedTheme.textColor)
+                .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
-
-            let dietaryIcons: [String: (icon: String, color: Color)] = [
-                "vegetarian": ("leaf.circle.fill", .green),
-                "gluten-free": ("tortoise.circle.fill", .orange),
-                "low-sodium": ("heart.circle.fill", .red)
-            ]
-
-            HStack(spacing: 10) {
-                ForEach(selectedFilters, id: \.self) { filter in
-                    if let iconData = dietaryIcons[filter] {
-                        Image(systemName: iconData.icon)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(iconData.color)
-                    }
-                }
-            }
-            .padding()
 
             if let url = recipe.imageUrl {
                 AsyncImage(url: url) { image in
@@ -277,14 +283,14 @@ struct CardView: View {
 
             Image(systemName: "ellipsis")
                 .font(.title)
-                .foregroundColor(.gray)
+                .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.85)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(Color(UIColor.systemBackground))
                 .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
@@ -305,7 +311,7 @@ struct CardView: View {
 
                 ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
-                        .foregroundColor(themeManager.selectedTheme.textColor)
+                        .foregroundStyle(.primary)
                 }
 
                 Spacer()
@@ -317,7 +323,7 @@ struct CardView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
 
                 Text(recipe.instructions)
-                    .foregroundColor(themeManager.selectedTheme.textColor)
+                    .foregroundStyle(.primary)
                     .padding(.bottom, 30)
 
                 NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
@@ -325,8 +331,8 @@ struct CardView: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
+                        .background(Color.primary)
+                        .foregroundStyle(Color(UIColor.systemBackground))
                         .cornerRadius(10)
                 }
 
@@ -334,7 +340,7 @@ struct CardView: View {
 
                 Image(systemName: "ellipsis")
                     .font(.title)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.primary)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             .padding()
@@ -342,7 +348,7 @@ struct CardView: View {
         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.85)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(Color(UIColor.systemBackground))
         )
     }
 }

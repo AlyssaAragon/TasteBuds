@@ -33,7 +33,11 @@ from .serializers import (
 	SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer, RegisterUserSerializer
 )
 from rest_framework import serializers
+from django.contrib.auth import update_session_auth_hash
+
 User = get_user_model()
+
+
 
 @api_view(['POST'])
 @csrf_exempt
@@ -429,6 +433,7 @@ def respond_to_partner_request(request):
 
 
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptLoginView(LoginView):
 	pass
@@ -437,6 +442,7 @@ class ExemptLoginView(LoginView):
 @method_decorator(csrf_exempt, name='dispatch')
 class ExemptSignupView(SignupView):
 	pass
+
 
 
 class PrivateRecipeListCreateView(generics.ListCreateAPIView):
@@ -495,4 +501,32 @@ def update_user_diets(request):
 
 
 
+
+
+    def get_queryset(self):
+        user = self.request.user
+        partner = user.partnerid
+        return PrivateRecipe.objects.filter(models.Q(user=user) | models.Q(user=partner))
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    user = request.user
+    old_password = request.data.get('old_password')
+    new_password = request.data.get('new_password')
+    confirm_password = request.data.get('confirm_password')
+
+    if not user.check_password(old_password):
+        return Response({'error': 'Incorrect old password'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if new_password != confirm_password:
+        return Response({'error': 'New passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.set_password(new_password)
+    user.save()
+    update_session_auth_hash(request, user)
+
+    return Response({'message': 'Password changed successfully'})
 

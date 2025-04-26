@@ -10,105 +10,109 @@ struct LoginSignupView: View {
     @State private var confirmPassword = ""
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
-
+    @State private var resetEmail = ""
+    @State private var showPasswordResetSheet = false
     @ObservedObject var navigationState: NavigationState
     @State private var showError = false
     @State private var errorMessage = ""
 
     var body: some View {
-        ZStack {
-            Color.clear.customGradientBackground()
+        GeometryReader { geometry in
+            ZStack {
+                Color.clear.customGradientBackground()
 
-            ScrollView {
-                VStack(spacing: 0) {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 414, height: 382)
-                            .background(Color.white.opacity(0.25))
-                            .cornerRadius(30)
-                            .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-                            .offset(y: -100)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.44)
+                                .background(Color.white.opacity(0.25))
+                                .cornerRadius(30)
+                                .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
+                                .offset(y: -geometry.size.height * 0.12)
 
-                        VStack {
-                            Image("white_logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300)
-                                .padding()
-                                .padding(.bottom, 20)
-                                .shadow(radius: 50)
-                                .offset(y: -70)
+                            VStack {
+                                Image("white_logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.7)
+                                    .padding()
+                                    .padding(.bottom, 15)
+                                    .shadow(radius: 50)
+                                    .offset(y: -geometry.size.height * 0.05)
 
-                            HStack {
-                                Button(action: { isLogin = true }) {
-                                    Text("Login")
-                                        .font(Font.custom("Abyssinica SIL", size: 25))
-                                        .foregroundColor(isLogin ? .black : .gray)
-                                        .offset(y: -15)
+                                HStack {
+                                    Button(action: { isLogin = true }) {
+                                        Text("Login")
+                                            .font(Font.custom("Abyssinica SIL", size: 25))
+                                            .foregroundColor(isLogin ? .black : .gray)
+                                            .offset(y: -10)
+                                    }
+
+                                    Spacer()
+
+                                    Button(action: { isLogin = false }) {
+                                        Text("Sign-up")
+                                            .font(Font.custom("Abyssinica SIL", size: 25))
+                                            .foregroundColor(!isLogin ? .black : .gray)
+                                            .offset(y: -10)
+                                    }
                                 }
-
-                                Spacer()
-
-                                Button(action: { isLogin = false }) {
-                                    Text("Sign-up")
-                                        .font(Font.custom("Abyssinica SIL", size: 25))
-                                        .foregroundColor(!isLogin ? .black : .gray)
-                                        .offset(y: -15)
-                                }
-                            }
-                            .padding(.horizontal, 50)
-                        }
-                    }
-
-                    VStack(spacing: 15) {
-                        if isLogin {
-                            field(title: "Email", text: $emailOrUsername)
-                        } else {
-                            field(title: "Full Name", text: $fullName)
-                            field(title: "Email Address", text: $email)
-                            field(title: "Username", text: $username)
-                        }
-
-                        field(title: "Password", text: $password, isSecure: true)
-
-                        if !isLogin {
-                            field(title: "Confirm Password", text: $confirmPassword, isSecure: true)
-                        }
-                    }
-                    .padding(30)
-                    .offset(y: -55)
-
-                    if showError {
-                        VStack(alignment: .leading, spacing: 6) {
-                            ForEach(errorMessages, id: \.self) { msg in
-                                HStack(alignment: .top, spacing: 4) {
-                                    Text("•").bold()
-                                    Text(msg + ".")
-                                }
-                                .foregroundColor(.red)
-                                .font(.system(size: 16, weight: .medium))
+                                .padding(.horizontal, geometry.size.width * 0.15)
                             }
                         }
-                        .padding(.horizontal)
+
+                        VStack(spacing: 15) {
+                            if isLogin {
+                                field(title: "Email", text: $emailOrUsername)
+                            } else {
+                                field(title: "Full Name", text: $fullName)
+                                field(title: "Email Address", text: $email)
+                                field(title: "Username", text: $username)
+                            }
+
+                            field(title: "Password", text: $password, isSecure: true)
+
+                            if !isLogin {
+                                field(title: "Confirm Password", text: $confirmPassword, isSecure: true)
+                            }
+                        }
+                        .padding(30)
+                        .offset(y: -20)
+
+                        if showError {
+                            VStack(alignment: .leading, spacing: 6) {
+                                ForEach(errorMessages, id: \.self) { msg in
+                                    HStack(alignment: .top, spacing: 4) {
+                                        Text("•").bold()
+                                        Text(msg + ".")
+                                    }
+                                    .foregroundColor(.red)
+                                    .font(.system(size: 16, weight: .medium))
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 20)
+                        }
+
+                        Button(action: {
+                            Task { await handleAuth() }
+                        }) {
+                            Text(isLogin ? "Login" : "Sign-up")
+                                .font(.system(size: 26))
+                                .foregroundColor(.black)
+                                .frame(width: geometry.size.width * 0.75, height: 70)
+                                .background(Color.white)
+                                .cornerRadius(30)
+                                .shadow(radius: 10)
+                        }
                         .padding(.bottom, 30)
                     }
-
-                    Button(action: {
-                        Task { await handleAuth() }
-                    }) {
-                        Text(isLogin ? "Login" : "Sign-up")
-                            .font(.system(size: 26))
-                            .foregroundColor(.black)
-                            .frame(width: 314, height: 70)
-                            .background(Color.white)
-                            .cornerRadius(30)
-                            .shadow(radius: 10)
-                    }
-                    .padding(.bottom, 70)
+                    .frame(minHeight: geometry.size.height)
                 }
-                .frame(maxWidth: .infinity)
             }
+            .edgesIgnoringSafeArea(.all)
         }
     }
 
@@ -117,6 +121,7 @@ struct LoginSignupView: View {
             Text(title)
                 .font(Font.custom("Abyssinica SIL", size: 20))
                 .foregroundColor(.black)
+
             if isSecure {
                 SecureField("Enter \(title.lowercased())", text: text)
                     .textContentType(.none)
@@ -124,8 +129,13 @@ struct LoginSignupView: View {
                     .disableAutocorrection(true)
             } else {
                 TextField("Enter \(title.lowercased())", text: text)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
             }
-            Rectangle().frame(height: 0.5).foregroundColor(.black)
+
+            Rectangle()
+                .frame(height: 0.5)
+                .foregroundColor(.black)
         }
     }
 
@@ -142,15 +152,13 @@ struct LoginSignupView: View {
     }
 
     private func decodeBackendErrorData(_ data: Data) -> String? {
-        // Try strict decoding first
         if let decoded = try? JSONDecoder().decode([String: [String]].self, from: data) {
             let messages = decoded.flatMap { $0.value }.joined(separator: ". ")
             return messages + "."
         }
 
-        // Fallback: decode [String: String] and convert to [String: [String]]
         if let fallback = try? JSONDecoder().decode([String: String].self, from: data) {
-            let converted = fallback.mapValues { [$0] }  // wrap values in array
+            let converted = fallback.mapValues { [$0] }
             let messages = converted.flatMap { $0.value }.joined(separator: ". ")
             return messages + "."
         }
@@ -158,7 +166,6 @@ struct LoginSignupView: View {
         print("Final decode failure. Raw data:", String(data: data, encoding: .utf8) ?? "n/a")
         return nil
     }
-
 
     private func handleAuth() async {
         if isLogin {
@@ -212,23 +219,12 @@ struct LoginSignupView: View {
                     fullName: fullName,
                     confirmPassword: confirmPassword
                 )
-                print("Signup succeeded")
-
                 try await AuthService.shared.login(email: email, password: password)
-                print("Login succeeded")
-
-                if let access = AuthService.shared.getAccessToken() {
-                    print("Access token saved:", access.prefix(30)) // Print token for debugging
-                } else {
-                    print("No access token saved after login!")
-                }
 
                 self.isLoggedIn = true
                 self.isNewUser = true
                 self.navigationState.nextView = .addPartner
-
-            }
- catch let error as AuthError {
+            } catch let error as AuthError {
                 switch error {
                 case .userAlreadyExists:
                     self.showErrorMessage("User already exists.")
@@ -248,7 +244,6 @@ struct LoginSignupView: View {
             }
         }
     }
-
 }
 
 struct LoginSignupView_Previews: PreviewProvider {
