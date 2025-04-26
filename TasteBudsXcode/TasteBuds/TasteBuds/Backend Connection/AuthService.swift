@@ -12,6 +12,7 @@ enum AuthError: Error {
     case serverError(String)
     case tokenRefreshFailed
     case decoding(Data)
+    case tooManyAttempts 
 }
 
 
@@ -36,11 +37,14 @@ class AuthService {
         ]
 
         let data = try await sendRequest(url: url, body: body)
-        guard let response = String(data: data, encoding: .utf8),
-              response.lowercased().contains("user created") else {
-            throw AuthError.serverError("Signup failed.")
+
+        if let responseString = String(data: data, encoding: .utf8)?.lowercased(),
+           !responseString.contains("user created") {
+            throw AuthError.serverError("Signup failed: \(responseString)")
         }
     }
+
+
 
     // MARK: - Login
     func login(email: String, password: String) async throws {
@@ -134,12 +138,17 @@ class AuthService {
             return data
         case 400:
             throw AuthError.decoding(data)
+        case 401:
+            throw AuthError.invalidCredentials
+        case 403:
+            throw AuthError.tooManyAttempts
         case 409:
             throw AuthError.userAlreadyExists
         default:
             let msg = String(data: data, encoding: .utf8) ?? "Unknown server error"
             throw AuthError.serverError(msg)
         }
+
 
     }
 }

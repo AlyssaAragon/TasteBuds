@@ -5,9 +5,12 @@ struct MainTabView: View {
     @EnvironmentObject private var themeManager: ThemeManager
     @EnvironmentObject private var calendarManager: CalendarManager
     @EnvironmentObject private var userFetcher: UserFetcher
-    
-    @State private var selectedTab: Tab = .home // Track the selected tab
+    @EnvironmentObject private var navigationState: NavigationState
+
+    @State private var selectedTab: Tab = .home
     @State private var showCravingPopup = false
+    @State private var path = NavigationPath()
+
     enum Tab {
         case home
         case matches
@@ -17,7 +20,6 @@ struct MainTabView: View {
     }
 
     init() {
-        // Set UITabBar appearance for solid white background
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = UIColor.white
         UITabBar.appearance().standardAppearance = appearance
@@ -25,31 +27,10 @@ struct MainTabView: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
+        NavigationStack(path: $path) {
             ZStack(alignment: .bottom) {
-                // Main Content
-                Group {
-                    switch selectedTab {
-                    case .home:
-                        CardView()
-                    case .matches:
-                        MatchesView()
-                    case .favorites:
-                        FavoritesView()
-                    case .calendar:
-                        CalendarView()
-                    case .settings:
-                        SettingsView()
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .edgesIgnoringSafeArea(.all)
-                .onAppear {
-                    if CravingManager.shared.allowCravingPopup() {
-                        showCravingPopup = true
-                    }
-                }
-                // Custom Tab Bar (solid background, standard look)
+                currentTabView()
+
                 HStack {
                     Spacer()
                     tabBarItem(tab: .home, iconName: "house.fill")
@@ -64,18 +45,65 @@ struct MainTabView: View {
                     Spacer()
                 }
                 .frame(height: 100)
-                .background(Color.white) // ✅ Solid white background
-                .clipShape(Rectangle()) // ✅ Standard rectangular shape
+                .background(Color.white)
+                .clipShape(Rectangle())
                 .padding(.bottom, -45)
             }
             .accentColor(.black)
             .sheet(isPresented: $showCravingPopup) {
                 CravingPopupView()
             }
+            .navigationDestination(for: NextView.self) { destination in
+                switch destination {
+                case .partnerSetup:
+                    PartnerSetupView(isNewUserPassed: true)
+                        .environmentObject(navigationState)
+                case .dietaryPreferences:
+                    DietaryPreferencesView()
+                        .environmentObject(navigationState)
+                case .settings:
+                    SettingsView()
+                        .environmentObject(navigationState)
+                        .environmentObject(userFetcher)
+                default:
+                    EmptyView()
+                }
+            }
+            .onChange(of: navigationState.nextView) { newValue in
+                if newValue != .cardView {
+                    path.append(newValue)
+                    navigationState.nextView = .cardView 
+                }
+            }
+
+            .onAppear {
+                if CravingManager.shared.allowCravingPopup() {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        showCravingPopup = true
+                        CravingManager.shared.updateLastPopupDate() 
+                    }
+                }
+            }
+
         }
     }
 
-    // MARK: - Tab Bar Item View
+    @ViewBuilder
+    private func currentTabView() -> some View {
+        switch selectedTab {
+        case .home:
+            CardView()
+        case .matches:
+            MatchesView()
+        case .favorites:
+            FavoritesView()
+        case .calendar:
+            CalendarView()
+        case .settings:
+            SettingsView()
+        }
+    }
+
     @ViewBuilder
     private func tabBarItem(tab: Tab, iconName: String) -> some View {
         Button(action: {
@@ -84,18 +112,10 @@ struct MainTabView: View {
             VStack(spacing: 4) {
                 Image(systemName: iconName)
                     .font(.system(size: 24, weight: .bold))
-                    .padding(.top, 10) // ✅ Adds top padding to the icon
+                    .padding(.top, 10)
                     .padding(.bottom, 40)
                     .foregroundColor(selectedTab == tab ? .black : .gray)
             }
         }
     }
-}
-
-#Preview {
-    MainTabView()
-        .environmentObject(FavoritesManager())
-        .environmentObject(ThemeManager())
-        .environmentObject(CalendarManager())
-        .environmentObject(UserFetcher())
 }

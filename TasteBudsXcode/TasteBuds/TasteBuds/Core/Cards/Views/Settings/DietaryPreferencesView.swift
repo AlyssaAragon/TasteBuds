@@ -22,63 +22,146 @@ enum Diet: String, CaseIterable, Identifiable {
     }
 }
 
+
+
 struct DietaryPreferencesView: View {
-    @State private var showAlert: Bool = false
-    @State private var isFirstUse: Bool = UserDefaults.standard.bool(forKey: "isFirstUse")
+    @EnvironmentObject var navigationState: NavigationState
+    @Environment(\.dismiss) private var dismiss
+
+    @AppStorage("isNewUser") private var isNewUser = false
     @State private var selectedDiets: Set<Diet> = []
+    @State private var showAlert = false
+    @State private var navigateToMainTab = false
 
     var body: some View {
-        NavigationView {
-            List {
-                Section(header: Text("Select your dietary preferences")) {
-                    ForEach(Diet.allCases) { diet in
-                        Toggle(isOn: Binding(
-                            get: { selectedDiets.contains(diet) },
-                            set: { isOn in
-                                if isOn {
-                                    selectedDiets.insert(diet)
-                                } else {
-                                    selectedDiets.remove(diet)
+        ZStack {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Select your dietary preferences")
+                    .font(.largeTitle.bold())
+                    .padding(.top)
+
+                Text("Customize the recipes suggested to you by setting the diets you follow.")
+                    .font(.body)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 10)
+
+                List {
+                    Section {
+                        ForEach(Diet.allCases) { diet in
+                            Toggle(isOn: Binding(
+                                get: { selectedDiets.contains(diet) },
+                                set: { isOn in
+                                    if isOn {
+                                        selectedDiets.insert(diet)
+                                    } else {
+                                        selectedDiets.remove(diet)
+                                    }
                                 }
+                            )) {
+                                Text(diet.label)
+                                    .foregroundColor(.black)
                             }
-                        )) {
-                            Text(diet.label)
                         }
+                    }
+
+                    Section {
+                        Button(action: savePreferences) {
+                            HStack {
+                                Spacer()
+                                Text("Save Preferences")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.black)
+                                Spacer()
+                            }
+                            .frame(height: 50)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                        }
+                    }
+                }
+                .listStyle(InsetGroupedListStyle())
+
+                NavigationLink(
+                    destination: MainTabView()
+                        .environmentObject(navigationState)
+                        .environmentObject(UserFetcher())
+                        .environmentObject(FavoritesManager())
+                        .environmentObject(CalendarManager())
+                        .environmentObject(ThemeManager()),
+                    isActive: $navigateToMainTab
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            }
+            .padding(.horizontal)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        if let _ = navigationState.previousView {
+                            navigationState.goBack()
+                        } else {
+                            dismiss()
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.headline)
+                            Text("Back")
+                                .font(.headline)
+                        }
+                        .foregroundColor(.black)
                     }
                 }
 
-                Section {
-                    Button(action: savePreferences) {
-                        HStack {
-                            Spacer()
-                            Text("Save Preferences")
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-            .listStyle(InsetGroupedListStyle())
-            .navigationTitle("Dietary Preferences")
-            .toolbar {
-                if isFirstUse {
+                if isNewUser {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink("Skip", destination: CardView())
+                        Button("Skip") {
+                            navigateToMainTab = true
+                            isNewUser = false
+                        }
+                        .foregroundColor(.gray)
                     }
                 }
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Preferences saved"),
-                    message: Text("Your dietary preferences have been updated."),
-                    dismissButton: .default(Text("OK"))
-                )
             }
             .onAppear {
-                if isFirstUse {
-                    UserDefaults.standard.set(false, forKey: "isFirstUse")
-                }
                 loadSavedDiets()
+            }
+
+            if showAlert {
+                VStack(spacing: 16) {
+                    Text("Preferences Saved")
+                        .font(.title2.bold())
+                        .foregroundColor(.black)
+
+                    Text("Your dietary preferences have been updated.")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
+
+                    Button(action: {
+                        showAlert = false
+                        navigateToMainTab = true
+                        isNewUser = false
+                    }) {
+                        Text("OK")
+                            .bold()
+                            .frame(width: 100, height: 44)
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.black, lineWidth: 1)
+                            )
+                    }
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(12)
+                .shadow(radius: 10)
+                .frame(maxWidth: 300)
             }
         }
     }
@@ -114,6 +197,7 @@ struct DietaryPreferencesView: View {
         let dietStrings = selectedDiets.map { $0.rawValue }
 
         guard let url = URL(string: "https://tastebuds.unr.dev/api/user_diets/") else { return }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -130,9 +214,15 @@ struct DietaryPreferencesView: View {
                 DispatchQueue.main.async {
                     showAlert = true
                 }
-            } else {
+            }
+            else {
                 print("Failed to update diets:", error ?? "Unknown error")
             }
         }.resume()
     }
+}
+
+#Preview {
+    DietaryPreferencesView()
+        .environmentObject(NavigationState())
 }

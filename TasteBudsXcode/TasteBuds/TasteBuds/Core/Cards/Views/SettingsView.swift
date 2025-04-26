@@ -4,7 +4,7 @@ struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var navigationState: NavigationState
     @EnvironmentObject var userFetcher: UserFetcher
-    
+
     @State private var showingLogoutAlert = false
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
@@ -16,11 +16,10 @@ struct SettingsView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding()
-    
+
                 VStack(spacing: 8) {
                     if let user = userFetcher.currentUser {
-                        
-                        Text("@\(user.username)") 
+                        Text("@\(user.username)")
                             .font(Font.custom("Inter", size: 16).weight(.black))
                             .kerning(0.08)
                             .multilineTextAlignment(.center)
@@ -34,65 +33,54 @@ struct SettingsView: View {
 
                 Spacer(minLength: 22)
 
-                // Settings List
                 VStack(spacing: 0) {
-                    NavigationLink(destination: AddPartnerView()) {
+                    NavigationLink(destination: AddPartnerView()
+                        .environmentObject(navigationState)) {
                         settingsRow(title: "Partner")
                     }
-                    
+
                     Divider()
-                    
-                    NavigationLink(destination: DietaryPreferencesView()) {
+
+                    NavigationLink(destination: DietaryPreferencesView()
+                        .environmentObject(navigationState)) {
                         settingsRow(title: "Dietary Preferences")
                     }
-                    
+
                     Divider()
-                    
-                    NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
+
+                    NavigationLink(destination: AccessibilityView()
+                        .environmentObject(themeManager)) {
                         settingsRow(title: "Accessibility")
                     }
-                    
+
                     Divider()
-                    
+
                     NavigationLink(destination: NotificationPreferencesView()) {
                         settingsRow(title: "Notifications")
                     }
-                    
+
                     Divider()
-                    
+
                     NavigationLink(destination: IngredientSubView()) {
                         settingsRow(title: "Common Ingredient Substitutions")
                     }
-                    
-                    Divider() 
-                    
-                    settingsRow(title: "Privacy and Security")
-                    
+
                     Divider()
-                    
+
+                    settingsRow(title: "Privacy and Security")
+
+                    Divider()
+
                     Button {
                         showingLogoutAlert = true
                     } label: {
                         settingsRow(title: "Sign Out")
                     }
                     .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
-                        Button("Sign out", role: .destructive) {
-                            // Remove tokens properly
-                            //AuthService.shared.printUserDefaults()  // using this for debugging access token issue
-                            AuthService.shared.logout()
-                            //AuthService.shared.printUserDefaults()   // using this for debugging access token issue
-
-                            UserDefaults.standard.removeObject(forKey: "accessToken") // Ensure token removal for logout
-                            
-                            userFetcher.reset()
-
-                            
-                            // Reset login state
-                            isLoggedIn = false
-                            isNewUser = false
-                            navigationState.nextView = .welcome
+                        Button("Sign Out", role: .destructive) {
+                            handleLogout()
                         }
-                        Button("Cancel", role: .cancel) { }
+                        Button("Cancel", role: .cancel) {}
                     }
                 }
                 .background(Color.white)
@@ -104,7 +92,7 @@ struct SettingsView: View {
             .navigationBarHidden(true)
             .onAppear {
                 Task {
-                    if userFetcher.currentUser == nil { // Prevents unnecessary re-fetching
+                    if userFetcher.currentUser == nil {
                         await userFetcher.fetchUser()
                     }
                 }
@@ -114,7 +102,7 @@ struct SettingsView: View {
 
     @ViewBuilder
     private func settingsRow(title: String) -> some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(spacing: 16) {
             Text(title)
                 .font(.body)
                 .foregroundColor(.black)
@@ -124,6 +112,15 @@ struct SettingsView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func handleLogout() {
+        AuthService.shared.logout()
+        UserDefaults.standard.removeObject(forKey: "accessToken")
+        userFetcher.reset()
+        isLoggedIn = false
+        isNewUser = false
+        navigationState.nextView = .welcome
     }
 }
 

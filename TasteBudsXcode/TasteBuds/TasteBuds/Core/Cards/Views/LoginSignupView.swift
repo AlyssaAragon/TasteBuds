@@ -174,7 +174,9 @@ struct LoginSignupView: View {
             } catch let error as AuthError {
                 switch error {
                 case .invalidCredentials:
-                    self.showErrorMessage("Invalid username or password.")
+                    self.showErrorMessage("Invalid email or password.")
+                case .tooManyAttempts:
+                    self.showErrorMessage("Too many login attempts. Please wait and try again.")
                 case .decoding(let data):
                     if let msg = decodeBackendErrorData(data) {
                         self.showErrorMessage(msg)
@@ -210,10 +212,23 @@ struct LoginSignupView: View {
                     fullName: fullName,
                     confirmPassword: confirmPassword
                 )
-                self.isLogin = true
-                self.emailOrUsername = self.email
-                await handleAuth()
-            } catch let error as AuthError {
+                print("Signup succeeded")
+
+                try await AuthService.shared.login(email: email, password: password)
+                print("Login succeeded")
+
+                if let access = AuthService.shared.getAccessToken() {
+                    print("Access token saved:", access.prefix(30)) // Print token for debugging
+                } else {
+                    print("No access token saved after login!")
+                }
+
+                self.isLoggedIn = true
+                self.isNewUser = true
+                self.navigationState.nextView = .addPartner
+
+            }
+ catch let error as AuthError {
                 switch error {
                 case .userAlreadyExists:
                     self.showErrorMessage("User already exists.")
@@ -233,6 +248,7 @@ struct LoginSignupView: View {
             }
         }
     }
+
 }
 
 struct LoginSignupView_Previews: PreviewProvider {

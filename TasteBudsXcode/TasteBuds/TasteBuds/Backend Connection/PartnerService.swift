@@ -26,7 +26,8 @@ class PartnerService {
                 if let data = jsonString.data(using: .utf8),
                    let jsonArray = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
                     completion(.success(jsonArray))
-                } else {
+                }
+                else {
                     completion(.failure(NSError(domain: "ParseError", code: 0, userInfo: nil)))
                 }
             case .failure(let error):
@@ -55,7 +56,7 @@ class PartnerService {
         body: [String: Any]?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        guard let token = UserDefaults.standard.string(forKey: "accessToken") else {
+        guard let token = AuthService.shared.getAccessToken() else {
             completion(.failure(NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "No token found."])))
             return
         }
