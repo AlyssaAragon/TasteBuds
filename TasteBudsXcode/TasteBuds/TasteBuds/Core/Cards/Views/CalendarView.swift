@@ -5,6 +5,13 @@
 //  Created by Alicia Chiang on 2/27/25.
 //
 
+//
+//  CalendarView.swift
+//  TasteBuds
+//
+//  Created by Alicia Chiang on 2/27/25.
+//
+
 import SwiftUI
 
 extension String {
@@ -17,20 +24,22 @@ struct CalendarView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var calendarManager: CalendarManager
-    
+
     @StateObject private var userFetcher = UserFetcher()
     @State private var isLoading = false
-    
+    @State private var selectedDay: SelectedDay? = nil
+
+
     private var currentUser: FetchedUser? {
         userFetcher.currentUser
     }
-    
+
     private var partnerUsername: String? {
         userFetcher.currentUser?.partner?.username
     }
-    
+
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -40,7 +49,7 @@ struct CalendarView: View {
                         .font(.title.bold())
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, -40)
-                    
+
                     List {
                         ForEach(daysOfWeek, id: \.self) { day in
                             Section(header: HStack {
@@ -48,13 +57,9 @@ struct CalendarView: View {
                                     .font(.title3)
                                     .foregroundStyle(Color.primary)
                                 Spacer()
-                                Menu {
-                                    ForEach(favoritesManager.favoriteRecipes) { recipe in
-                                        Button(recipe.name.titleCase) {
-                                            calendarManager.addRecipe(to: day, recipe: recipe)
-                                        }
-                                    }
-                                } label: {
+                                Button(action: {
+                                    selectedDay = SelectedDay(value: day)
+                                }) {
                                     Image(systemName: "plus.circle")
                                         .foregroundStyle(Color.primary)
                                         .font(.system(size: 20))
@@ -90,7 +95,6 @@ struct CalendarView: View {
                                                     Image(systemName: "person.crop.circle.badge.plus")
                                                         .foregroundStyle(.blue)
                                                 }
-                                                
                                             }
                                             if let assigned = recipe.assignedToUsernames, !assigned.isEmpty {
                                                 Text("Assigned to: \(assigned.joined(separator: ", "))")
@@ -127,11 +131,19 @@ struct CalendarView: View {
                 })
             }
         }
+        .onAppear {
+            favoritesManager.fetchUserFavorites()
+        }
         .task {
             await fetchPartnerInfo()
         }
+        .sheet(item: $selectedDay) { selectedDay in
+            RecipePickerSheet(selectedDay: selectedDay.value)
+                .environmentObject(favoritesManager)
+                .environmentObject(calendarManager)
+        }
     }
-    
+
     private func fetchPartnerInfo() async {
         isLoading = true
         await userFetcher.fetchUser()
@@ -147,6 +159,12 @@ struct CalendarView_Previews: PreviewProvider {
             .environmentObject(CalendarManager())
     }
 }
+
+struct SelectedDay: Identifiable {
+    let id = UUID()
+    let value: String
+}
+
 
 #Preview {
     CalendarView()
