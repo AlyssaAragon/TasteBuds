@@ -1,9 +1,3 @@
-//
-//  CravingPopupView.swift
-//  TasteBuds
-//
-//  Created by Alyssa Aragon on 3/26/25.
-//
 import SwiftUI
 import Foundation
 
@@ -20,11 +14,11 @@ extension FetchedRecipe {
 
 struct CravingPopupView: View {
     @State private var showPopup = false
-    @State private var selectedRecipe: CravingRecipe? = nil
+    @State private var selectedRecipe: FetchedRecipe? = nil
     @State private var selectedCategory: String? = nil
     @State private var showSaveBanner = false
     @EnvironmentObject private var favoritesManager: FavoritesManager
-    let categories = ["Meal", "Drink", "Dessert"]
+    let categories = ["meal", "drink", "dessert"]
 
     var body: some View {
         VStack(spacing: 20) {
@@ -39,6 +33,7 @@ struct CravingPopupView: View {
                     .font(.headline)
                     .foregroundColor(.brown)
             }
+
             if !showPopup {
                 HStack {
                     Button(action: { fetchCravingRecommendation(category: "meal") }) {
@@ -67,7 +62,11 @@ struct CravingPopupView: View {
                             .cornerRadius(10)
                     }
 
-                    Button(action: { fetchCravingRecommendation(category: categories.randomElement()!) }) {
+                    Button(action: {
+                        if let random = categories.randomElement() {
+                            fetchCravingRecommendation(category: random)
+                        }
+                    }) {
                         Text("Anything!")
                             .padding()
                             .background(Color.customGreen)
@@ -99,19 +98,19 @@ struct CravingPopupView: View {
                         }
                         .padding([.top, .trailing])
 
-                        Text(selectedRecipe.title)
+                        Text(selectedRecipe.name)
                             .font(.title)
                             .bold()
                             .padding(.bottom, 5)
 
-                        if let imageUrl = selectedRecipe.image_name, let url = URL(string: imageUrl) {
+                        if let imageUrl = selectedRecipe.imageName, let url = URL(string: imageUrl) {
                             AsyncImage(url: url)
                                 .scaledToFit()
                                 .frame(height: 200)
                                 .cornerRadius(10)
                         }
 
-                        Text(selectedRecipe.cleaned_ingredients)
+                        Text(selectedRecipe.cleanedIngredients)
                             .padding()
 
                         Text(selectedRecipe.instructions)
@@ -122,6 +121,7 @@ struct CravingPopupView: View {
                                 let fetchedRecipe = FetchedRecipe(from: selectedRecipe)
                                 favoritesManager.addFavorite(fetchedRecipe)
                                 withAnimation {
+                                    favoritesManager.addFavorite(selectedRecipe)
                                     showSaveConfirmation()
                                 }
                             }
@@ -156,19 +156,24 @@ struct CravingPopupView: View {
 
     func fetchCravingRecommendation(category: String) {
         selectedCategory = category
-        let url = URL(string: "https://tastebuds.unr.dev/api/get_random_recipe_by_category/?category=\(category)")!
-        
+        guard let url = URL(string: "https://tastebuds.unr.dev/api/get_random_recipe_by_category/?category=\(category)") else {
+            print("Invalid URL")
+            return
+        }
+
         URLSession.shared.dataTask(with: url) { data, response, error in
-                DispatchQueue.main.async {
-                    if let data = data, let decodedResponse = try? JSONDecoder().decode(CravingRecipe.self, from: data) {
-                        self.selectedRecipe = decodedResponse
-                    } else {
-                        print("unable to fetch craving recipe")
-                    }
-                    self.showPopup = true
+            DispatchQueue.main.async {
+                if let data = data,
+                   let decodedRecipe = try? JSONDecoder().decode(FetchedRecipe.self, from: data) {
+                    self.selectedRecipe = decodedRecipe
+                } else {
+                    print("unable to fetch craving recipe")
                 }
-            }.resume()
+                self.showPopup = true
+            }
+        }.resume()
     }
+
     func showSaveConfirmation() {
         withAnimation {
             showSaveBanner = true
@@ -182,24 +187,6 @@ struct CravingPopupView: View {
     }
 }
 
-struct CravingRecipe: Codable {
-    let recipeid: Int
-    let title: String
-    let ingredients: String
-    let instructions: String
-    let image_name: String?
-    let cleaned_ingredients: String
-    
-    enum CodingKeys: String, CodingKey {
-        case recipeid
-        case title
-        case ingredients
-        case instructions
-        case image_name
-        case cleaned_ingredients
-    }
-}
-
 extension Color {
     static let customPink = Color(red: 250/255, green: 178/255, blue: 200/255)
     static let customBlue = Color(red: 121/255, green: 173/255, blue: 220/255)
@@ -208,4 +195,3 @@ extension Color {
     static let customPurple = Color(red: 194/255, green: 132/255, blue: 190/255)
     static let customYellow = Color(red: 250/255, green: 242/255, blue: 161/255)
 }
-

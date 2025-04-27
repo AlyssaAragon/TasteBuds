@@ -28,11 +28,11 @@ SECRET_KEY = 'django-insecure-=7fv-gpuqkie&x0x1*gyqb92#spc^2r(uwko=f879_9@^$5)rm
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '3.134.252.214',
-    'localhost',
-    'tastebuds-db.unr.dev',
-    'tastebuds.unr.dev',
-    '134.197.34.135', 
+	'3.134.252.214',
+	'localhost',
+	'tastebuds-db.unr.dev',
+	'tastebuds.unr.dev',
+	'134.197.34.135',
 ]
 
 
@@ -41,38 +41,38 @@ SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework', #for the rest framework
-    #for allauth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'corsheaders',
-    'tastebuds.apps.TastebudsConfig',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'rest_framework', #for the rest framework
+	#for allauth
+	'django.contrib.sites',
+	'allauth',
+	'allauth.account',
+	'allauth.socialaccount',
+	'corsheaders',
+	'tastebuds.apps.TastebudsConfig',
 ]
 
 # backend for authentication
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # Default authentication
-    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
+	'django.contrib.auth.backends.ModelBackend',  # Default authentication
+	'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
 )
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'allauth.account.middleware.AccountMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'corsheaders.middleware.CorsMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -80,63 +80,63 @@ CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'tasteBudsDjango.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+	{
+    	'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    	'DIRS': [],
+    	'APP_DIRS': True,
+    	'OPTIONS': {
+        	'context_processors': [
+            	'django.template.context_processors.debug',
+            	'django.template.context_processors.request',
+            	'django.contrib.auth.context_processors.auth',
+            	'django.contrib.messages.context_processors.messages',
+        	],
+    	},
+	},
 ]
 
 WSGI_APPLICATION = 'tasteBudsDjango.wsgi.application'
 
 
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'Capstone Recipe Dataset',
-#        'USER': 'postgres',
-#        'PASSWORD': 'hannah',
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
+#	'default': {
+#    	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#    	'NAME': 'Capstone Recipe Dataset',
+#    	'USER': 'postgres',
+#    	'PASSWORD': 'hannah',
+#    	'HOST': 'localhost',
+#    	'PORT': '5432',
+#	}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tastebuds',
-        'USER': 'postgres',
-        'PASSWORD': 'tastebudsteam36',
-        'HOST': '0.0.0.0',
-        'PORT': '5432',
-    }
+	'default': {
+    	'ENGINE': 'django.db.backends.postgresql',
+    	'NAME': 'tastebuds',
+    	'USER': 'postgres',
+    	'PASSWORD': 'tastebudsteam36',
+    	'HOST': '0.0.0.0',
+    	'PORT': '5432',
+	}
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+    	'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+    	'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+    	'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+    	'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 # Internationalization
@@ -167,31 +167,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True  # Email is required for registration
 ACCOUNT_USERNAME_REQUIRED = True  # Username is required for login
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow login with either email or username
+ACCOUNT_LOGIN_METHODS = {'email'}  # Allow login with either email or username
 LOGIN_REDIRECT_URL = "/"  # Redirect to homepage after login
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  # Assuming Redis is running locally
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
+	'default': {
+    	'BACKEND': 'django_redis.cache.RedisCache',
+    	'LOCATION': 'redis://127.0.0.1:6379/1',  # Assuming Redis is running locally
+    	'OPTIONS': {
+        	'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+    	}
+	}
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://tastebuds.unr.dev", 
-    "http://tastebuds.unr.dev",
+	"https://tastebuds.unr.dev",
+	"http://tastebuds.unr.dev",
 ]
 
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 
-CSRF_COOKIE_SECURE = True 
+CSRF_COOKIE_SECURE = True
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+    	'rest_framework_simplejwt.authentication.JWTAuthentication',
+	),
 }
 
 # Email configuration
@@ -207,13 +207,10 @@ DEFAULT_FROM_EMAIL = "tastebudsbackend@gmail.com"
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Refresh token duration
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+	"ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+	"REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Refresh token duration
+	"ROTATE_REFRESH_TOKENS": False,
+	"BLACKLIST_AFTER_ROTATION": True,
+	"AUTH_HEADER_TYPES": ("Bearer",),
+	"AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
-
-
-

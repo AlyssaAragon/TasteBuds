@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginSignupView: View {
     @State private var isLogin = true
+    @State private var fullName = ""
     @State private var emailOrUsername = ""
     @State private var email = ""
     @State private var username = ""
@@ -12,10 +13,9 @@ struct LoginSignupView: View {
     @State private var resetEmail = ""
     @State private var showPasswordResetSheet = false
     @ObservedObject var navigationState: NavigationState
-    @State private var isWaitingForNextView = false
     @State private var showError = false
     @State private var errorMessage = ""
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -117,14 +117,24 @@ struct LoginSignupView: View {
                         .offset(y: -20)
                         
                         if showError {
-                            Text(errorMessage)
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(errorMessages, id: \.self) { msg in
+                                HStack(alignment: .top, spacing: 4) {
+                                    Text("•").bold()
+                                    Text(msg + ".")
+                                }
                                 .foregroundColor(.red)
                                 .font(.system(size: 16, weight: .medium))
-                                .padding(.bottom, 20)
+                            }
                         }
+                        .padding(.horizontal)
+                        .padding(.bottom, 30)
+                    }
                         
-                        Button(action: { handleAuth() }) {
-                            Text(isLogin ? "Login" : "Sign-up")
+                        Button(action: {
+                            Task { await handleAuth() }
+                        }) {
+                        Text(isLogin ? "Login" : "Sign-up")
                                 .font(.system(size: 26))
                                 .foregroundColor(.black)
                                 .frame(width: geometry.size.width * 0.75, height: 70)
@@ -169,55 +179,146 @@ struct LoginSignupView: View {
             }
             .padding()*/
         }
-    
+    private func field(title: String, text: Binding<String>, isSecure: Bool = false) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(title)
+                .font(Font.custom("Abyssinica SIL", size: 20))
+                .foregroundColor(.black)
+            if isSecure {
+                SecureField("Enter \(title.lowercased())", text: text)
+                    .textContentType(.none)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            } else {
+                TextField("Enter \(title.lowercased())", text: text)
+            }
+            Rectangle().frame(height: 0.5).foregroundColor(.black)
+        }
+    }
+
+    private var errorMessages: [String] {
+        return errorMessage
+            .components(separatedBy: [".", ","])
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
+
+    private func showErrorMessage(_ message: String) {
+        errorMessage = message
+        showError = true
+    }
+
+    private func decodeBackendErrorData(_ data: Data) -> String? {
+        // Try strict decoding first
+        if let decoded = try? JSONDecoder().decode([String: [String]].self, from: data) {
+            let messages = decoded.flatMap { $0.value }.joined(separator: ". ")
+            return messages + "."
+        }
+
+        // Fallback: decode [String: String] and convert to [String: [String]]
+        if let fallback = try? JSONDecoder().decode([String: String].self, from: data) {
+            let converted = fallback.mapValues { [$0] }  // wrap values in array
+            let messages = converted.flatMap { $0.value }.joined(separator: ". ")
+            return messages + "."
+        }
+
+        print("Final decode failure. Raw data:", String(data: data, encoding: .utf8) ?? "n/a")
+        return nil
+    }
+
+
     //MARK: - authentication
-    private func handleAuth() {
+    private func handleAuth() async{
         if isLogin {
-            if emailOrUsername.isEmpty || password.isEmpty {
+            guard !emailOrUsername.isEmpty, !password.isEmpty else {
                 showErrorMessage("Please fill in all fields.")
                 return
             }
-            AuthService.shared.login(email: emailOrUsername, password: password) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(_):
-                        self.isLoggedIn = true
-                        self.navigationState.nextView = .cardView
-                    case .failure:
-                        self.showErrorMessage("Invalid username or password.")
+
+            do {
+                try await AuthService.shared.login(email: emailOrUsername, password: password)
+                self.isLoggedIn = true
+                self.navigationState.nextView = .cardView
+            } catch let error as AuthError {
+                switch error {
+                case .invalidCredentials:
+                    self.showErrorMessage("Invalid email or password.")
+                case .tooManyAttempts:
+                    self.showErrorMessage("Too many login attempts. Please wait and try again.")
+                case .decoding(let data):
+                    if let msg = decodeBackendErrorData(data) {
+                        self.showErrorMessage(msg)
+                    } else {
+                        self.showErrorMessage("Login failed. Please try again.")
                     }
+                default:
+                    self.showErrorMessage("Login failed. Please try again.")
                 }
+            } catch {
+                self.showErrorMessage("Unexpected login error.")
             }
         } else {
-            if email.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+            guard !fullName.isEmpty,
+                  !email.isEmpty,
+                  !username.isEmpty,
+                  !password.isEmpty,
+                  !confirmPassword.isEmpty else {
                 showErrorMessage("All fields are required.")
                 return
             }
-            if password != confirmPassword {
+
+            guard password == confirmPassword else {
                 showErrorMessage("Passwords do not match.")
                 return
             }
-            AuthService.shared.signup(email: email, username: username, password: password) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        self.isLogin = true
-                        self.emailOrUsername = self.email
-                        self.handleAuth()
-    case .failure(let error):
-        if error.localizedDescription.contains("users_username_key") {
-            showErrorMessage("Username is already taken.")
-        } else if error.localizedDescription.contains("users_email_key") {
-            showErrorMessage("Email is already registered.")
-        } else {
-            showErrorMessage("Signup failed. Please try again.")
+
+            do {
+                try await AuthService.shared.signup(
+                    email: email,
+                    username: username,
+                    password: password,
+                    fullName: fullName,
+                    confirmPassword: confirmPassword
+                )
+                print("Signup succeeded")
+
+                try await AuthService.shared.login(email: email, password: password)
+                print("Login succeeded")
+
+                if let access = AuthService.shared.getAccessToken() {
+                    print("Access token saved:", access.prefix(30)) // Print token for debugging
+                } else {
+                    print("No access token saved after login!")
+                }
+
+                self.isLoggedIn = true
+                self.isNewUser = true
+                self.navigationState.nextView = .addPartner
+
+            }
+ catch let error as AuthError {
+                switch error {
+                case .userAlreadyExists:
+                    self.showErrorMessage("User already exists.")
+                case .serverError(let msg):
+                    self.showErrorMessage(msg)
+                case .decoding(let data):
+                    if let msg = decodeBackendErrorData(data) {
+                        self.showErrorMessage(msg)
+                    } else {
+                        self.showErrorMessage("Signup failed. Please try again.")
+                    }
+                default:
+                    self.showErrorMessage("Signup failed. Please try again.")
+                }
+            } catch {
+                self.showErrorMessage("Unexpected signup error.")
+            }
         }
     }
+
 }
-}
-}
-}
-    /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
+/* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
     private func requestPasswordReset() {
         AuthService.shared.requestPasswordReset(email: resetEmail) { result in
             switch result {
@@ -229,13 +330,6 @@ struct LoginSignupView: View {
         }
     }*/
     
-    //MARK: - error message
-    private func showErrorMessage(_ message: String) {
-        errorMessage = message
-        showError = true
-    }
-}
-
 struct LoginSignupView_Previews: PreviewProvider {
     static var previews: some View {
         LoginSignupView(navigationState: NavigationState())

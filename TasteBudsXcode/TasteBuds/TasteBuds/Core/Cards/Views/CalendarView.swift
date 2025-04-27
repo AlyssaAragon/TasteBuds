@@ -25,6 +25,7 @@ struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var calendarManager: CalendarManager
 
+
     @StateObject private var userFetcher = UserFetcher()
     @State private var isLoading = false
     @State private var selectedDay: SelectedDay? = nil
@@ -119,7 +120,6 @@ struct CalendarView: View {
                     }
                     .listStyle(GroupedListStyle())
                     .id(UUID())
-                    .background(themeManager.selectedTheme.backgroundView)
                     .padding(.bottom, 50)
                 }
                 .navigationBarItems(trailing: Button(action: {
@@ -144,10 +144,32 @@ struct CalendarView: View {
         }
     }
 
+
     private func fetchPartnerInfo() async {
         isLoading = true
         await userFetcher.fetchUser()
         isLoading = false
+    }
+
+    @ViewBuilder
+    private func sectionHeader(for day: String) -> some View {
+        HStack {
+            Text(day)
+                .font(.title3)
+                .foregroundStyle(.black)
+            Spacer()
+            Menu {
+                ForEach(favoritesManager.favoriteRecipes) { wrapper in
+                    Button(wrapper.recipe.name.titleCase) {
+                        calendarManager.addRecipe(to: day, recipe: wrapper.recipe)
+                    }
+                }
+            } label: {
+                Image(systemName: "plus.circle")
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
+            }
+        }
     }
 }
 

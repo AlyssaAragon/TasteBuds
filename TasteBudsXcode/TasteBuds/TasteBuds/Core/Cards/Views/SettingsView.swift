@@ -37,7 +37,8 @@ struct SettingsView: View {
                         Spacer(minLength: 22)
 
                         VStack(spacing: 0) {
-                            NavigationLink(destination: AddPartnerView()) {
+                            NavigationLink(destination: AddPartnerView()
+                            .environmentObject(navigationState)){
                                 settingsRow(title: "Partner")
                             }
                     
@@ -118,7 +119,7 @@ struct SettingsView: View {
 
     @ViewBuilder
     private func settingsRow(title: String) -> some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(spacing: 16) {
             Text(title)
                 .font(.body)
                 .foregroundStyle(.primary)
@@ -128,6 +129,15 @@ struct SettingsView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func handleLogout() {
+        AuthService.shared.logout()
+        UserDefaults.standard.removeObject(forKey: "accessToken")
+        userFetcher.reset()
+        isLoggedIn = false
+        isNewUser = false
+        navigationState.nextView = .welcome
     }
 }
 
