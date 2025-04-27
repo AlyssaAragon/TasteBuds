@@ -49,9 +49,13 @@ struct SettingsView: View {
                     }
                             Divider()
 
-                            NavigationLink(destination: DietaryPreferencesView()) {
+                            NavigationLink(destination: DietaryPreferencesView()
+                                .environmentObject(navigationState)
+                            )
+                            {
                                 settingsRow(title: "Dietary Preferences")
                             }
+
                             Divider()
 
                             NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
@@ -81,7 +85,6 @@ struct SettingsView: View {
                             }
                             .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
                                 Button("Sign out", role: .destructive) {
-                                    AuthService.shared.printUserDefaults()
                                     AuthService.shared.logout()
                                     UserDefaults.standard.removeObject(forKey: "accessToken")
                                     UserDefaults.standard.removeObject(forKey: "accessToken")

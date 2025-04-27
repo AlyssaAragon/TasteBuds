@@ -19,11 +19,11 @@ struct RecipePickerSheet: View {
 
     var filteredRecipes: [FetchedRecipe] {
         if searchText.isEmpty {
-            return favoritesManager.favoriteRecipes
+            return favoritesManager.favoriteRecipes.map { $0.recipe }
         } else {
-            return favoritesManager.favoriteRecipes.filter {
-                $0.name.lowercased().contains(searchText.lowercased())
-            }
+            return favoritesManager.favoriteRecipes
+                .map { $0.recipe }
+                .filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
     }
 

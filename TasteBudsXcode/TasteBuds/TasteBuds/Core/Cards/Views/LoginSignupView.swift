@@ -74,12 +74,21 @@ struct LoginSignupView: View {
                                 }
                             } else {
                                 VStack(alignment: .leading, spacing: 5) {
+                                    Text("Full Name")
+                                        .font(Font.custom("Abyssinica SIL", size: 20))
+                                        .foregroundColor(.black)
+                                    TextField("Enter full name", text: $fullName)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                }
+
+                                VStack(alignment: .leading, spacing: 5) {
                                     Text("Email Address")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(.black)
                                     TextField("Enter email address", text: $email)
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
+
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Username")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
@@ -88,6 +97,7 @@ struct LoginSignupView: View {
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
                             }
+
                             
                             VStack(alignment: .leading, spacing: 5) {
                                 Text("Password")

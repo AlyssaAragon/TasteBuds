@@ -1,6 +1,6 @@
 import SwiftUI
 import Foundation
-
+/*
 extension FetchedRecipe {
     init(from cravingRecipe: CravingRecipe) {
         self.id = cravingRecipe.recipeid
@@ -11,7 +11,7 @@ extension FetchedRecipe {
         self.cleanedIngredients = cravingRecipe.cleaned_ingredients
     }
 }
-
+*/
 struct CravingPopupView: View {
     @State private var showPopup = false
     @State private var selectedRecipe: FetchedRecipe? = nil
@@ -118,8 +118,7 @@ struct CravingPopupView: View {
 
                         HStack {
                             Button("Save") {
-                                let fetchedRecipe = FetchedRecipe(from: selectedRecipe)
-                                favoritesManager.addFavorite(fetchedRecipe)
+                                favoritesManager.addFavorite(selectedRecipe)
                                 withAnimation {
                                     favoritesManager.addFavorite(selectedRecipe)
                                     showSaveConfirmation()

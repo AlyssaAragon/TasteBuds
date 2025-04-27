@@ -142,8 +142,6 @@ struct DietaryPreferencesView: View {
 
                     Button(action: {
                         showAlert = false
-                        navigateToMainTab = true
-                        isNewUser = false
                     }) {
                         Text("OK")
                             .bold()
@@ -156,6 +154,8 @@ struct DietaryPreferencesView: View {
                                     .stroke(Color.black, lineWidth: 1)
                             )
                     }
+
+
                 }
                 .padding()
                 .background(Color.white)
