@@ -10,7 +10,7 @@ import SwiftUI
 
 class CalendarManager: ObservableObject {
     @Published var calendarRecipes: [String: [FetchedRecipe]] = [:] // Store multiple recipes per day
-    
+
     @AppStorage("calendarRecipes") private var storedCalendarRecipes: Data = Data()
 
     init() {
@@ -56,13 +56,18 @@ class CalendarManager: ObservableObject {
             calendarRecipes = decoded
         }
     }
-    
-    func assignRecipe(_ recipe: FetchedRecipe, to userIds: [Int], on day: String) {
+
+    // New function: assign using usernames instead of user IDs
+    func assignRecipe(_ recipe: FetchedRecipe, to usernames: [String], on day: String) {
         if var recipes = calendarRecipes[day] {
             if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
-                recipes[index].assignedTo = userIds
+                recipes[index].assignedToUsernames = usernames
                 calendarRecipes[day] = recipes
+                saveCalendarData()
             }
         }
     }
 }
+
+// Make sure FetchedRecipe includes this property:
+// var assignedToUsernames: [String]? = nil
