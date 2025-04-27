@@ -2,36 +2,39 @@ import Foundation
 import SwiftUI
 
 class FavoritesManager: ObservableObject {
-    @Published var favoriteRecipes: [FetchedRecipe] = []
-    @Published var sharedFavorites: [FetchedRecipe] = []
+    @Published var favoriteRecipes: [SavedRecipeWrapper] = []
+    @Published var sharedFavorites: [SavedRecipeWrapper] = []
     @Published var sharedFavoritesError: String? = nil
 
     private let userFavoritesURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/")!
     private let sharedFavoritesURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/shared_favorites/")!
-    struct SavedRecipeWrapper: Codable, Identifiable {
-        let id: Int
+
+    struct SavedRecipeWrapper: Decodable, Identifiable, Hashable {
+        let id: Int // savedid
         let recipe: FetchedRecipe
+        let user: Int // <- add this line
 
         enum CodingKeys: String, CodingKey {
             case id = "savedid"
             case recipe
+            case user
         }
     }
 
-    // Fetch user’s saved recipes using token refresh logic
+
     func fetchUserFavorites() {
         performAuthenticatedRequest({
             var request = URLRequest(url: self.userFavoritesURL)
             request.httpMethod = "GET"
-            request.setValue("Bearer \(UserDefaults.standard.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
+            if let token = AuthService.shared.getAccessToken() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
             return request
-        }, onSuccess: { [weak self] data, response in
+        }, onSuccess: { [weak self] data, _ in
             do {
                 let savedWrappers = try JSONDecoder().decode([SavedRecipeWrapper].self, from: data)
-                let extractedRecipes = savedWrappers.map { $0.recipe }
-                print("Decoded \(extractedRecipes.count) favorite recipes")
                 DispatchQueue.main.async {
-                    self?.favoriteRecipes = extractedRecipes
+                    self?.favoriteRecipes = savedWrappers
                 }
             } catch {
                 print("Decoding error: \(error)")
@@ -42,8 +45,6 @@ class FavoritesManager: ObservableObject {
         })
     }
 
-
-    // Reusable request handler with auto token refresh
     private func performAuthenticatedRequest(
         _ requestBuilder: @escaping () -> URLRequest,
         onSuccess: @escaping (Data, HTTPURLResponse) -> Void
@@ -62,14 +63,15 @@ class FavoritesManager: ObservableObject {
                 return
             }
 
-            // Retry request if token expired
             if response.statusCode == 401 {
                 print("Access token expired. Attempting to refresh...")
                 AuthService.shared.refreshTokenIfNeeded { success in
                     if success {
                         print("Retrying request after token refresh")
                         var retryRequest = requestBuilder()
-                        retryRequest.setValue("Bearer \(UserDefaults.standard.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
+                        if let token = AuthService.shared.getAccessToken() {
+                            retryRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                        }
                         URLSession.shared.dataTask(with: retryRequest) { data, response, error in
                             guard let data = data,
                                   let response = response as? HTTPURLResponse else {
@@ -89,28 +91,19 @@ class FavoritesManager: ObservableObject {
         }.resume()
     }
 
-    // Add a recipe to favorites
     func addFavorite(_ recipe: FetchedRecipe) {
-        let recipeID = recipe.id
-
         performAuthenticatedRequest({
             var request = URLRequest(url: self.userFavoritesURL)
             request.httpMethod = "POST"
-            request.setValue("Bearer \(UserDefaults.standard.string(forKey: "accessToken") ?? "")", forHTTPHeaderField: "Authorization")
+            if let token = AuthService.shared.getAccessToken() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-            // ✅ Backend expects "recipe_id"
-            let postBody = ["recipe_id": recipeID]
-            request.httpBody = try? JSONSerialization.data(withJSONObject: postBody, options: [])
+            request.httpBody = try? JSONSerialization.data(withJSONObject: ["recipe_id": recipe.id])
             return request
         }, onSuccess: { [weak self] data, response in
-            print("Add favorite response status: \(response.statusCode)")
             if response.statusCode == 201 || response.statusCode == 200 {
-                DispatchQueue.main.async {
-                    if !(self?.favoriteRecipes.contains(where: { $0.id == recipeID }) ?? false) {
-                        self?.favoriteRecipes.append(recipe)
-                    }
-                }
+                self?.fetchUserFavorites()
             } else {
                 if let jsonString = String(data: data, encoding: .utf8) {
                     print("Backend error: \(jsonString)")
@@ -119,51 +112,41 @@ class FavoritesManager: ObservableObject {
         })
     }
 
-
-    // Remove a recipe from favorites
-    func removeFavorite(_ recipe: FetchedRecipe) {
-        guard let token = UserDefaults.standard.string(forKey: "accessToken"), !token.isEmpty else {
+    func removeFavorite(_ wrapper: SavedRecipeWrapper) {
+        guard let token = AuthService.shared.getAccessToken() else {
             print("No access token found when trying to delete favorite")
             return
         }
 
-        let recipeID = recipe.id
-
-        guard let deleteURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/\(recipeID)/") else {
-            print("Invalid delete URL")
-            return
-        }
-
+        let deleteURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/\(wrapper.id)/")!
         var request = URLRequest(url: deleteURL)
         request.httpMethod = "DELETE"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        URLSession.shared.dataTask(with: request) { [weak self] _, response, error in
             if let error = error {
                 print("Error deleting favorite: \(error)")
                 return
             }
 
-            if let httpResponse = response as? HTTPURLResponse {
-                print("DELETE favorite response status: \(httpResponse.statusCode)")
-                if httpResponse.statusCode == 204 || httpResponse.statusCode == 200 {
-                    DispatchQueue.main.async {
-                        if let index = self?.favoriteRecipes.firstIndex(where: { $0.id == recipeID }) {
-                            self?.favoriteRecipes.remove(at: index)
-                        }
-                    }
-                } else {
-                    if let data = data, let jsonString = String(data: data, encoding: .utf8) {
-                        print("Backend response: \(jsonString)")
-                    }
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 204 {
+                DispatchQueue.main.async {
+                    self?.favoriteRecipes.removeAll(where: { $0.id == wrapper.id })
                 }
+            } else {
+                print("Deletion failed, response: \(response.debugDescription)")
             }
         }.resume()
     }
 
-    // Fetch shared favorites between user and partner
+    func removeMultipleFavorites(_ wrappers: [SavedRecipeWrapper]) {
+        for wrapper in wrappers {
+            removeFavorite(wrapper)
+        }
+    }
+
     func fetchSharedFavorites() {
-        guard let token = UserDefaults.standard.string(forKey: "accessToken"), !token.isEmpty else {
+        guard let token = AuthService.shared.getAccessToken() else {
             print("No access token found when trying to fetch shared favorites")
             return
         }
@@ -178,7 +161,8 @@ class FavoritesManager: ObservableObject {
                 return
             }
 
-            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+            guard let data = data,
+                  let httpResponse = response as? HTTPURLResponse else {
                 print("No data or invalid response for shared favorites")
                 return
             }
@@ -195,25 +179,13 @@ class FavoritesManager: ObservableObject {
 
             do {
                 let savedWrappers = try JSONDecoder().decode([SavedRecipeWrapper].self, from: data)
-                let extractedRecipes = savedWrappers.map { $0.recipe }
                 DispatchQueue.main.async {
-                    self?.sharedFavorites = extractedRecipes
+                    self?.sharedFavorites = savedWrappers
                     self?.sharedFavoritesError = nil
                 }
             } catch {
                 print("Decoding shared favorites failed: \(error)")
-                if let raw = String(data: data, encoding: .utf8) {
-                    print("Raw shared favorites response: \(raw)")
-                }
             }
         }.resume()
-    }
-
-
-    // Remove multiple recipes from favorites locally
-    func removeMultipleFavorites(_ recipes: [FetchedRecipe]) {
-        favoriteRecipes.removeAll { recipe in
-            recipes.contains(where: { $0.id == recipe.id })
-        }
     }
 }

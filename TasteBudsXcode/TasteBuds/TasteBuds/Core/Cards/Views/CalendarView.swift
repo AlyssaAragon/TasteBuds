@@ -17,20 +17,20 @@ struct CalendarView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var calendarManager: CalendarManager
-    
+
     @StateObject private var userFetcher = UserFetcher()
     @State private var isLoading = false
-    
+
     private var currentUser: FetchedUser? {
         userFetcher.currentUser
     }
-    
+
     private var partnerUsername: String? {
         userFetcher.currentUser?.partner?.username
     }
-    
+
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -40,26 +40,10 @@ struct CalendarView: View {
                         .font(.title.bold())
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, -40)
-                    
+
                     List {
                         ForEach(daysOfWeek, id: \.self) { day in
-                            Section(header: HStack {
-                                Text(day)
-                                    .font(.title3)
-                                    .foregroundStyle(Color.primary)
-                                Spacer()
-                                Menu {
-                                    ForEach(favoritesManager.favoriteRecipes) { recipe in
-                                        Button(recipe.name.titleCase) {
-                                            calendarManager.addRecipe(to: day, recipe: recipe)
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "plus.circle")
-                                        .foregroundStyle(Color.primary)
-                                        .font(.system(size: 20))
-                                }
-                            }) {
+                            Section(header: sectionHeader(for: day)) {
                                 if let recipes = calendarManager.calendarRecipes[day], !recipes.isEmpty {
                                     ForEach(recipes, id: \.id) { recipe in
                                         VStack(alignment: .leading) {
@@ -90,7 +74,6 @@ struct CalendarView: View {
                                                     Image(systemName: "person.crop.circle.badge.plus")
                                                         .foregroundStyle(.blue)
                                                 }
-                                                
                                             }
                                             if let assigned = recipe.assignedToUsernames, !assigned.isEmpty {
                                                 Text("Assigned to: \(assigned.joined(separator: ", "))")
@@ -115,7 +98,6 @@ struct CalendarView: View {
                     }
                     .listStyle(GroupedListStyle())
                     .id(UUID())
-                    .background(themeManager.selectedTheme.backgroundView)
                     .padding(.bottom, 50)
                 }
                 .navigationBarItems(trailing: Button(action: {
@@ -131,11 +113,32 @@ struct CalendarView: View {
             await fetchPartnerInfo()
         }
     }
-    
+
     private func fetchPartnerInfo() async {
         isLoading = true
         await userFetcher.fetchUser()
         isLoading = false
+    }
+
+    @ViewBuilder
+    private func sectionHeader(for day: String) -> some View {
+        HStack {
+            Text(day)
+                .font(.title3)
+                .foregroundStyle(.black)
+            Spacer()
+            Menu {
+                ForEach(favoritesManager.favoriteRecipes) { wrapper in
+                    Button(wrapper.recipe.name.titleCase) {
+                        calendarManager.addRecipe(to: day, recipe: wrapper.recipe)
+                    }
+                }
+            } label: {
+                Image(systemName: "plus.circle")
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
+            }
+        }
     }
 }
 
@@ -147,7 +150,6 @@ struct CalendarView_Previews: PreviewProvider {
             .environmentObject(CalendarManager())
     }
 }
-
 #Preview {
     CalendarView()
 }

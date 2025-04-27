@@ -1,4 +1,3 @@
-// Hannah Haggerty and Alicia Chiang
 struct Recipe: Identifiable, Codable {
     let id: Int
     let title: String
@@ -8,5 +7,6 @@ struct Recipe: Identifiable, Codable {
         self.id = fetchedRecipe.id
         self.title = fetchedRecipe.name
         self.recipeImage = fetchedRecipe.imageName
+        print("DEBUG: Creating Recipe — title: \(title), imageName: \(String(describing: recipeImage))")
     }
 }
