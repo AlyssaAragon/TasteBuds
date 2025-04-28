@@ -5,7 +5,9 @@ class FavoritesManager: ObservableObject {
     @Published var favoriteRecipes: [SavedRecipeWrapper] = []
     @Published var sharedFavorites: [SavedRecipeWrapper] = []
     @Published var sharedFavoritesError: String? = nil
-
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
     private let userFavoritesURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/")!
     private let sharedFavoritesURL = URL(string: "https://tastebuds.unr.dev/api/savedrecipe/shared_favorites/")!
 
@@ -49,7 +51,7 @@ class FavoritesManager: ObservableObject {
         _ requestBuilder: @escaping () -> URLRequest,
         onSuccess: @escaping (Data, HTTPURLResponse) -> Void
     ) {
-        var request = requestBuilder()
+        let request = requestBuilder()
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -189,3 +191,5 @@ class FavoritesManager: ObservableObject {
         }.resume()
     }
 }
+
+

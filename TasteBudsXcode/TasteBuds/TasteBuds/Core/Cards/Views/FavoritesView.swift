@@ -139,7 +139,7 @@ struct FavoritesView: View {
 
     private func galleryCard(wrapper: FavoritesManager.SavedRecipeWrapper) -> some View {
         let recipe = wrapper.recipe
-        return NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+        return NavigationLink(destination: RecipeDetailsView(recipe: recipe).environmentObject(themeManager)) {
             VStack(alignment: .center, spacing: 5) {
                 recipeTitle(recipe.name)
                     .padding()
@@ -206,7 +206,7 @@ struct FavoritesView: View {
                             }
                     }
                     
-                    NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe)) {
+                    NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe).environmentObject(themeManager)) {
                         Text(wrapper.recipe.name)
                             .font(.body)
                             .foregroundStyle(.primary)

@@ -131,6 +131,7 @@ struct CalendarView: View {
                 })
             }
         }
+        .tint(Color.primary)
         .onAppear {
             favoritesManager.fetchUserFavorites()
         }

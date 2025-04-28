@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RecipeDetailsView: View {
+    
     @EnvironmentObject var themeManager: ThemeManager
+    
     var recipe: FetchedRecipe
     
     var body: some View {
@@ -40,6 +42,8 @@ struct RecipeDetailsView: View {
                     .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 15)
                 
                 let cleanedIngredients = recipe.ingredients
                     .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
@@ -56,6 +60,8 @@ struct RecipeDetailsView: View {
                     .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 15)
 
                 
                 Text(recipe.instructions)
@@ -66,6 +72,7 @@ struct RecipeDetailsView: View {
             }
         }
         .navigationTitle("Recipe Details")
+        .tint(Color.primary)
     }
 }
 
