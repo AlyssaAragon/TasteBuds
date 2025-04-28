@@ -73,9 +73,12 @@ struct SettingsView: View {
                             }
                             Divider()
                             
-                            NavigationLink(destination: TutorialGalleryView()) {
+                            NavigationLink(destination: TutorialGalleryView()
+                                .environmentObject(navigationState)
+                            ) {
                                 settingsRow(title: "Tutorial")
                             }
+
                             Divider()
 
                             NavigationLink(destination: PrivacySecurityView()) {

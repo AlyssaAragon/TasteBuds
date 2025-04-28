@@ -107,6 +107,7 @@ struct MainTabView: View {
             CalendarView()
         case .settings:
             SettingsView()
+                .environmentObject(navigationState)
         }
     }
 
@@ -124,4 +125,5 @@ struct MainTabView: View {
             }
         }
     }
+
 }

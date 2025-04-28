@@ -67,8 +67,9 @@ class FavoritesManager: ObservableObject {
 
             if response.statusCode == 401 {
                 print("Access token expired. Attempting to refresh...")
-                AuthService.shared.refreshTokenIfNeeded { success in
-                    if success {
+                Task {
+                    do {
+                        try await AuthService.shared.ensureValidToken()
                         print("Retrying request after token refresh")
                         var retryRequest = requestBuilder()
                         if let token = AuthService.shared.getAccessToken() {
@@ -82,12 +83,13 @@ class FavoritesManager: ObservableObject {
                             }
                             onSuccess(data, response)
                         }.resume()
-                    } else {
-                        print("Token refresh failed, not retrying request")
+                    } catch {
+                        print("Token refresh failed, not retrying request: \(error)")
                     }
                 }
                 return
             }
+
 
             onSuccess(data, response)
         }.resume()

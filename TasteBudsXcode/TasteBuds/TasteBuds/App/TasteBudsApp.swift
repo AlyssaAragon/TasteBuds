@@ -39,6 +39,9 @@ struct TasteBudsApp: App {
                         case .partnerSetup:
                             PartnerSetupView(isNewUserPassed: true)
                                 .environmentObject(navigationState)
+                        case .tutorial:
+                            TutorialGalleryView()
+                                .environmentObject(navigationState)
                         case .dietaryPreferences:
                             DietaryPreferencesView()
                                 .environmentObject(navigationState)
@@ -76,10 +79,16 @@ struct TasteBudsApp: App {
             .onAppear {
                 Task {
                     if isLoggedIn {
-                        await AuthService.shared.refreshTokenIfNeeded { _ in }
-                        await userFetcher.fetchUser()
+                        do {
+                            try await AuthService.shared.ensureValidToken()
+                            await userFetcher.fetchUser()
+                        } catch {
+                            print("Failed to refresh token: \(error)")
+                            showSessionExpiredAlert = true
+                        }
                     }
                 }
+
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 Task {
@@ -98,6 +107,7 @@ enum NextView: Hashable {
     case loginSignup
     case addPartner
     case partnerSetup
+    case tutorial
     case dietaryPreferences
     case cardView
     case settings

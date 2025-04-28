@@ -62,7 +62,8 @@ class AuthService {
     // MARK: - Refresh Token
     func refreshToken() async throws {
         guard let refresh = KeychainWrapper.standard.string(forKey: "refreshToken"),
-              let url = URL(string: "\(baseURL)/token/refresh/") else {
+              let url = URL(string: "\(baseURL)/token/refresh/")
+        else {
             throw AuthError.tokenRefreshFailed
         }
 
@@ -73,13 +74,26 @@ class AuthService {
         }
 
         KeychainWrapper.standard.set(newAccess, forKey: "accessToken")
+        saveAccessTokenExpiration(newAccess)
     }
 
+
     func ensureValidToken() async throws {
-        if getAccessToken() == nil {
+        guard let expirationTimestamp = UserDefaults.standard.value(forKey: "accessTokenExpiration") as? Double
+        else {
+            try await refreshToken()
+            return
+        }
+
+        let expirationDate = Date(timeIntervalSince1970: expirationTimestamp)
+        let now = Date()
+
+        // early refresh
+        if expirationDate.timeIntervalSince(now) < 120 {
             try await refreshToken()
         }
     }
+
 
     func authorizedRequest(for endpoint: String, method: String = "GET") async throws -> URLRequest {
         try await ensureValidToken()
@@ -109,6 +123,29 @@ class AuthService {
         KeychainWrapper.standard.set(access, forKey: "accessToken")
         KeychainWrapper.standard.set(refresh, forKey: "refreshToken")
         UserDefaults.standard.set(true, forKey: "isLoggedIn")
+        saveAccessTokenExpiration(access)
+    }
+    private func saveAccessTokenExpiration(_ token: String) {
+        guard let expiration = getExpirationDate(fromJWT: token) else { return }
+        UserDefaults.standard.set(expiration.timeIntervalSince1970, forKey: "accessTokenExpiration")
+    }
+    private func getExpirationDate(fromJWT token: String) -> Date? {
+        let segments = token.split(separator: ".")
+        guard segments.count > 1 else { return nil }
+        var base64String = String(segments[1])
+
+        let remainder = base64String.count % 4
+        if remainder > 0 {
+            base64String += String(repeating: "=", count: 4 - remainder)
+        }
+
+        guard let payloadData = Data(base64Encoded: base64String) else { return nil }
+        guard let payload = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] else { return nil }
+
+        if let exp = payload["exp"] as? Double {
+            return Date(timeIntervalSince1970: exp)
+        }
+        return nil
     }
     //alyssa's reset password
     func requestPasswordReset(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -208,6 +245,7 @@ class AuthService {
             }
             return nil
         }
+    /*
     func refreshTokenIfNeeded(completion: @escaping (Bool) -> Void) {
         Task {
             do {
@@ -219,6 +257,7 @@ class AuthService {
             }
         }
     }
+     */
     private func sendRequest(url: URL, body: [String: Any]) async throws -> Data {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

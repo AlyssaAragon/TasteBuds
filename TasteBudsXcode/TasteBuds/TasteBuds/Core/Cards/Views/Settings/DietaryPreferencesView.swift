@@ -1,3 +1,6 @@
+//  DietaryPreferencesView.swift
+//  TasteBuds
+
 import SwiftUI
 
 enum Diet: String, CaseIterable, Identifiable {
@@ -28,17 +31,20 @@ struct DietaryPreferencesView: View {
 
     @State private var selectedDiets: Set<Diet> = []
     @State private var showAlert = false
-    @State private var navigateToMainTab = false
+    @State private var navigateToTutorial = false
 
     var body: some View {
         ZStack {
+            Color.clear
+                .customGradientBackground()
+                .ignoresSafeArea()
+
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
                     Spacer()
                     if isNewUser {
                         Button("Skip") {
-                            isNewUser = false
-                            navigateToMainTab = true
+                            navigateToTutorial = true
                         }
                         .foregroundColor(.gray)
                         .padding()
@@ -54,7 +60,7 @@ struct DietaryPreferencesView: View {
                     .foregroundColor(.gray)
                     .padding(.bottom, 10)
 
-                List {
+                Form {
                     Section {
                         ForEach(Diet.allCases) { diet in
                             Toggle(isOn: Binding(
@@ -75,39 +81,28 @@ struct DietaryPreferencesView: View {
 
                     Section {
                         Button(action: savePreferences) {
-                            HStack {
-                                Spacer()
-                                Text("Save Preferences")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.black)
-                                Spacer()
-                            }
-                            .frame(height: 50)
-                            .background(Color.white)
-                            .cornerRadius(10)
+                            Text("Save Preferences")
+                                .fontWeight(.bold)
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .center)
                         }
                     }
                 }
-                .listStyle(InsetGroupedListStyle())
-
-                NavigationLink(
-                    destination: MainTabView()
-                        .environmentObject(navigationState)
-                        .environmentObject(UserFetcher())
-                        .environmentObject(FavoritesManager())
-                        .environmentObject(CalendarManager())
-                        .environmentObject(ThemeManager()),
-                    isActive: $navigateToMainTab
-                ) {
-                    EmptyView()
-                }
-                .hidden()
+                .scrollContentBackground(.hidden)
             }
             .padding(.horizontal)
-//            .navigationBarBackButtonHidden(true)
             .onAppear {
                 loadSavedDiets()
             }
+
+            NavigationLink(
+                destination: TutorialGalleryView()
+                    .environmentObject(navigationState),
+                isActive: $navigateToTutorial
+            ) {
+                EmptyView()
+            }
+            .hidden()
 
             if showAlert {
                 VStack(spacing: 16) {
@@ -122,8 +117,7 @@ struct DietaryPreferencesView: View {
 
                     Button(action: {
                         showAlert = false
-                        isNewUser = false
-                        navigateToMainTab = true
+                        navigateToTutorial = true
                     }) {
                         Text("OK")
                             .bold()
@@ -144,6 +138,7 @@ struct DietaryPreferencesView: View {
                 .frame(maxWidth: 300)
             }
         }
+        .navigationTitle("Dietary Preferences")
     }
 
     private func loadSavedDiets() {
@@ -177,7 +172,7 @@ struct DietaryPreferencesView: View {
         let dietStrings = selectedDiets.map { $0.rawValue }
 
         guard let url = URL(string: "https://tastebuds.unr.dev/api/user_diets/") else { return }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

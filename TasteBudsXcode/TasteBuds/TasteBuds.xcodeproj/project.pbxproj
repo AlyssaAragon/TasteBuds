@@ -31,7 +31,6 @@
 		DF88E2FC2D949CDF002E27F4 /* CravingPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF88E2FB2D949CC2002E27F4 /* CravingPopupView.swift */; };
 		DF8C9BB62D84C49300E12D92 /* CravingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */; };
 		DFDB16D42D07CC6900724B4B /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */; };
-		DFF472E12DB9840C005724EA /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF472E02DB98402005724EA /* ChangePasswordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +79,6 @@
 		DF88E2FB2D949CC2002E27F4 /* CravingPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CravingPopupView.swift; sourceTree = "<group>"; };
 		DF8C9BB52D84C48C00E12D92 /* CravingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CravingManager.swift; sourceTree = "<group>"; };
 		DFDB16D32D07CC6100724B4B /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
-		DFF472E02DB98402005724EA /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -228,7 +226,6 @@
 		2503BEF52CED5734008BCD0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DFF472E02DB98402005724EA /* ChangePasswordView.swift */,
 				DF88E2FB2D949CC2002E27F4 /* CravingPopupView.swift */,
 				2503BEF22CED5734008BCD0B /* CardView.swift */,
 				2570DE362D07BE9D006CD76B /* FavoritesView.swift */,
@@ -451,7 +448,6 @@
 				475C751A2DBECEA0002D9169 /* RecipePickerSheet.swift in Sources */,
 				2503BEFF2CED5734008BCD0B /* SizeConstants.swift in Sources */,
 				4753C63F2D67FCFF00402D22 /* Extensions.swift in Sources */,
-				DFF472E12DB9840C005724EA /* ChangePasswordView.swift in Sources */,
 				DF8C9BB62D84C49300E12D92 /* CravingManager.swift in Sources */,
 				2503BF092CED5734008BCD0B /* MainTabView.swift in Sources */,
 				2526677E2CEE9E9E002C0AF7 /* Recipe.swift in Sources */,
