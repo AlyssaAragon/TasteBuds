@@ -92,7 +92,14 @@ struct MatchesView: View {
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 170, height: 170)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .clipShape(
+                                            .rect(
+                                                topLeadingRadius: 0,
+                                                bottomLeadingRadius: 10,
+                                                bottomTrailingRadius: 10,
+                                                topTrailingRadius: 0
+                                            )
+                                        )
                                 } placeholder: {
                                     Color.gray.opacity(0.3)
                                         .frame(width: 170, height: 170)

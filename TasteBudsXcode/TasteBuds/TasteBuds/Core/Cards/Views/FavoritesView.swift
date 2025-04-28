@@ -110,7 +110,8 @@ struct FavoritesView: View {
             .foregroundStyle(.primary)
             .padding()
     }
-
+    
+    //MARK: - Gallery View
     private func galleryView() -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
@@ -136,6 +137,8 @@ struct FavoritesView: View {
             .padding(.bottom, 50)
         }
     }
+    
+    //MARK: - Gallery Card
 
     private func galleryCard(wrapper: FavoritesManager.SavedRecipeWrapper) -> some View {
         let recipe = wrapper.recipe

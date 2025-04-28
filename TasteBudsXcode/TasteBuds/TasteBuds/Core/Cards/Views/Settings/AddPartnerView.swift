@@ -101,7 +101,7 @@ struct AddPartnerView: View {
                                         .background(Color.white)
                                         .cornerRadius(30)
                                 }
-                                .padding(.bottom, 40)
+                                .padding(.bottom, 60)
 
                                 NavigationLink(
                                     destination: PartnerSetupView(isNewUserPassed: true)

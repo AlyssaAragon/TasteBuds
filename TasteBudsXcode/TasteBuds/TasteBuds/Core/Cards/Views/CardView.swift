@@ -152,7 +152,7 @@ struct CardView: View {
                                         }
                                     }
                                 ))
-                                .padding()
+                                .padding(.horizontal)
                             }
 
                             Spacer()
