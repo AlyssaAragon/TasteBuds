@@ -160,7 +160,7 @@ class AuthService {
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-            guard let accessToken = UserDefaults.standard.string(forKey: "accessToken") else {
+            guard let accessToken = KeychainWrapper.standard.string(forKey: "accessToken") else {
                 completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No access token available."])))
                 return
             }
