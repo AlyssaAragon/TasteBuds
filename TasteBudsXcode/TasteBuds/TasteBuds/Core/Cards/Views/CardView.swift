@@ -208,13 +208,18 @@ struct CardView: View {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                                 self.dragAmount = CGSize(width: horizontalSwipe > 0 ? 1000 : -1000, height: 0)
                             }
-                            swipeLeft()
+                            if horizontalSwipe > 0 {
+                                swipeRight()
+                            } else {
+                                swipeLeft()
+                            }
                         } else {
                             withAnimation(.spring()) {
                                 self.dragAmount = .zero
                             }
                         }
-                    }
+                }
+
             )
         }
     }
