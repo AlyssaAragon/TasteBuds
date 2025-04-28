@@ -53,7 +53,6 @@ struct PrivacySecurityView: View {
                     
                     VStack(alignment: .leading, spacing: 10) {
                         Text("• **Edit Account**: You have full control over your account settings, including updating your information or adding/removing your tastebud from your account at any time.")
-                        Text("• **Accessibility Settings**: Customize your app experience to best suit your needs, including text size adjustments, color contrast options, and notification preferences.")
                     }
                     
                     Divider()
