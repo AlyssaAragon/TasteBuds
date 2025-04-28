@@ -72,6 +72,11 @@ struct SettingsView: View {
                                 settingsRow(title: "Common Ingredient Substitutions")
                             }
                             Divider()
+                            
+                            NavigationLink(destination: TutorialGalleryView()) {
+                                settingsRow(title: "Tutorial")
+                            }
+                            Divider()
 
                             NavigationLink(destination: PrivacySecurityView()) {
                                 settingsRow(title: "Privacy & Security")
