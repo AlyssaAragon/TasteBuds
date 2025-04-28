@@ -93,6 +93,7 @@ struct PartnerSetupView: View {
                             .frame(width: 314, height: 70)
                             .background(Color.white)
                             .cornerRadius(30)
+                            .padding(.bottom, 60)
                     }
                 }
                 .disabled(isLoading || partnerE.trimmingCharacters(in: .whitespaces).isEmpty)
