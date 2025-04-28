@@ -1,5 +1,6 @@
 // Hannah, Alyssa, Alicia
 import SwiftUI
+
 enum Category: String, CaseIterable, Identifiable {
     case meal, drink, dessert
 
@@ -59,7 +60,8 @@ struct CardView: View {
 
                         Spacer()
                     }
-
+                    
+                    //MARK: - Swipe functions
                     HStack {
                         Button(action: { swipeLeft() }) {
                             Circle()
@@ -104,6 +106,7 @@ struct CardView: View {
                         }
                     }
                 }
+                //MARK: - Diet Filtering
                 .navigationBarItems(trailing: Button(action: { showFilterMenu.toggle() }) {
                     Image(systemName: "line.3.horizontal.decrease")
                         .font(.system(size: 18, weight: .bold))
@@ -223,7 +226,8 @@ struct CardView: View {
             )
         }
     }
-
+    
+//MARK: - Front of card
     private func frontOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
         VStack(alignment: .center, spacing: 10) {
             Text(recipe.name)
@@ -231,7 +235,6 @@ struct CardView: View {
                 .padding()
                 .lineLimit(3)
                 .minimumScaleFactor(0.1)
-//                .foregroundColor(themeManager.selectedTheme.textColor)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
@@ -290,11 +293,12 @@ struct CardView: View {
         )
     }
 
+    //MARK: - Back of card
     private func backOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Ingredients")
-                    .font(.title3)
+                    .font(.system(size: themeManager.textSize.size))
                     .fontWeight(.bold)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -304,27 +308,28 @@ struct CardView: View {
                     .components(separatedBy: "', '")
                     .map { $0.replacingOccurrences(of: "'", with: "").trimmingCharacters(in: .whitespacesAndNewlines) }
 
-                ForEach(cleanedIngredients, id: \.self) { ingredient in
+                ForEach(cleanedIngredients, id: \ .self) { ingredient in
                     Text("• \(ingredient)")
-//                        .foregroundStyle(themeManager.selectedTheme.textColor)
+                        .font(.system(size: themeManager.textSize.size))
                         .foregroundStyle(.primary)
                 }
 
                 Spacer()
 
                 Text("Instructions")
-                    .font(.title3)
+                    .font(.system(size: themeManager.textSize.size))
                     .fontWeight(.bold)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
 
                 Text(recipe.instructions)
+                    .font(.system(size: themeManager.textSize.size))
                     .foregroundStyle(.primary)
                     .padding(.bottom, 30)
                 
                 Spacer(minLength: 30)
                 
-                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                NavigationLink(destination: RecipeDetailsView(recipe: recipe).environmentObject(themeManager)) {
                     Text("View Full Recipe")
                         .bold()
                         .frame(maxWidth: .infinity)

@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct RecipeDetailsView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     var recipe: FetchedRecipe
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text(recipe.name)
-                    .font(.largeTitle)
+                    .font(.system(size: themeManager.textSize.size + 6)) // slightly larger for the title
                     .bold()
                     .padding()
                 
@@ -36,7 +37,7 @@ struct RecipeDetailsView: View {
                 }
                 
                 Text("Ingredients")
-                    .font(.title2)
+                    .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
                 
@@ -47,15 +48,18 @@ struct RecipeDetailsView: View {
                 
                 ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
+                        .font(.system(size: themeManager.textSize.size))
                         .padding(.horizontal)
                 }
                 
                 Text("Instructions")
-                    .font(.title2)
+                    .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
+
                 
                 Text(recipe.instructions)
+                    .font(.system(size: themeManager.textSize.size))
                     .padding(.horizontal)
                 
                 Spacer(minLength: 100)
@@ -74,5 +78,6 @@ struct RecipeDetailsView: View {
         imageName: "placeholder",
         cleanedIngredients: "Mix and cook."
     ))
+    .environmentObject(ThemeManager())
 }
 

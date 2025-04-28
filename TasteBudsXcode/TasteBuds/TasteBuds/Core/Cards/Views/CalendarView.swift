@@ -70,7 +70,7 @@ struct CalendarView: View {
                                     ForEach(recipes, id: \.id) { recipe in
                                         VStack(alignment: .leading) {
                                             HStack {
-                                                NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                                                NavigationLink(destination: RecipeDetailsView(recipe: recipe).environmentObject(themeManager)) {
                                                     Text(recipe.name)
                                                         .font(.subheadline)
                                                         .foregroundStyle(.primary)
