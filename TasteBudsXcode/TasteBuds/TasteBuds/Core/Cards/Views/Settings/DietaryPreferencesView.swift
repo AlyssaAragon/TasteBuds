@@ -104,7 +104,7 @@ struct DietaryPreferencesView: View {
                 .hidden()
             }
             .padding(.horizontal)
-            .navigationBarBackButtonHidden(true)
+//            .navigationBarBackButtonHidden(true)
             .onAppear {
                 loadSavedDiets()
             }
