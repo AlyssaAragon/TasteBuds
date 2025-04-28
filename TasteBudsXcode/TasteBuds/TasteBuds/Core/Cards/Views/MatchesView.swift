@@ -78,7 +78,7 @@ struct MatchesView: View {
                 ForEach(sortedSharedFavorites, id: \.id) { wrapper in
                     let recipe = wrapper.recipe
 
-                    NavigationLink(destination: RecipeDetailsView(recipe: recipe)) {
+                    NavigationLink(destination: RecipeDetailsView(recipe: recipe).environmentObject(themeManager)) {
                         VStack {
                             Text(recipe.name)
                                 .font(.headline)
@@ -116,7 +116,7 @@ struct MatchesView: View {
     private func listView() -> some View {
         List {
             ForEach(sortedSharedFavorites, id: \.id) { wrapper in
-                NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe)) {
+                NavigationLink(destination: RecipeDetailsView(recipe: wrapper.recipe).environmentObject(themeManager)) {
                     Text(wrapper.recipe.name)
                 }
             }

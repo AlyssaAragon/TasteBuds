@@ -49,7 +49,7 @@ struct Tabs: View {
                                 .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    .onChange(of: selectedTab) { target in
+                    .onChange(of: selectedTab) { _, target in
                         withAnimation {
                             proxy.scrollTo(target)
                         }

@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct RecipeDetailsView: View {
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
     var recipe: FetchedRecipe
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text(recipe.name)
-                    .font(.largeTitle)
+                    .font(.system(size: themeManager.textSize.size + 6)) // slightly larger for the title
                     .bold()
                     .padding()
                 
@@ -36,9 +39,11 @@ struct RecipeDetailsView: View {
                 }
                 
                 Text("Ingredients")
-                    .font(.title2)
+                    .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 15)
                 
                 let cleanedIngredients = recipe.ingredients
                     .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
@@ -47,21 +52,27 @@ struct RecipeDetailsView: View {
                 
                 ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
+                        .font(.system(size: themeManager.textSize.size))
                         .padding(.horizontal)
                 }
                 
                 Text("Instructions")
-                    .font(.title2)
+                    .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 15)
+
                 
                 Text(recipe.instructions)
+                    .font(.system(size: themeManager.textSize.size))
                     .padding(.horizontal)
                 
                 Spacer(minLength: 100)
             }
         }
         .navigationTitle("Recipe Details")
+        .tint(Color.primary)
     }
 }
 
@@ -74,5 +85,6 @@ struct RecipeDetailsView: View {
         imageName: "placeholder",
         cleanedIngredients: "Mix and cook."
     ))
+    .environmentObject(ThemeManager())
 }
 

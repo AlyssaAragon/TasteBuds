@@ -32,14 +32,7 @@ class ThemeManager: ObservableObject {
             }
         }
     }
-
-    @Published var selectedTheme: Theme = .defaultTheme
-}
-
-struct AccessibilityView: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @State private var textSize: TextSize = .medium
-
+    
     enum TextSize: String, CaseIterable, Identifiable {
         case small = "Small"
         case medium = "Medium"
@@ -49,15 +42,45 @@ struct AccessibilityView: View {
 
         var size: CGFloat {
             switch self {
-            case .small:
-                return 14
-            case .medium:
-                return 18
-            case .large:
-                return 24
+            case .small: return 14
+            case .medium: return 18
+            case .large: return 24
             }
         }
     }
+    
+    @Published var selectedTheme: Theme {
+            didSet {
+                UserDefaults.standard.set(selectedTheme.rawValue, forKey: "selectedTheme")
+            }
+        }
+
+    @Published var textSize: TextSize {
+        didSet {
+            UserDefaults.standard.set(textSize.rawValue, forKey: "textSize")
+        }
+    }
+
+    init() {
+        if let savedTheme = UserDefaults.standard.string(forKey: "selectedTheme"),
+           let theme = Theme(rawValue: savedTheme) {
+            selectedTheme = theme
+        } else {
+            selectedTheme = .defaultTheme
+        }
+
+        if let savedTextSize = UserDefaults.standard.string(forKey: "textSize"),
+           let size = TextSize(rawValue: savedTextSize) {
+            textSize = size
+        } else {
+            textSize = .medium
+        }
+    }
+//    @Published var selectedTheme: Theme = .defaultTheme
+}
+
+struct AccessibilityView: View {
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         NavigationView {
@@ -73,7 +96,7 @@ struct AccessibilityView: View {
                             .padding()
                         
                         Text("Background Theme:")
-                            .font(.system(size: textSize.size))
+                            .font(.system(size: themeManager.textSize.size))
                             .foregroundColor(themeManager.selectedTheme.textColor)
                         
                         Picker("Select Background Theme", selection: $themeManager.selectedTheme){
@@ -87,12 +110,12 @@ struct AccessibilityView: View {
                     
                     // Text Size Picker
                     VStack(alignment: .leading) {
-                        Text("Text Size: \(textSize.rawValue)")
-                            .font(.system(size: textSize.size))
+                        Text("Text Size: \(themeManager.textSize.rawValue)")
+                            .font(.system(size: themeManager.textSize.size))
                             .foregroundColor(themeManager.selectedTheme.textColor)
-                    
-                        Picker("Select Text Size", selection: $textSize) {
-                            ForEach(TextSize.allCases) { size in
+
+                        Picker("Select Text Size", selection: $themeManager.textSize) {
+                            ForEach(ThemeManager.TextSize.allCases) { size in
                                 Text(size.rawValue).tag(size)
                             }
                         }
