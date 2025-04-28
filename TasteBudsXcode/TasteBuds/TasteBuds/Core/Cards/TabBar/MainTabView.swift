@@ -78,14 +78,19 @@ struct MainTabView: View {
 
 
             .onAppear {
-                if CravingManager.shared.allowCravingPopup() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        showCravingPopup = true
-                        CravingManager.shared.updateLastPopupDate() 
+                Task {
+                    if userFetcher.currentUser == nil {
+                        await userFetcher.fetchUser()
+                    }
+                    if let userID = userFetcher.currentUser?.userid,
+                        CravingManager.shared.allowCravingPopup(for: userID) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            showCravingPopup = true
+                            CravingManager.shared.updateLastPopupDate(for: userID)
+                        }
                     }
                 }
             }
-
         }
     }
 
