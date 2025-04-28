@@ -70,11 +70,12 @@ struct MainTabView: View {
                 }
             }
             .onChange(of: navigationState.nextView) { newValue in
-                if newValue != .cardView {
+                if newValue != .cardView, newValue != .welcome {
                     path.append(newValue)
-                    navigationState.nextView = .cardView 
+                    navigationState.nextView = .cardView
                 }
             }
+
 
             .onAppear {
                 if CravingManager.shared.allowCravingPopup() {

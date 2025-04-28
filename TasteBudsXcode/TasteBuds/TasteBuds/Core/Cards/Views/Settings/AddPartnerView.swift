@@ -23,20 +23,6 @@ struct AddPartnerView: View {
                     ProgressView("Loading partner info...")
                 } else {
                     VStack(spacing: 20) {
-                        if isNewUser {
-                            HStack {
-                                Spacer()
-                                Button("Skip") {
-                                    navigationState.previousView = .addPartner
-                                    navigationState.nextView = .dietaryPreferences
-                                    isNewUser = false
-                                }
-                                .foregroundColor(.gray)
-                                .frame(width: 120, height: 37)
-                                .padding()
-                            }
-                            .padding(.top, 20)
-                        }
 
                         VStack(spacing: 5) {
                             Text("Connect with your")

@@ -85,16 +85,11 @@ struct SettingsView: View {
                             }
                             .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
                                 Button("Sign out", role: .destructive) {
-                                    AuthService.shared.logout()
-                                    UserDefaults.standard.removeObject(forKey: "accessToken")
-                                    UserDefaults.standard.removeObject(forKey: "accessToken")
-                                    userFetcher.reset()
-                                    isLoggedIn = false
-                                    isNewUser = false
-                                    navigationState.nextView = .welcome
+                                    handleLogout()
                                 }
                                 Button("Cancel", role: .cancel) { }
                             }
+
                         }
                         .background(Color(UIColor.systemBackground))
                         .cornerRadius(8)
@@ -136,12 +131,14 @@ struct SettingsView: View {
 
     private func handleLogout() {
         AuthService.shared.logout()
-        UserDefaults.standard.removeObject(forKey: "accessToken")
-        userFetcher.reset()
+        userFetcher.currentUser = nil
+        userFetcher.sessionExpired = false
         isLoggedIn = false
         isNewUser = false
         navigationState.nextView = .welcome
     }
+
+
 }
 
 

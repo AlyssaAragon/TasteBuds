@@ -22,13 +22,10 @@ enum Diet: String, CaseIterable, Identifiable {
     }
 }
 
-
-
 struct DietaryPreferencesView: View {
     @EnvironmentObject var navigationState: NavigationState
-    @Environment(\.dismiss) private var dismiss
-
     @AppStorage("isNewUser") private var isNewUser = false
+
     @State private var selectedDiets: Set<Diet> = []
     @State private var showAlert = false
     @State private var navigateToMainTab = false
@@ -36,6 +33,18 @@ struct DietaryPreferencesView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Spacer()
+                    if isNewUser {
+                        Button("Skip") {
+                            isNewUser = false
+                            navigateToMainTab = true
+                        }
+                        .foregroundColor(.gray)
+                        .padding()
+                    }
+                }
+
                 Text("Select your dietary preferences")
                     .font(.largeTitle.bold())
                     .padding(.top)
@@ -96,35 +105,6 @@ struct DietaryPreferencesView: View {
             }
             .padding(.horizontal)
             .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        if let _ = navigationState.previousView {
-                            navigationState.goBack()
-                        } else {
-                            dismiss()
-                        }
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.headline)
-                            Text("Back")
-                                .font(.headline)
-                        }
-                        .foregroundColor(.black)
-                    }
-                }
-
-                if isNewUser {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Skip") {
-                            navigateToMainTab = true
-                            isNewUser = false
-                        }
-                        .foregroundColor(.gray)
-                    }
-                }
-            }
             .onAppear {
                 loadSavedDiets()
             }
@@ -142,6 +122,8 @@ struct DietaryPreferencesView: View {
 
                     Button(action: {
                         showAlert = false
+                        isNewUser = false
+                        navigateToMainTab = true
                     }) {
                         Text("OK")
                             .bold()
@@ -154,8 +136,6 @@ struct DietaryPreferencesView: View {
                                     .stroke(Color.black, lineWidth: 1)
                             )
                     }
-
-
                 }
                 .padding()
                 .background(Color.white)
@@ -214,15 +194,9 @@ struct DietaryPreferencesView: View {
                 DispatchQueue.main.async {
                     showAlert = true
                 }
-            }
-            else {
+            } else {
                 print("Failed to update diets:", error ?? "Unknown error")
             }
         }.resume()
     }
-}
-
-#Preview {
-    DietaryPreferencesView()
-        .environmentObject(NavigationState())
 }

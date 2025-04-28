@@ -75,8 +75,7 @@ struct PartnerSetupView: View {
                             case .success:
                                 showAlert = true
                             case .failure(let error):
-                                errorMessage = error.localizedDescription
-                                showErrorAlert = true
+                                handle(error: error)
                             }
                         }
                     }
@@ -119,6 +118,12 @@ struct PartnerSetupView: View {
             Text(errorMessage)
         }
     }
+
+    private func handle(error: Error) {
+        self.errorMessage = "Request could not be made. Either the account doesn't exist or they already have a partner."
+        self.showErrorAlert = true
+    }
+
 }
 
 #Preview {

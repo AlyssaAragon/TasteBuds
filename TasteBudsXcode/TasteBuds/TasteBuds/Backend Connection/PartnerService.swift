@@ -3,16 +3,37 @@ import Foundation
 class PartnerService {
     static let shared = PartnerService()
     private init() {}
-
+    
     // MARK: - 1. Send Partner Request
     func sendPartnerRequest(email: String, completion: @escaping (Result<String, Error>) -> Void) {
         makeAuthedRequest(
             endpoint: "/api/link-partner/",
             method: "POST",
-            body: ["partner_email": email],
-            completion: completion
-        )
+            body: ["partner_email": email]
+        ) { result in
+            switch result {
+            case .success(let responseString):
+                completion(.success(responseString))
+            case .failure(let error):
+                // Try to parse server error response
+                if let nsError = error as NSError?,
+                   let errorString = nsError.userInfo[NSLocalizedDescriptionKey] as? String {
+                    if errorString.contains("account does not exist") {
+                        completion(.failure(PartnerError.accountNotFound))
+                        return
+                    } else if errorString.contains("already linked") {
+                        completion(.failure(PartnerError.alreadyHasPartner))
+                        return
+                    } else if errorString.contains("Invalid") {
+                        completion(.failure(PartnerError.invalidRequest))
+                        return
+                    }
+                }
+                completion(.failure(PartnerError.unknown))
+            }
+        }
     }
+
 
     // MARK: - 2. Get Incoming Requests
     func getPendingPartnerRequests(completion: @escaping (Result<[[String: Any]], Error>) -> Void) {
@@ -82,6 +103,17 @@ class PartnerService {
                 return
             }
 
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NSError(domain: "InvalidResponse", code: -1, userInfo: nil)))
+                return
+            }
+
+            guard (200...299).contains(httpResponse.statusCode) else {
+                // ❗ If not 200-299, treat it as an error immediately
+                completion(.failure(NSError(domain: "HTTPError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Server returned status code \(httpResponse.statusCode)"])))
+                return
+            }
+
             guard let data = data else {
                 completion(.failure(NSError(domain: "NoData", code: -1, userInfo: nil)))
                 return
@@ -93,5 +125,14 @@ class PartnerService {
                 completion(.failure(NSError(domain: "StringParse", code: 0, userInfo: nil)))
             }
         }.resume()
+    }
+
+}
+extension PartnerService {
+    enum PartnerError: Error {
+        case accountNotFound
+        case alreadyHasPartner
+        case invalidRequest
+        case unknown
     }
 }

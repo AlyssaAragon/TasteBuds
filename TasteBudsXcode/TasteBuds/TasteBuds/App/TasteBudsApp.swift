@@ -15,45 +15,47 @@ struct TasteBudsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
+            Group {
                 if isLoggedIn && !isNewUser {
-                    MainTabView()
-                        .environmentObject(favoritesManager)
-                        .environmentObject(themeManager)
-                        .environmentObject(calendarManager)
-                        .environmentObject(navigationState)
-                        .environmentObject(userFetcher)
-                }
-                else {
-                    switch navigationState.nextView {
-                    case .welcome:
-                        WelcomeView()
-                            .environmentObject(navigationState)
-                    case .loginSignup:
-                        LoginSignupView(navigationState: navigationState)
-                    case .addPartner:
-                        AddPartnerView()
-                            .environmentObject(navigationState)
-                    case .partnerSetup:
-                        PartnerSetupView(isNewUserPassed: true)
-                            .environmentObject(navigationState)
-                    case .dietaryPreferences:
-                        DietaryPreferencesView()
-                            .environmentObject(navigationState)
-                    case .cardView:
+                    NavigationStack {
                         MainTabView()
                             .environmentObject(favoritesManager)
                             .environmentObject(themeManager)
                             .environmentObject(calendarManager)
-                            .environmentObject(userFetcher)
-                    case .settings:
-                        SettingsView()
                             .environmentObject(navigationState)
                             .environmentObject(userFetcher)
                     }
+                } else {
+                    NavigationStack {
+                        switch navigationState.nextView {
+                        case .welcome:
+                            WelcomeView()
+                                .environmentObject(navigationState)
+                        case .loginSignup:
+                            LoginSignupView(navigationState: navigationState)
+                        case .addPartner:
+                            AddPartnerView()
+                                .environmentObject(navigationState)
+                        case .partnerSetup:
+                            PartnerSetupView(isNewUserPassed: true)
+                                .environmentObject(navigationState)
+                        case .dietaryPreferences:
+                            DietaryPreferencesView()
+                                .environmentObject(navigationState)
+                        case .cardView:
+                            MainTabView()
+                                .environmentObject(favoritesManager)
+                                .environmentObject(themeManager)
+                                .environmentObject(calendarManager)
+                                .environmentObject(userFetcher)
+                        case .settings:
+                            SettingsView()
+                                .environmentObject(navigationState)
+                                .environmentObject(userFetcher)
+                        }
+                    }
                 }
             }
-            
             .alert("Session expired", isPresented: $showSessionExpiredAlert) {
                 Button("Log Out", role: .destructive) {
                     AuthService.shared.logout()
@@ -63,8 +65,7 @@ struct TasteBudsApp: App {
                     isNewUser = false
                     navigationState.nextView = .loginSignup
                 }
-            }
-            message: {
+            } message: {
                 Text("Your login session has expired. Please sign in again.")
             }
             .onReceive(userFetcher.$sessionExpired) { expired in
