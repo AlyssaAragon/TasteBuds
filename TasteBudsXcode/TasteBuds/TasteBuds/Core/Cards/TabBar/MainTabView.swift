@@ -69,7 +69,7 @@ struct MainTabView: View {
                     EmptyView()
                 }
             }
-            .onChange(of: navigationState.nextView) {newValue in
+            .onChange(of: navigationState.nextView) { newValue in
                 if newValue != .cardView, newValue != .welcome {
                     path.append(newValue)
                     navigationState.nextView = .cardView
