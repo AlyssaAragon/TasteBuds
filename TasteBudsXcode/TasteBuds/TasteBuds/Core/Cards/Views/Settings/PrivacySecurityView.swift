@@ -1,15 +1,10 @@
-//
-//  PrivacySecurityView.swift
-//  TasteBuds
-//
-//  Created by Alicia Chiang on 4/10/25.
-//
 import SwiftUI
 
 struct PrivacySecurityView: View {
     var body: some View {
         ZStack {
-            Color(.systemGroupedBackground)
+            Color.clear
+                .customGradientBackground()
                 .ignoresSafeArea()
 
             ScrollView {

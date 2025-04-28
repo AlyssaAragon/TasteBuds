@@ -1,13 +1,13 @@
-//
 //  TutorialGalleryView.swift
 //  TasteBuds
-//
-//  Created by Alicia Chiang on 4/28/25.
-//
 
 import SwiftUI
 
 struct TutorialGalleryView: View {
+    @EnvironmentObject var navigationState: NavigationState
+    @AppStorage("isNewUser") private var isNewUser = false
+    @State private var navigateToMainTab = false
+
     let tutorialImages = [
         ("tutorial_step1", "Welcome to TasteBuds! Discover new recipes easily."),
         ("tutorial_step2", "Swipe left or right to find meals you'll love."),
@@ -15,47 +15,70 @@ struct TutorialGalleryView: View {
     ]
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-//                    Text("App Tutorial")
-//                        .font(.largeTitle)
-//                        .bold()
-//                        .padding(.top)
-//                        .multilineTextAlignment(.center)
+        NavigationStack {
+            ZStack {
+                Color.clear
+                    .customGradientBackground()
+                    .ignoresSafeArea()
 
-                    ForEach(tutorialImages, id: \ .0) { imageName, description in
-                        VStack(spacing: 10) {
-                            Image(imageName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: .infinity)
-                                .cornerRadius(12)
-                                .shadow(radius: 5)
-                                .padding(.horizontal)
+                VStack {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            ForEach(tutorialImages, id: \.0) { imageName, description in
+                                VStack(spacing: 10) {
+                                    Image(imageName)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxWidth: .infinity)
+                                        .cornerRadius(12)
+                                        .shadow(radius: 5)
+                                        .padding(.horizontal)
 
-                            Text(description)
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal)
+                                    Text(description)
+                                        .font(.body)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal)
+                                }
+                            }
                         }
+                        .padding(.bottom, 30)
                     }
+
+                    Button(action: {
+                        isNewUser = false
+                        navigateToMainTab = true
+                    }) {
+                        Text("Next")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                            .padding()
+                    }
+
+                    NavigationLink(
+                        destination: MainTabView()
+                            .environmentObject(navigationState)
+                            .environmentObject(UserFetcher())
+                            .environmentObject(FavoritesManager())
+                            .environmentObject(CalendarManager())
+                            .environmentObject(ThemeManager()),
+                        isActive: $navigateToMainTab
+                    ) {
+                        EmptyView()
+                    }
+                    .hidden()
                 }
-                .padding(.bottom, 30)
+                .padding()
             }
-            .background(Color(UIColor.systemBackground))
             .navigationTitle("Tutorial")
         }
     }
 }
 
-struct TutorialGalleryView_Previews: PreviewProvider {
-    static var previews: some View {
-        TutorialGalleryView()
-    }
-}
-
-
 #Preview {
     TutorialGalleryView()
+        .environmentObject(NavigationState())
 }
