@@ -19,6 +19,13 @@ struct SettingsView: View {
                             .fontWeight(.bold)
                             .padding(.top, 20)
                             .frame(maxWidth: .infinity)
+                        
+                        Text("You are using a Beta version of TasteBuds")
+                                .font(.footnote)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.orange)
 
                         VStack(spacing: 8) {
                             if let user = userFetcher.currentUser {

@@ -22,7 +22,14 @@ struct TutorialGalleryView: View {
                     .ignoresSafeArea()
 
                 VStack {
+                    Text("Welcome to TasteBuds Beta version")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.orange)
                     ScrollView {
+                        Spacer(minLength: 10)
                         VStack(spacing: 20) {
                             ForEach(tutorialImages, id: \.0) { imageName, description in
                                 VStack(spacing: 10) {
