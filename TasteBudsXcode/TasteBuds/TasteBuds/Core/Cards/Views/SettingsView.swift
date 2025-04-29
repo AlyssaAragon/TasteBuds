@@ -18,6 +18,7 @@ struct SettingsView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.top, 20)
+                            .padding(.bottom, 10)
                             .frame(maxWidth: .infinity)
                         
                         Text("You are using a Beta version of TasteBuds")
