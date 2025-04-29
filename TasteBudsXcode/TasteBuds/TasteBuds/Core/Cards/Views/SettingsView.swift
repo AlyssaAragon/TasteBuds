@@ -49,11 +49,11 @@ struct SettingsView: View {
                                 settingsRow(title: "Partner")
                             }
                     
-                    Divider()
-                    
-                    NavigationLink(destination: ChangePasswordView()) {
-                        settingsRow(title: "Change Password")
-                    }
+                            Divider()
+                            
+                            NavigationLink(destination: ChangePasswordView()) {
+                                settingsRow(title: "Change Password")
+                            }
                             Divider()
 
                             NavigationLink(destination: DietaryPreferencesView()
@@ -85,9 +85,17 @@ struct SettingsView: View {
                             ) {
                                 settingsRow(title: "Tutorial")
                             }
-
+                            
                             Divider()
 
+                            Button {
+                                openBugForm()
+                            } label: {
+                                settingsRow(title: "Report a Bug")
+                            }
+
+                            Divider()
+                            
                             NavigationLink(destination: PrivacySecurityView()) {
                                 settingsRow(title: "Privacy & Security")
                             }
@@ -151,6 +159,12 @@ struct SettingsView: View {
         isLoggedIn = false
         isNewUser = false
         navigationState.nextView = .welcome
+    }
+    
+    private func openBugForm() {
+        if let url = URL(string: "https://forms.gle/ozaZetH3FNpfzy599") {
+            UIApplication.shared.open(url)
+        }
     }
 
 
