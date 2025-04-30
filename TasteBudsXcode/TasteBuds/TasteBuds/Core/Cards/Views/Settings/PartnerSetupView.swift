@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PartnerSetupView: View {
     @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var themeManager: ThemeManager
 
     @AppStorage("isNewUser") private var isNewUser = false
     @State private var partnerE: String = ""
@@ -15,7 +16,7 @@ struct PartnerSetupView: View {
 
     var body: some View {
         ZStack {
-            Color.clear.customGradientBackground()
+            themeManager.selectedTheme.backgroundView
 
             VStack(spacing: 30) {
                 if isNewUser {
@@ -32,7 +33,7 @@ struct PartnerSetupView: View {
 
                             NavigationLink(
                                 destination: DietaryPreferencesView()
-                                    .environmentObject(navigationState),
+                                    .environmentObject(navigationState).environmentObject(themeManager),
                                 isActive: $navigateToDietaryPreferences
                             ) {
                                 EmptyView()

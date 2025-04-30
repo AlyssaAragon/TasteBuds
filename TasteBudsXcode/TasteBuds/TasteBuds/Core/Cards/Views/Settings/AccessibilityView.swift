@@ -50,17 +50,17 @@ class ThemeManager: ObservableObject {
     }
     
     @Published var selectedTheme: Theme {
-            didSet {
-                UserDefaults.standard.set(selectedTheme.rawValue, forKey: "selectedTheme")
-            }
+        didSet {
+            UserDefaults.standard.set(selectedTheme.rawValue, forKey: "selectedTheme")
         }
-
+    }
+    
     @Published var textSize: TextSize {
         didSet {
             UserDefaults.standard.set(textSize.rawValue, forKey: "textSize")
         }
     }
-
+    
     init() {
         if let savedTheme = UserDefaults.standard.string(forKey: "selectedTheme"),
            let theme = Theme(rawValue: savedTheme) {
@@ -76,7 +76,6 @@ class ThemeManager: ObservableObject {
             textSize = .medium
         }
     }
-//    @Published var selectedTheme: Theme = .defaultTheme
 }
 
 struct AccessibilityView: View {

@@ -33,28 +33,35 @@ struct TasteBudsApp: App {
                                 .environmentObject(navigationState)
                         case .loginSignup:
                             LoginSignupView(navigationState: navigationState)
+                                .environmentObject(themeManager)
                         case .addPartner:
                             AddPartnerView()
                                 .environmentObject(navigationState)
+                                .environmentObject(themeManager)
                         case .partnerSetup:
                             PartnerSetupView(isNewUserPassed: true)
                                 .environmentObject(navigationState)
+                                .environmentObject(themeManager)
                         case .tutorial:
                             TutorialGalleryView()
                                 .environmentObject(navigationState)
+                                .environmentObject(themeManager)
                         case .dietaryPreferences:
                             DietaryPreferencesView()
                                 .environmentObject(navigationState)
+                                .environmentObject(themeManager)
                         case .cardView:
                             MainTabView()
                                 .environmentObject(favoritesManager)
                                 .environmentObject(themeManager)
                                 .environmentObject(calendarManager)
                                 .environmentObject(userFetcher)
+//                                .environmentObject(navigationState)
                         case .settings:
                             SettingsView()
                                 .environmentObject(navigationState)
                                 .environmentObject(userFetcher)
+                                .environmentObject(themeManager)
                         }
                     }
                 }

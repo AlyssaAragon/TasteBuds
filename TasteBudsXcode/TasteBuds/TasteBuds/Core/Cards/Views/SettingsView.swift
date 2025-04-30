@@ -54,12 +54,12 @@ struct SettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal)) {
                                 
-                                NavigationLink(destination: ChangePasswordView()) {
+                                NavigationLink(destination: ChangePasswordView().environmentObject(themeManager)) {
                                     settingsRow(title: "Change Password")
                                 }
                                 Divider()
                                 
-                                NavigationLink(destination: PrivacySecurityView()) {
+                                NavigationLink(destination: PrivacySecurityView().environmentObject(themeManager)) {
                                     settingsRow(title: "Privacy & Security")
                                 }
                                 Divider()
@@ -73,12 +73,12 @@ struct SettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal)) {
                                 
-                                NavigationLink(destination: AddPartnerView().environmentObject(navigationState)) {
+                                NavigationLink(destination: AddPartnerView().environmentObject(navigationState).environmentObject(themeManager)) {
                                     settingsRow(title: "Partner")
                                 }
                                 Divider()
                                 
-                                NavigationLink(destination: DietaryPreferencesView().environmentObject(navigationState)) {
+                                NavigationLink(destination: DietaryPreferencesView().environmentObject(navigationState).environmentObject(themeManager)) {
                                     settingsRow(title: "Dietary Preferences")
                                 }
                                 Divider()
@@ -88,7 +88,7 @@ struct SettingsView: View {
                                 }
                                 Divider()
                                 
-                                NavigationLink(destination: NotificationPreferencesView()) {
+                                NavigationLink(destination: NotificationPreferencesView().environmentObject(themeManager)) {
                                     settingsRow(title: "Notifications")
                                 }
                                 Divider()
@@ -102,12 +102,12 @@ struct SettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal)) {
                                 
-                                NavigationLink(destination: IngredientSubView()) {
+                                NavigationLink(destination: IngredientSubView().environmentObject(themeManager)) {
                                     settingsRow(title: "Common Ingredient Substitutions")
                                 }
                                 Divider()
                                 
-                                NavigationLink(destination: TutorialGalleryView().environmentObject(navigationState)) {
+                                NavigationLink(destination: TutorialGalleryView().environmentObject(navigationState).environmentObject(themeManager)) {
                                     settingsRow(title: "Tutorial")
                                 }
                                 Divider()

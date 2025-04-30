@@ -15,6 +15,8 @@ struct LoginSignupView: View {
     @ObservedObject var navigationState: NavigationState
     @State private var showError = false
     @State private var errorMessage = ""
+    
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         GeometryReader { geometry in

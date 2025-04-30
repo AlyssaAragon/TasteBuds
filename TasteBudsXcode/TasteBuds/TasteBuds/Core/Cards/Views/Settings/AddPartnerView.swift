@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AddPartnerView: View {
     @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @StateObject private var userFetcher = UserFetcher()
 
     @State private var currentPartnerName: String? = nil
@@ -17,7 +19,7 @@ struct AddPartnerView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.clear.customGradientBackground()
+                themeManager.selectedTheme.backgroundView
 
                 if isLoading {
                     ProgressView("Loading partner info...")
@@ -105,7 +107,7 @@ struct AddPartnerView: View {
 
                                 NavigationLink(
                                     destination: PartnerSetupView(isNewUserPassed: true)
-                                        .environmentObject(navigationState),
+                                        .environmentObject(navigationState).environmentObject(themeManager),
                                     isActive: $navigateToPartnerSetup
                                 ) {
                                     EmptyView()
@@ -209,4 +211,5 @@ struct AddPartnerView: View {
 #Preview {
     AddPartnerView()
         .environmentObject(NavigationState())
+        .environmentObject(ThemeManager())
 }

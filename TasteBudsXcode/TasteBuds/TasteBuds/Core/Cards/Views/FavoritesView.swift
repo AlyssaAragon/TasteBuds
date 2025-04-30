@@ -226,6 +226,7 @@ struct FavoritesView: View {
                     }
                 }
             }
+            Spacer(minLength: 30)
         }
         .listStyle(PlainListStyle())
     }

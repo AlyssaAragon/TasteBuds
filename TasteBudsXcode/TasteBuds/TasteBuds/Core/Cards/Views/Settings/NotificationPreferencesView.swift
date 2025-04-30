@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct NotificationPreferencesView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @State private var notifications: Bool = true
     @State private var recipeSuggestions: Bool = true
     @State private var favoriteUpdates: Bool = false
@@ -16,9 +18,7 @@ struct NotificationPreferencesView: View {
 
     var body: some View {
         ZStack {
-            Color.clear
-                .customGradientBackground()
-                .ignoresSafeArea()
+            themeManager.selectedTheme.backgroundView
 
             VStack {
                 Text("Notification Preferences")

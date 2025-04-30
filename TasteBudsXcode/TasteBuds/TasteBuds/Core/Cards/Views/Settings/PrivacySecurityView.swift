@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct PrivacySecurityView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    
     var body: some View {
         ZStack {
-            Color.clear
-                .customGradientBackground()
-                .ignoresSafeArea()
+            themeManager.selectedTheme.backgroundView
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {

@@ -23,10 +23,37 @@ enum Diet: String, CaseIterable, Identifiable {
         case .eggFree: return "Egg-Free"
         }
     }
+
+    var icon: String {
+        switch self {
+        case .vegan: return "leaf.circle.fill"
+        case .vegetarian: return "leaf.fill"
+        case .pescatarian: return "fish.circle.fill"
+        case .glutenFree: return "tortoise.circle.fill"
+        case .dairyFree: return "hare.circle.fill"
+        case .nutFree: return "cat.circle.fill"
+        case .eggFree: return "bird.circle.fill"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .vegan: return .green
+        case .vegetarian: return .mint
+        case .pescatarian: return .blue
+        case .glutenFree: return .orange
+        case .dairyFree: return .purple
+        case .nutFree: return .green
+        case .eggFree: return .blue
+        }
+    }
 }
+
 
 struct DietaryPreferencesView: View {
     @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @AppStorage("isNewUser") private var isNewUser = false
 
     @State private var selectedDiets: Set<Diet> = []
@@ -35,9 +62,8 @@ struct DietaryPreferencesView: View {
 
     var body: some View {
         ZStack {
-            Color.clear
-                .customGradientBackground()
-                .ignoresSafeArea()
+            
+            themeManager.selectedTheme.backgroundView
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
@@ -97,7 +123,7 @@ struct DietaryPreferencesView: View {
 
             NavigationLink(
                 destination: TutorialGalleryView()
-                    .environmentObject(navigationState),
+                    .environmentObject(navigationState).environmentObject(themeManager),
                 isActive: $navigateToTutorial
             ) {
                 EmptyView()

@@ -5,7 +5,10 @@ import SwiftUI
 
 struct TutorialGalleryView: View {
     @EnvironmentObject var navigationState: NavigationState
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @AppStorage("isNewUser") private var isNewUser = false
+    
     @State private var navigateToMainTab = false
 
     let tutorialImages = [
@@ -17,9 +20,7 @@ struct TutorialGalleryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.clear
-                    .customGradientBackground()
-                    .ignoresSafeArea()
+                themeManager.selectedTheme.backgroundView
 
                 VStack {
                     Text("Welcome to TasteBuds Beta version")
@@ -51,19 +52,36 @@ struct TutorialGalleryView: View {
                         .padding(.bottom, 30)
                     }
 
-                    Button(action: {
-                        isNewUser = false
-                        navigateToMainTab = true
-                    }) {
-                        Text("Next")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                            .padding()
+//                    Button(action: {
+//                        isNewUser = false
+//                        navigateToMainTab = true
+//                    }) {
+//                        Text("Next")
+//                            .bold()
+//                            .frame(maxWidth: .infinity)
+//                            .padding()
+//                            .background(Color.white)
+//                            .foregroundColor(.black)
+//                            .cornerRadius(10)
+//                            .padding()
+//                    }
+                    
+                    if isNewUser {
+                        Button(action: {
+                            isNewUser = false
+                            navigateToMainTab = true
+                        }) {
+                            Text("Next")
+                                .bold()
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white)
+                                .foregroundColor(.black)
+                                .cornerRadius(10)
+                                .padding()
+                        }
                     }
+
 
                     NavigationLink(
                         destination: MainTabView()
@@ -71,7 +89,7 @@ struct TutorialGalleryView: View {
                             .environmentObject(UserFetcher())
                             .environmentObject(FavoritesManager())
                             .environmentObject(CalendarManager())
-                            .environmentObject(ThemeManager()),
+                            .environmentObject(themeManager),
                         isActive: $navigateToMainTab
                     ) {
                         EmptyView()
@@ -88,4 +106,5 @@ struct TutorialGalleryView: View {
 #Preview {
     TutorialGalleryView()
         .environmentObject(NavigationState())
+        .environmentObject(ThemeManager())
 }

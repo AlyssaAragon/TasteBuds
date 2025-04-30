@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct IngredientSubView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @State private var flippedIndex: Int? = nil
     @State private var selectedCard: String?
+    
     @Namespace var scrollSpace
 
     let ingredients = [
@@ -16,10 +19,10 @@ struct IngredientSubView: View {
     ]
 
     var body: some View {
+        
         ZStack {
-            Color.clear
-                .customGradientBackground()
-                .ignoresSafeArea()
+            
+            themeManager.selectedTheme.backgroundView
 
             ScrollView {
                 VStack(spacing: 20) {

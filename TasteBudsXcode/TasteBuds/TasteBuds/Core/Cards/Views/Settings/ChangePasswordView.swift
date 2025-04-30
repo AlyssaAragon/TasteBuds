@@ -7,6 +7,9 @@
 import SwiftUI
 
 struct ChangePasswordView: View {
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @State private var oldPassword = ""
     @State private var newPassword = ""
     @State private var confirmNewPassword = ""
@@ -15,9 +18,8 @@ struct ChangePasswordView: View {
 
     var body: some View {
         ZStack {
-            Color.clear
-                .customGradientBackground()
-                .ignoresSafeArea()
+            
+            themeManager.selectedTheme.backgroundView
             
             Form {
                 Section(header: Text("Current Password")) {
