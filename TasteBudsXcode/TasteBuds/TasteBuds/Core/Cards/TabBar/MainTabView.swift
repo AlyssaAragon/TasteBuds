@@ -92,7 +92,8 @@ struct MainTabView: View {
                 }
             }
         }
-    }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }    
 
     @ViewBuilder
     private func currentTabView() -> some View {

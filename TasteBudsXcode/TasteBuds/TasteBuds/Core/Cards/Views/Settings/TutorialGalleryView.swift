@@ -1,5 +1,6 @@
 //  TutorialGalleryView.swift
 //  TasteBuds
+//  Created by Alicia Chiang
 
 import SwiftUI
 
@@ -9,7 +10,7 @@ struct TutorialGalleryView: View {
     @State private var navigateToMainTab = false
 
     let tutorialImages = [
-        ("tutorial_step1", "Welcome to TasteBuds! Discover new recipes easily."),
+        ("tutorial_step1", "Welcome to TasteBuds Beta Version! Discover new recipes easily."),
         ("tutorial_step2", "Swipe left or right to find meals you'll love."),
         ("tutorial_step3", "Plan meals for the week using the calendar view.")
     ]
@@ -22,21 +23,14 @@ struct TutorialGalleryView: View {
                     .ignoresSafeArea()
 
                 VStack {
-                    Text("Welcome to TasteBuds Beta version")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.orange)
-                    ScrollView {
-                        Spacer(minLength: 10)
-                        VStack(spacing: 20) {
+                    GeometryReader { geometry in
+                        TabView {
                             ForEach(tutorialImages, id: \.0) { imageName, description in
                                 VStack(spacing: 10) {
                                     Image(imageName)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(maxWidth: .infinity)
+                                        .frame(width: geometry.size.width)
                                         .cornerRadius(12)
                                         .shadow(radius: 5)
                                         .padding(.horizontal)
@@ -46,11 +40,22 @@ struct TutorialGalleryView: View {
                                         .multilineTextAlignment(.center)
                                         .padding(.horizontal)
                                 }
+                                .frame(width: geometry.size.width, height: geometry.size.height)
                             }
                         }
-                        .padding(.bottom, 30)
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
                     }
-
+//                    .frame(height: geometry.size.height * 0.75)
+                    .padding(.bottom, 10)
+                    
+                    Spacer()
+                    
+                    Text("Swipe to continue ➡️")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                    
+                    Spacer()
+                    
                     Button(action: {
                         isNewUser = false
                         navigateToMainTab = true
