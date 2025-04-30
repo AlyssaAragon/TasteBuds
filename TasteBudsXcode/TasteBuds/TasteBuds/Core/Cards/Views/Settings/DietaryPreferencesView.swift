@@ -44,7 +44,9 @@ struct DietaryPreferencesView: View {
                     Spacer()
                     if isNewUser {
                         Button("Skip") {
-                            navigateToTutorial = true
+                            if isNewUser {
+                                navigateToTutorial = true
+                            }
                         }
                         .foregroundColor(.gray)
                         .padding()
@@ -117,7 +119,9 @@ struct DietaryPreferencesView: View {
 
                     Button(action: {
                         showAlert = false
-                        navigateToTutorial = true
+                        if isNewUser {
+                            navigateToTutorial = true
+                        }
                     }) {
                         Text("OK")
                             .bold()
@@ -160,11 +164,16 @@ struct DietaryPreferencesView: View {
             }
 
             let dietStrings = dietArray.compactMap { $0["dietname"] as? String }
+            print("Raw diet strings from backend:", dietStrings)
 
             DispatchQueue.main.async {
-                selectedDiets = Set(dietStrings.compactMap { Diet(rawValue: $0) })
-                print("Loaded user diets: \(selectedDiets)")
+                selectedDiets = Set(dietStrings.compactMap { raw in
+                    let normalized = raw.lowercased().replacingOccurrences(of: "_", with: "-")
+                    return Diet(rawValue: normalized)
+                })
+                print("Normalized and loaded user diets: \(selectedDiets)")
             }
+
         }.resume()
     }
 
