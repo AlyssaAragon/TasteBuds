@@ -18,14 +18,15 @@ struct SettingsView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.top, 20)
+                            .padding(.bottom, 10)
                             .frame(maxWidth: .infinity)
                         
                         Text("You are using a Beta version of TasteBuds")
-                                .font(.footnote)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.orange)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.orange)
 
                         VStack(spacing: 8) {
                             if let user = userFetcher.currentUser {
@@ -44,68 +45,97 @@ struct SettingsView: View {
                         Spacer(minLength: 22)
 
                         VStack(spacing: 0) {
-                            NavigationLink(destination: AddPartnerView()
-                            .environmentObject(navigationState)){
-                                settingsRow(title: "Partner")
-                            }
-                    
-                    Divider()
-                    
-                    NavigationLink(destination: ChangePasswordView()) {
-                        settingsRow(title: "Change Password")
-                    }
-                            Divider()
-
-                            NavigationLink(destination: DietaryPreferencesView()
-                                .environmentObject(navigationState)
-                            )
-                            {
-                                settingsRow(title: "Dietary Preferences")
-                            }
-
-                            Divider()
-
-                            NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
-                                settingsRow(title: "Accessibility")
-                            }
-                            Divider()
-
-                            NavigationLink(destination: NotificationPreferencesView()) {
-                                settingsRow(title: "Notifications")
-                            }
-                            Divider()
-
-                            NavigationLink(destination: IngredientSubView()) {
-                                settingsRow(title: "Common Ingredient Substitutions")
-                            }
-                            Divider()
                             
-                            NavigationLink(destination: TutorialGalleryView()
-                                .environmentObject(navigationState)
-                            ) {
-                                settingsRow(title: "Tutorial")
-                            }
-
-                            Divider()
-
-                            NavigationLink(destination: PrivacySecurityView()) {
-                                settingsRow(title: "Privacy & Security")
-                            }
-                            Divider()
-
-                            Button {
-                                showingLogoutAlert = true
-                            } label: {
-                                settingsRow(title: "Sign Out")
-                            }
-                            .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
-                                Button("Sign out", role: .destructive) {
-                                    handleLogout()
+                            // MARK: - Account
+                            Section(header: Text("Account")
+//                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.top, 24)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)) {
+                                
+                                NavigationLink(destination: ChangePasswordView()) {
+                                    settingsRow(title: "Change Password")
                                 }
-                                Button("Cancel", role: .cancel) { }
+                                Divider()
+                                
+                                NavigationLink(destination: PrivacySecurityView()) {
+                                    settingsRow(title: "Privacy & Security")
+                                }
+                                Divider()
                             }
 
+                            // MARK: - Personalization
+                            Section(header: Text("Preferences")
+//                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.top, 24)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)) {
+                                
+                                NavigationLink(destination: AddPartnerView().environmentObject(navigationState)) {
+                                    settingsRow(title: "Partner")
+                                }
+                                Divider()
+                                
+                                NavigationLink(destination: DietaryPreferencesView().environmentObject(navigationState)) {
+                                    settingsRow(title: "Dietary Preferences")
+                                }
+                                Divider()
+                                
+                                NavigationLink(destination: AccessibilityView().environmentObject(themeManager)) {
+                                    settingsRow(title: "Accessibility")
+                                }
+                                Divider()
+                                
+                                NavigationLink(destination: NotificationPreferencesView()) {
+                                    settingsRow(title: "Notifications")
+                                }
+                                Divider()
+                            }
+
+                            // MARK: - Help & Support
+                            Section(header: Text("Support")
+//                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.top, 24)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)) {
+                                
+                                NavigationLink(destination: IngredientSubView()) {
+                                    settingsRow(title: "Common Ingredient Substitutions")
+                                }
+                                Divider()
+                                
+                                NavigationLink(destination: TutorialGalleryView().environmentObject(navigationState)) {
+                                    settingsRow(title: "Tutorial")
+                                }
+                                Divider()
+                                
+                                Button {
+                                    openBugForm()
+                                } label: {
+                                    settingsRow(title: "Report a Bug")
+                                }
+                                Divider()
+                            }
+
+                            // MARK: - Session
+                            Section {
+                                Button {
+                                    showingLogoutAlert = true
+                                } label: {
+                                    settingsRow(title: "Sign Out")
+                                }
+                                .alert("Sign out of your account?", isPresented: $showingLogoutAlert) {
+                                    Button("Sign out", role: .destructive) {
+                                        handleLogout()
+                                    }
+                                    Button("Cancel", role: .cancel) { }
+                                }
+                            }
                         }
+
                         .background(Color(UIColor.systemBackground))
                         .cornerRadius(8)
                         .padding(.horizontal)
@@ -151,6 +181,12 @@ struct SettingsView: View {
         isLoggedIn = false
         isNewUser = false
         navigationState.nextView = .welcome
+    }
+    
+    private func openBugForm() {
+        if let url = URL(string: "https://forms.gle/ozaZetH3FNpfzy599") {
+            UIApplication.shared.open(url)
+        }
     }
 
 
