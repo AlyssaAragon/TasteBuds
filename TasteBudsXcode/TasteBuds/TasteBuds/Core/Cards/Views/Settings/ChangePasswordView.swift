@@ -49,7 +49,7 @@ struct ChangePasswordView: View {
                         }
                     }) {
                         Text("Change Password")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
