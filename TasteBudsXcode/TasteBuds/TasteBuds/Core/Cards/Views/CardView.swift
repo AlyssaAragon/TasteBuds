@@ -238,23 +238,17 @@ struct CardView: View {
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
-            let dietaryIcons: [String: (icon: String, color: Color)] = [
-                "vegetarian": ("leaf.circle.fill", .green),
-                "gluten-free": ("tortoise.circle.fill", .orange),
-                "low-sodium": ("heart.circle.fill", .red)
-            ]
-
             HStack(spacing: 10) {
-                ForEach(selectedFilters, id: \.self) { filter in
-                    if let iconData = dietaryIcons[filter] {
-                        Image(systemName: iconData.icon)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(iconData.color)
-                    }
+                ForEach(Diet.allCases.filter { selectedFilters.contains($0.rawValue) }, id: \.self) { diet in
+                    Image(systemName: diet.icon)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(diet.color)
                 }
             }
+
+
             .padding()
 
             if let url = recipe.imageUrl {
@@ -292,6 +286,8 @@ struct CardView: View {
                 .opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)
         )
     }
+
+
 
     //MARK: - Back of card
     private func backOfCard(recipe: FetchedRecipe, geometry: GeometryProxy) -> some View {

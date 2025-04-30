@@ -3,6 +3,28 @@
 
 import SwiftUI
 
+//enum Diet: String, CaseIterable, Identifiable {
+//    case vegan, vegetarian, pescatarian
+//    case glutenFree = "gluten-free"
+//    case dairyFree = "dairy-free"
+//    case nutFree = "nut-free"
+//    case eggFree = "egg-free"
+//
+//    var id: String { rawValue }
+//
+//    var label: String {
+//        switch self {
+//        case .vegan: return "Vegan"
+//        case .vegetarian: return "Vegetarian"
+//        case .pescatarian: return "Pescatarian"
+//        case .glutenFree: return "Gluten-Free"
+//        case .dairyFree: return "Dairy-Free"
+//        case .nutFree: return "Nut-Free"
+//        case .eggFree: return "Egg-Free"
+//        }
+//    }
+//}
+
 enum Diet: String, CaseIterable, Identifiable {
     case vegan, vegetarian, pescatarian
     case glutenFree = "gluten-free"
@@ -23,7 +45,32 @@ enum Diet: String, CaseIterable, Identifiable {
         case .eggFree: return "Egg-Free"
         }
     }
+
+    var icon: String {
+        switch self {
+        case .vegan: return "leaf.circle.fill"
+        case .vegetarian: return "leaf.fill"
+        case .pescatarian: return "fish.circle.fill"
+        case .glutenFree: return "tortoise.circle.fill"
+        case .dairyFree: return "hare.circle.fill"
+        case .nutFree: return "cat.circle.fill"
+        case .eggFree: return "bird.circle.fill"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .vegan: return .green
+        case .vegetarian: return .mint
+        case .pescatarian: return .blue
+        case .glutenFree: return .orange
+        case .dairyFree: return .purple
+        case .nutFree: return .green
+        case .eggFree: return .blue
+        }
+    }
 }
+
 
 struct DietaryPreferencesView: View {
     @EnvironmentObject var navigationState: NavigationState
