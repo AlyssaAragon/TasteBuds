@@ -99,7 +99,7 @@ struct DietaryPreferencesView: View {
                                 }
                             )) {
                                 Text(diet.label)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                             }
                         }
                     }
@@ -108,7 +108,7 @@ struct DietaryPreferencesView: View {
                         Button(action: savePreferences) {
                             Text("Save Preferences")
                                 .fontWeight(.bold)
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                     }
@@ -133,12 +133,12 @@ struct DietaryPreferencesView: View {
                 VStack(spacing: 16) {
                     Text("Preferences Saved")
                         .font(.title2.bold())
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
 
                     Text("Your dietary preferences have been updated.")
                         .font(.body)
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
 
                     Button(action: {
                         showAlert = false
@@ -147,17 +147,17 @@ struct DietaryPreferencesView: View {
                         Text("OK")
                             .bold()
                             .frame(width: 100, height: 44)
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color(UIColor.systemBackground))
+                            .foregroundColor(.primary)
                             .cornerRadius(8)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.black, lineWidth: 1)
+                                    .stroke(Color.primary, lineWidth: 1)
                             )
                     }
                 }
                 .padding()
-                .background(Color.white)
+                .background(Color(UIColor.systemBackground))
                 .cornerRadius(12)
                 .shadow(radius: 10)
                 .frame(maxWidth: 300)
