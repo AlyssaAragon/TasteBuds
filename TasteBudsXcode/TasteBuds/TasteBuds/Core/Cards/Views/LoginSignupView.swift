@@ -70,6 +70,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(.black)
                                     TextField("Enter email", text: $emailOrUsername)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
                             } else {
@@ -78,6 +80,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(.black)
                                     TextField("Enter full name", text: $fullName)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
 
@@ -86,6 +90,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(.black)
                                     TextField("Enter email address", text: $email)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
 
@@ -94,6 +100,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(.black)
                                     TextField("Enter username", text: $username)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.black)
                                 }
                             }
