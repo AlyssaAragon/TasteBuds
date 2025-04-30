@@ -3,28 +3,6 @@
 
 import SwiftUI
 
-//enum Diet: String, CaseIterable, Identifiable {
-//    case vegan, vegetarian, pescatarian
-//    case glutenFree = "gluten-free"
-//    case dairyFree = "dairy-free"
-//    case nutFree = "nut-free"
-//    case eggFree = "egg-free"
-//
-//    var id: String { rawValue }
-//
-//    var label: String {
-//        switch self {
-//        case .vegan: return "Vegan"
-//        case .vegetarian: return "Vegetarian"
-//        case .pescatarian: return "Pescatarian"
-//        case .glutenFree: return "Gluten-Free"
-//        case .dairyFree: return "Dairy-Free"
-//        case .nutFree: return "Nut-Free"
-//        case .eggFree: return "Egg-Free"
-//        }
-//    }
-//}
-
 enum Diet: String, CaseIterable, Identifiable {
     case vegan, vegetarian, pescatarian
     case glutenFree = "gluten-free"
