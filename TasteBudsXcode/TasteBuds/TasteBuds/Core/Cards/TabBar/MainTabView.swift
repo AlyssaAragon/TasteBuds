@@ -21,7 +21,7 @@ struct MainTabView: View {
 
     init() {
         let appearance = UITabBarAppearance()
-        appearance.backgroundColor = UIColor.white
+        appearance.backgroundColor = UIColor.systemBackground
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
     }
@@ -45,11 +45,11 @@ struct MainTabView: View {
                     Spacer()
                 }
                 .frame(height: 100)
-                .background(Color.white)
+                .background(Color(UIColor.systemBackground))
                 .clipShape(Rectangle())
                 .padding(.bottom, -45)
             }
-            .accentColor(.black)
+            .accentColor(Color.primary)
             .sheet(isPresented: $showCravingPopup) {
                 CravingPopupView()
             }
@@ -121,7 +121,7 @@ struct MainTabView: View {
                     .font(.system(size: 24, weight: .bold))
                     .padding(.top, 10)
                     .padding(.bottom, 40)
-                    .foregroundColor(selectedTab == tab ? .black : .gray)
+                    .foregroundColor(selectedTab == tab ? Color.primary : .gray)
             }
         }
     }
