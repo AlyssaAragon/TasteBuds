@@ -4,19 +4,20 @@ import SwiftUI
 struct TasteBudsApp: App {
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isNewUser") private var isNewUser = false
+    @AppStorage("isGuestUser") private var isGuestUser = false
 
     @StateObject private var navigationState = NavigationState()
     @StateObject private var favoritesManager = FavoritesManager()
     @StateObject private var themeManager = ThemeManager()
     @StateObject private var calendarManager = CalendarManager()
     @StateObject private var userFetcher = UserFetcher()
-
+    
     @State private var showSessionExpiredAlert = false
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if isLoggedIn && !isNewUser {
+                if (isLoggedIn && !isNewUser) || isGuestUser {
                     NavigationStack {
                         MainTabView()
                             .environmentObject(favoritesManager)
@@ -67,6 +68,7 @@ struct TasteBudsApp: App {
                     userFetcher.sessionExpired = false
                     isLoggedIn = false
                     isNewUser = false
+                    isGuestUser = false
                     navigationState.nextView = .loginSignup
                 }
             } message: {

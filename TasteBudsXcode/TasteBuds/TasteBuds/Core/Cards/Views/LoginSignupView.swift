@@ -16,6 +16,8 @@ struct LoginSignupView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var keyboardHeight: CGFloat = 0
+    @AppStorage("isGuestUser") private var isGuestUser = false
+
 
 
     var body: some View {
@@ -167,15 +169,15 @@ struct LoginSignupView: View {
                         Spacer()
                         
                         Button(action: {
-                            Task {
-                                self.navigationState.nextView = .cardView
-                            }
+                            isGuestUser = true
+                            navigationState.nextView = .cardView
                         }) {
                             Text("I do not want to make an account right now.")
                                 .font(.system(size: 16))
                                 .underline()
                                 .foregroundStyle(.primary)
                         }
+
                         
                         Spacer(minLength: 30)
                     }
@@ -288,6 +290,7 @@ struct LoginSignupView: View {
 
             do {
                 try await AuthService.shared.login(email: emailOrUsername, password: password)
+                self.isGuestUser = false
                 self.isLoggedIn = true
                 self.navigationState.nextView = .cardView
             } catch let error as AuthError {
@@ -341,7 +344,7 @@ struct LoginSignupView: View {
                 } else {
                     print("No access token saved after login!")
                 }
-
+                self.isGuestUser = false
                 self.isLoggedIn = true
                 self.isNewUser = true
                 self.navigationState.nextView = .addPartner
