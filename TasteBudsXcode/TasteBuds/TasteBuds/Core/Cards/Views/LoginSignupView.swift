@@ -46,7 +46,7 @@ struct LoginSignupView: View {
                                     Button(action: { isLogin = true }) {
                                         Text("Login")
                                             .font(Font.custom("Abyssinica SIL", size: 25))
-                                            .foregroundColor(isLogin ? .black : .gray)
+                                            .foregroundColor(isLogin ? Color.primary : .gray)
                                             .offset(y: -10)
                                     }
                                     
@@ -55,7 +55,7 @@ struct LoginSignupView: View {
                                     Button(action: { isLogin = false }) {
                                         Text("Sign-up")
                                             .font(Font.custom("Abyssinica SIL", size: 25))
-                                            .foregroundColor(!isLogin ? .black : .gray)
+                                            .foregroundColor(!isLogin ? Color.primary : .gray)
                                             .offset(y: -10)
                                     }
                                 }
@@ -68,41 +68,41 @@ struct LoginSignupView: View {
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Email")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter email", text: $emailOrUsername)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
-                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
                             } else {
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Full Name")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter full name", text: $fullName)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
-                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
 
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Email Address")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter email address", text: $email)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
-                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
 
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Username")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter username", text: $username)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
-                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                    Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
                             }
 
@@ -110,24 +110,24 @@ struct LoginSignupView: View {
                             VStack(alignment: .leading, spacing: 5) {
                                 Text("Password")
                                     .font(Font.custom("Abyssinica SIL", size: 20))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(Color(UIColor.systemBackground))
                                 SecureField("Enter password", text: $password)
                                     .textContentType(.none)
                                     .autocapitalization(.none)
                                     .disableAutocorrection(true)
-                                Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                Rectangle().frame(height: 0.5).foregroundColor(Color.primary)
                             }
                             
                             if !isLogin {
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Confirm Password")
                                         .font(Font.custom("Abyssinica SIL", size: 20))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                     SecureField("Re-enter password", text: $confirmPassword)
                                         .textContentType(.none)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
-                                    Rectangle().frame(height: 0.5).foregroundColor(.black)
+                                    Rectangle().frame(height: 0.5).foregroundColor(Color(UIColor.systemBackground))
                                 }
                             }
                         }
@@ -154,9 +154,9 @@ struct LoginSignupView: View {
                         }) {
                         Text(isLogin ? "Login" : "Sign-up")
                                 .font(.system(size: 26))
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .frame(width: geometry.size.width * 0.75, height: 70)
-                                .background(Color.white)
+                                .background(Color(UIColor.systemBackground))
                                 .cornerRadius(30)
                                 .shadow(radius: 10)
                         }
@@ -210,7 +210,7 @@ struct LoginSignupView: View {
             } else {
                 TextField("Enter \(title.lowercased())", text: text)
             }
-            Rectangle().frame(height: 0.5).foregroundColor(.black)
+            Rectangle().frame(height: 0.5).foregroundColor(Color.primary)
         }
     }
 

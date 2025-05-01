@@ -57,13 +57,13 @@ struct PartnerSetupView: View {
                 VStack(spacing: 20) {
                     TextField("Partner's Email", text: $partnerE)
                         .padding()
-                        .background(Color.white.opacity(0.8))
+                        .background(Color(UIColor.systemBackground).opacity(0.8))
                         .cornerRadius(12)
                         .font(.custom("Abyssinica SIL", size: 20))
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .padding(.horizontal, 40)
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom)
 
                 Button(action: {
                     isLoading = true
@@ -99,7 +99,7 @@ struct PartnerSetupView: View {
                 .padding(.bottom, 50)
                 .offset(y: 50)
 
-                Spacer()
+                Spacer(minLength: 10)
             }
             .frame(width: 414, height: 896)
         }

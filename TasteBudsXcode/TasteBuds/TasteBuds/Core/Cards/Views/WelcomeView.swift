@@ -27,13 +27,13 @@ struct WelcomeView: View {
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
-                            .fill(Color.white)
+                            .fill(Color(UIColor.systemBackground))
                             .opacity(0.7)
                             .frame(width: 314, height: 70)
                             .shadow(radius: 75)
                         Text("Get started")
                             .font(Font.custom("Abyssinica SIL", size: 26))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                 }
                 .padding(.bottom, 30)
