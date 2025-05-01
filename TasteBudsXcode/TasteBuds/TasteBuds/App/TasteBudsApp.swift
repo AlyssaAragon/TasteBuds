@@ -17,7 +17,16 @@ struct TasteBudsApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if (isLoggedIn && !isNewUser) || isGuestUser {
+                if isLoggedIn && !isNewUser {
+                    NavigationStack {
+                        MainTabView()
+                            .environmentObject(favoritesManager)
+                            .environmentObject(themeManager)
+                            .environmentObject(calendarManager)
+                            .environmentObject(navigationState)
+                            .environmentObject(userFetcher)
+                    }
+                } else if isGuestUser {
                     NavigationStack {
                         MainTabView()
                             .environmentObject(favoritesManager)
@@ -60,6 +69,7 @@ struct TasteBudsApp: App {
                         }
                     }
                 }
+
             }
             .alert("Session expired", isPresented: $showSessionExpiredAlert) {
                 Button("Log Out", role: .destructive) {
@@ -95,11 +105,12 @@ struct TasteBudsApp: App {
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 Task {
-                    if isLoggedIn {
+                    if isLoggedIn && !isGuestUser {
                         await userFetcher.fetchUser()
                     }
                 }
             }
+
         }
     }
 }

@@ -28,6 +28,10 @@ struct CardView: View {
     @State private var isFlipped = false
     @State private var canSwipe = true
     
+    @AppStorage("isGuestUser") private var isGuestUser: Bool = false
+    @State private var showGuestSaveAlert = false
+    @State private var showGuestDiscardAlert = false
+    
     //dietary filter
     @State private var selectedFilters: [String] = []
     @State private var selectedCategory: String = ""
@@ -171,6 +175,16 @@ struct CardView: View {
                         }
                         .padding()
                     }
+                }
+                .alert("Sign up to save recipes", isPresented: $showGuestSaveAlert) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text("This recipe won’t be saved unless you create an account.")
+                }
+                .alert("Sign up to discard recipes", isPresented: $showGuestDiscardAlert) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text("This recipe won’t be removed from your suggestions unless you create an account.")
                 }
             }
         }
@@ -372,6 +386,10 @@ struct CardView: View {
         guard canSwipe else { return }
         canSwipe = false
         print("Swiped left")
+        
+        if isGuestUser {
+            showGuestDiscardAlert = true
+        }
 
         Task {
             await fetchNextRecipe()
@@ -384,7 +402,9 @@ struct CardView: View {
         canSwipe = false
         print("Swiped right")
 
-        if let currentRecipe = currentRecipe {
+        if isGuestUser {
+            showGuestSaveAlert = true
+        } else if let currentRecipe = currentRecipe {
             favoritesManager.addFavorite(currentRecipe)
         }
 

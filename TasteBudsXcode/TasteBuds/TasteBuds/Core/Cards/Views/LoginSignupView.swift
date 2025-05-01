@@ -172,7 +172,7 @@ struct LoginSignupView: View {
                             isGuestUser = true
                             navigationState.nextView = .cardView
                         }) {
-                            Text("I do not want to make an account right now.")
+                            Text("Continue without an account")
                                 .font(.system(size: 16))
                                 .underline()
                                 .foregroundStyle(.primary)
