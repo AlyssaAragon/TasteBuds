@@ -79,9 +79,10 @@ struct MainTabView: View {
 
             .onAppear {
                 Task {
-                    if userFetcher.currentUser == nil {
+                    if !AuthService.isGuest && userFetcher.currentUser == nil {
                         await userFetcher.fetchUser()
                     }
+
                     if let userID = userFetcher.currentUser?.userid,
                         CravingManager.shared.allowCravingPopup(for: userID) {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
