@@ -22,6 +22,11 @@ struct CravingPopupView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            Text("Swipe down to dismiss ⬇️")
+                .foregroundStyle(.primary)
+            
+            Spacer()
+            
             if showPopup {
                 Text("Here’s a recipe based on your craving!")
                     .font(.headline)
@@ -75,6 +80,9 @@ struct CravingPopupView: View {
                     }
                 }
             }
+            
+            Spacer()
+            
             if showSaveBanner {
                 Text("Recipe Saved!")
                     .font(.subheadline)
@@ -88,15 +96,15 @@ struct CravingPopupView: View {
             if showPopup, let selectedRecipe = selectedRecipe {
                 ScrollView {
                     VStack {
-                        HStack {
-                            Spacer()
-                            Button(action: { showPopup = false }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .font(.title2)
-                            }
-                        }
-                        .padding([.top, .trailing])
+//                        HStack {
+//                            Spacer()
+//                            Button(action: { showPopup = false }) {
+//                                Image(systemName: "xmark.circle.fill")
+//                                    .foregroundColor(.gray)
+//                                    .font(.title2)
+//                            }
+//                        }
+//                        .padding([.top, .trailing])
 
                         Text(selectedRecipe.name)
                             .font(.title)
