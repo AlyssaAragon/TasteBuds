@@ -167,6 +167,8 @@ struct SettingsView: View {
                     }
                 }
             }
+            
+        //MARK: - Guest User Login Overlay
         if isGuestUser && showLoginOverlay {
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
