@@ -6,6 +6,8 @@ struct MainTabView: View {
     @EnvironmentObject private var calendarManager: CalendarManager
     @EnvironmentObject private var userFetcher: UserFetcher
     @EnvironmentObject private var navigationState: NavigationState
+    @State private var lastPushedView: NextView?
+
 
     @State private var selectedTab: Tab = .home
     @State private var showCravingPopup = false
@@ -70,11 +72,15 @@ struct MainTabView: View {
                 }
             }
             .onChange(of: navigationState.nextView) { newValue in
-                if newValue != .cardView, newValue != .welcome {
+                if newValue != .cardView && newValue != lastPushedView {
                     path.append(newValue)
-                    navigationState.nextView = .cardView
+                    lastPushedView = newValue
                 }
             }
+
+
+
+
 
 
             .onAppear {
