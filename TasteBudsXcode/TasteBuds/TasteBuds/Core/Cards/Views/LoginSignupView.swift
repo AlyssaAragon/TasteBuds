@@ -70,6 +70,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter email", text: $emailOrUsername)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
                             } else {
@@ -78,6 +80,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter full name", text: $fullName)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
 
@@ -86,6 +90,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter email address", text: $email)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
 
@@ -94,6 +100,8 @@ struct LoginSignupView: View {
                                         .font(Font.custom("Abyssinica SIL", size: 20))
                                         .foregroundColor(Color(UIColor.systemBackground))
                                     TextField("Enter username", text: $username)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
                                     Rectangle().frame(height: 0.5).foregroundColor(.primary)
                                 }
                             }
