@@ -134,7 +134,8 @@ struct FavoritesView: View {
                     }
                 }
             }
-            .padding(.bottom, 50)
+//            .padding(.bottom, 50)
+            Spacer(minLength: 60)
         }
     }
     
@@ -174,8 +175,9 @@ struct FavoritesView: View {
                 }
             }
             .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemBackground).opacity(themeManager.selectedTheme == .highContrast ? 1.0 : 0.5)).frame(width: 170))
+            .padding()
         }
-        .padding(.bottom, 50)
+        .padding(.bottom, 10)
     }
     
     private func recipeTitle(_ name: String) -> some View {
@@ -192,10 +194,6 @@ struct FavoritesView: View {
             .frame(height: 150)
             .cornerRadius(10)
     }
-    
-    
-    
-    
     
     //MARK: - List View
     private func listView() -> some View {
