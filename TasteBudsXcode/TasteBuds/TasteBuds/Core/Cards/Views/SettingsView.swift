@@ -102,6 +102,11 @@ struct SettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal)) {
                                 
+                                NavigationLink(destination: LoginPromptOverlay()) {
+                                    settingsRow(title: "Login Prompt Test")
+                                }
+                                Divider()
+                                    
                                 NavigationLink(destination: IngredientSubView()) {
                                     settingsRow(title: "Common Ingredient Substitutions")
                                 }
