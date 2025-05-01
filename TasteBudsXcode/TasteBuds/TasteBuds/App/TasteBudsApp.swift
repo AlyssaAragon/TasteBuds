@@ -51,7 +51,7 @@ struct TasteBudsApp: App {
                                 .environmentObject(themeManager)
                                 .environmentObject(calendarManager)
                                 .environmentObject(userFetcher)
-//                                .environmentObject(navigationState)
+                                .environmentObject(navigationState)
                         case .settings:
                             SettingsView()
                                 .environmentObject(navigationState)
