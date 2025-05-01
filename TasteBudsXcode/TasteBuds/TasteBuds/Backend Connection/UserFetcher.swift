@@ -9,6 +9,12 @@ class UserFetcher: ObservableObject {
     func fetchUser() async {
         print("Starting user fetch...")
 
+        //Step 0: Skip if in guest mode
+        if AuthService.isGuest {
+            print("Guest mode detected. Skipping user fetch.")
+            return
+        }
+
         do {
             // Step 1: Ensure token is valid or refresh it
             try await AuthService.shared.ensureValidToken()

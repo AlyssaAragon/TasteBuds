@@ -113,6 +113,7 @@ class AuthService {
         KeychainWrapper.standard.remove(forKey: "accessToken")
         KeychainWrapper.standard.remove(forKey: "refreshToken")
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        UserDefaults.standard.set(false, forKey: "isGuestUser")
     }
 
     func getAccessToken() -> String? {
@@ -123,6 +124,7 @@ class AuthService {
         KeychainWrapper.standard.set(access, forKey: "accessToken")
         KeychainWrapper.standard.set(refresh, forKey: "refreshToken")
         UserDefaults.standard.set(true, forKey: "isLoggedIn")
+        UserDefaults.standard.set(false, forKey: "isGuestUser")
         saveAccessTokenExpiration(access)
     }
     private func saveAccessTokenExpiration(_ token: String) {
@@ -258,6 +260,9 @@ class AuthService {
         }
     }
      */
+    static var isGuest: Bool {
+        return UserDefaults.standard.bool(forKey: "isGuestUser")
+    }
     private func sendRequest(url: URL, body: [String: Any]) async throws -> Data {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

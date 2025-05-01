@@ -1,5 +1,7 @@
 // Hannah Haggerty and Alyssa
 import Foundation
+import SwiftKeychainWrapper
+
 
 struct FetchedRecipe: Identifiable, Hashable, Codable {
     let id: Int
@@ -29,7 +31,8 @@ struct FetchedDiet: Decodable {
 
 class RecipeFetcher: ObservableObject {
     @Published var currentRecipe: FetchedRecipe?
-
+    let isGuestUser = UserDefaults.standard.bool(forKey: "isGuestUser")
+    
     func fetchRecipe() async {
         print("Fetching random recipe...")
 
@@ -76,7 +79,15 @@ class RecipeFetcher: ObservableObject {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            var request = URLRequest(url: url)
+            if !isGuestUser {
+                if let token = KeychainWrapper.standard.string(forKey: "accessToken") {
+                    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                }
+            }
+
+            let (data, response) = try await URLSession.shared.data(for: request)
+
             if let httpResponse = response as? HTTPURLResponse {
                 print("DEBUG: Combined recipe fetch status: \(httpResponse.statusCode)")
             }

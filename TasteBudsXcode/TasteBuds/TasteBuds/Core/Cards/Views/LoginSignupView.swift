@@ -15,6 +15,10 @@ struct LoginSignupView: View {
     @ObservedObject var navigationState: NavigationState
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var keyboardHeight: CGFloat = 0
+    @AppStorage("isGuestUser") private var isGuestUser = false
+
+
 
     var body: some View {
         GeometryReader { geometry in
@@ -131,8 +135,8 @@ struct LoginSignupView: View {
                                 }
                             }
                         }
-                        .padding(30)
-                        .offset(y: -20)
+                        .padding(.horizontal, 30)
+                        Spacer(minLength: 20)
                         
                         if showError {
                         VStack(alignment: .leading, spacing: 6) {
@@ -161,11 +165,42 @@ struct LoginSignupView: View {
                                 .shadow(radius: 10)
                         }
                         .padding(.bottom, 30)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            isGuestUser = true
+                            navigationState.nextView = .cardView
+                        }) {
+                            Text("I do not want to make an account right now.")
+                                .font(.system(size: 16))
+                                .underline()
+                                .foregroundStyle(.primary)
+                        }
+
+                        
+                        Spacer(minLength: 30)
                     }
                     .frame(minHeight: geometry.size.height)
                 }
+                .padding(.bottom, keyboardHeight)
             }
             .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notif in
+                        if let frame = notif.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                            withAnimation {
+                                self.keyboardHeight = frame.height
+                            }
+                        }
+                    }
+
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                        withAnimation {
+                            self.keyboardHeight = 0
+                        }
+                    }
+                }
         }
         /* commenting out 'forgot password' functionality until we integrate an email service provider like Google Workspace to send reset emails
         .sheet(isPresented: $showPasswordResetSheet) {
@@ -196,7 +231,7 @@ struct LoginSignupView: View {
                 .padding(.horizontal)
             }
             .padding()*/
-        }
+    }
     private func field(title: String, text: Binding<String>, isSecure: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(title)
@@ -255,6 +290,7 @@ struct LoginSignupView: View {
 
             do {
                 try await AuthService.shared.login(email: emailOrUsername, password: password)
+                self.isGuestUser = false
                 self.isLoggedIn = true
                 self.navigationState.nextView = .cardView
             } catch let error as AuthError {
@@ -308,7 +344,7 @@ struct LoginSignupView: View {
                 } else {
                     print("No access token saved after login!")
                 }
-
+                self.isGuestUser = false
                 self.isLoggedIn = true
                 self.isNewUser = true
                 self.navigationState.nextView = .addPartner
