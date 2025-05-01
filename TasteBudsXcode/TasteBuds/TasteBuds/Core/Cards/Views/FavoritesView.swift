@@ -12,6 +12,11 @@ struct FavoritesView: View {
     @State private var sortOrder: SortOrder = .newest
     @State private var showDeleteConfirmation = false
     
+    @AppStorage("isGuestUser") private var isGuestUser = false
+    @EnvironmentObject var navigationState: NavigationState
+    @State private var showLoginAlert = false
+
+    
     enum SortOrder {
         case newest, oldest, alphabetical
     }
@@ -49,6 +54,9 @@ struct FavoritesView: View {
             .navigationTitle("My Favorites")
             .onAppear {
                 favoritesManager.fetchUserFavorites()
+                if isGuestUser {
+                        showLoginAlert = true
+                    }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -71,6 +79,11 @@ struct FavoritesView: View {
                 }
             } message: {
                 Text("Are you sure you want to remove these recipes from favorites?")
+            }
+            .alert("Not Logged In", isPresented: $showLoginAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("You are not logged in. Go to the Profile page to sign up.")
             }
         }
     }

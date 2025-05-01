@@ -3,6 +3,9 @@ import SwiftUI
 struct MatchesView: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var themeManager: ThemeManager
+    
+    @AppStorage("isGuestUser") private var isGuestUser = false
+    @State private var showLoginAlert = false
 
     @State private var isGalleryView: Bool = true
     @State private var sortOrder: FavoritesView.SortOrder = .newest
@@ -47,6 +50,14 @@ struct MatchesView: View {
             .navigationTitle("Our Favorites")
             .onAppear {
                 favoritesManager.fetchSharedFavorites()
+                if isGuestUser {
+                    showLoginAlert = true
+                }
+            }
+            .alert("Not Logged In", isPresented: $showLoginAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("You are not logged in. Go to the Profile page to sign up.")
             }
         }
     }

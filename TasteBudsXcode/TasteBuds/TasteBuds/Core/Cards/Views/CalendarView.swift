@@ -30,7 +30,9 @@ struct CalendarView: View {
     @State private var isLoading = false
     @State private var selectedDay: SelectedDay? = nil
 
-
+    @AppStorage("isGuestUser") private var isGuestUser = false
+    @State private var showLoginAlert = false
+    
     private var currentUser: FetchedUser? {
         userFetcher.currentUser
     }
@@ -134,6 +136,9 @@ struct CalendarView: View {
         .tint(Color.primary)
         .onAppear {
             favoritesManager.fetchUserFavorites()
+            if isGuestUser {
+                showLoginAlert = true
+            }
         }
         .task {
             await fetchPartnerInfo()
@@ -142,6 +147,11 @@ struct CalendarView: View {
             RecipePickerSheet(selectedDay: selectedDay.value)
                 .environmentObject(favoritesManager)
                 .environmentObject(calendarManager)
+        }
+        .alert("Not Logged In", isPresented: $showLoginAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("You are not logged in. Go to the Profile page to sign up.")
         }
     }
 
