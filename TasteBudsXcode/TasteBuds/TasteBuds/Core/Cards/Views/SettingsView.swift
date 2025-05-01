@@ -10,8 +10,6 @@ struct SettingsView: View {
     @AppStorage("isGuestUser") private var isGuestUser = false
 
     @State private var showingLogoutAlert = false
-    @State private var showGuestAlert = UserDefaults.standard.bool(forKey: "isGuestUser")
-
 
     var body: some View {
         ZStack {
@@ -158,20 +156,41 @@ struct SettingsView: View {
                     }
                 }
             }
-        }
-  
-        .alert("You're currently using TasteBuds as a guest.", isPresented: $showGuestAlert) {
-            Button("Log in or Sign up", role: .destructive) {
-                handleLogout()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    navigationState.nextView = .loginSignup
-                }
-            }
-            Button("Continue as Guest", role: .cancel) {
-                showGuestAlert = false
-            }
-        }
 
+            if isGuestUser {
+                Color.black.opacity(0.6)
+                    .edgesIgnoringSafeArea(.all)
+                    .overlay(
+                        VStack(spacing: 20) {
+                            Text("You're currently using TasteBuds as a guest.")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .multilineTextAlignment(.center)
+                                .padding()
+
+                            Button(action: {
+                                handleLogout()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    navigationState.nextView = .loginSignup
+                                }
+                            }) {
+                                Text("Log in or Sign up")
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.primary)
+                                    .foregroundColor(Color(UIColor.systemBackground))
+                                    .cornerRadius(12)
+                            }
+                        }
+                        .padding()
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .padding(40)
+                    )
+            }
+        }
     }
 
     @ViewBuilder
@@ -194,6 +213,7 @@ struct SettingsView: View {
         userFetcher.sessionExpired = false
         isLoggedIn = false
         isNewUser = false
+        isGuestUser = false
         navigationState.nextView = .welcome
     }
 
