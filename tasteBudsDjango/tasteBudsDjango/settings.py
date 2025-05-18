@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'ratelimit', #for brute force login protection
     'allauth.socialaccount',
     'corsheaders',
     'tastebuds.apps.TastebudsConfig',
@@ -215,6 +216,7 @@ SIMPLE_JWT = {
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
-
+RATELIMIT_VIEW = 'tastebuds.views.too_many_requests'
+RATELIMIT_FAIL_OPEN = False
 
 

@@ -11,6 +11,18 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 import random
 import json
+from rest_framework_simplejwt.views import TokenObtainPairView
+from ratelimit.core import is_ratelimited
+from ratelimit.exceptions import Ratelimited
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework.response import Response
+from ratelimit.exceptions import Ratelimited
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.views import TokenObtainPairView
+from ratelimit.decorators import ratelimit
+from ratelimit.decorators import ratelimit
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -33,6 +45,10 @@ from .serializers import (
     SavedRecipeSerializer, UserDietSerializer, PartnerLinkSerializer, RegisterUserSerializer
 )
 from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import update_session_auth_hash
+
 User = get_user_model()
 
 @api_view(['POST'])
@@ -430,8 +446,10 @@ def respond_to_partner_request(request):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(ratelimit(key='ip', rate='5/m', block=True), name='dispatch')
 class ExemptLoginView(LoginView):
     pass
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -469,6 +487,12 @@ class PrivateRecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from tastebuds.models import Diet, UserDiet
+from tastebuds.serializers import UserDietUpdateSerializer
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_user_diets(request):
@@ -477,20 +501,91 @@ def update_user_diets(request):
         user = request.user
         new_diets = serializer.validated_data['diets']
 
-        # Clear existing
+        # Debug log
+        print("Incoming diets from frontend:", new_diets)
+
+        # Clear existing preferences
         UserDiet.objects.filter(user=user).delete()
 
-        # Add new
+        # Add new preferences
         for diet_name in new_diets:
+            normalized = diet_name.lower()  # ✅ no dash -> underscore conversion
+            print("Normalized diet name:", normalized)
             try:
-                diet = Diet.objects.get(dietname__iexact=diet_name)
+                diet = Diet.objects.get(dietname__iexact=normalized)
                 UserDiet.objects.create(user=user, diet=diet)
             except Diet.DoesNotExist:
-                continue  # Ignore unrecognized diets
+                print(f"WARNING: Diet not found: {normalized}")
+                continue  # skip unrecognized diets
 
         return Response({"message": "Diet preferences updated successfully."})
+
     return Response(serializer.errors, status=400)
 
+
+
+
+
+
+
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from ratelimit.core import is_ratelimited
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework.response import Response
+from rest_framework import status
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RateLimitedTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        if is_ratelimited(
+            request=request,
+            group='token_obtain',
+            key='ip',
+            rate='5/m',
+            method='POST',
+            increment=True
+        ):
+            return Response(
+                {"detail": "Too many login attempts. Please wait and try again."},
+                status=403
+            )
+        return super().post(request, *args, **kwargs)
+
+
+
+
+
+
+
+
+def too_many_requests(request, exception):
+    return Response(
+        {"detail": "Too many login attempts. Please wait and try again."},
+        status=403
+    )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    user = request.user
+    old_password = request.data.get('old_password')
+    new_password = request.data.get('new_password')
+    confirm_password = request.data.get('confirm_password')
+
+    if not user.check_password(old_password):
+        return Response({'error': 'Incorrect old password'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if new_password != confirm_password:
+        return Response({'error': 'New passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.set_password(new_password)
+    user.save()
+    update_session_auth_hash(request, user)
+
+    return Response({'message': 'Password changed successfully'})
 
 
 
