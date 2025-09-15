@@ -9,53 +9,49 @@ import SwiftUI
 
 struct RecipeDetailsView: View {
     
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var themeManager: ThemeManager
     
     var recipe: FetchedRecipe
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text(recipe.name)
-                    .font(.system(size: themeManager.textSize.size + 6)) // slightly larger for the title
+                    .font(.system(size: themeManager.textSize.size + 6))
                     .bold()
                     .padding()
-                
+
                 if let url = recipe.imageUrl {
                     AsyncImage(url: url) { image in
                         image
                             .resizable()
                             .scaledToFit()
-//                            .frame(maxWidth: .infinity)
                             .cornerRadius(10)
                     } placeholder: {
-//                        Image("placeholder")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(height: .infinity)
-//                            .cornerRadius(10)
+                        EmptyView()
                     }
                     .padding()
                 }
-                
+
                 Text("Ingredients")
                     .font(.system(size: themeManager.textSize.size))
                     .bold()
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 15)
-                
+
                 let cleanedIngredients = recipe.ingredients
                     .trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
                     .components(separatedBy: "', '")
                     .map { $0.replacingOccurrences(of: "'", with: "").trimmingCharacters(in: .whitespacesAndNewlines) }
-                
+
                 ForEach(cleanedIngredients, id: \.self) { ingredient in
                     Text("• \(ingredient)")
                         .font(.system(size: themeManager.textSize.size))
                         .padding(.horizontal)
                 }
-                
+
                 Text("Instructions")
                     .font(.system(size: themeManager.textSize.size))
                     .bold()
@@ -63,16 +59,29 @@ struct RecipeDetailsView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 15)
 
-                
                 Text(recipe.instructions)
                     .font(.system(size: themeManager.textSize.size))
                     .padding(.horizontal)
-                
+
                 Spacer(minLength: 100)
             }
         }
         .navigationTitle("Recipe Details")
-        .tint(Color.primary)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.black)  // ← Black back arrow
+                        Text("Back")
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+        }
     }
 }
 
