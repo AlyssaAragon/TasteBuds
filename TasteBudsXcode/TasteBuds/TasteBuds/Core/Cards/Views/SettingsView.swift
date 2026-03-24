@@ -64,6 +64,15 @@ struct SettingsView: View {
                                             settingsRow(title: "Privacy & Security")
                                         }
                                         Divider()
+                                        
+                                        NavigationLink(destination: DeleteAccountView()
+                                            .environmentObject(navigationState)
+                                            .environmentObject(userFetcher)) {
+                                                settingsRow(title: "Delete Account")
+                                        }
+
+                                        Divider()
+
                                     }
 
                                 // Preferences

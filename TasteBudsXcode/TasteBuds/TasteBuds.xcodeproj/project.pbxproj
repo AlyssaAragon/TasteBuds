@@ -628,7 +628,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = B5S25WUSM6;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -643,7 +643,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsPersonal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -663,7 +663,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"TasteBuds/Preview Content\"";
-				DEVELOPMENT_TEAM = B5S25WUSM6;
+				DEVELOPMENT_TEAM = 9W8Y4FRL8Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TasteBuds/Info.plist;
@@ -678,7 +678,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBuds2025;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tastebuds.TasteBudsPersonal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
